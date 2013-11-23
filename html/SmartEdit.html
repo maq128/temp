@@ -1,0 +1,36 @@
+<html>
+<head><title>test TD</title>
+<script>
+function setDynamicWidth(input) {
+    //alert(input.parentElement.style.padding);
+    input.style.setExpression("width", "this.parentElement.clientWidth-5");
+}
+function doIt() {
+    //alert('hi');
+    var w = event.srcElement.clientWidth - 10;
+    if (w < 50) w = 50;
+    document.all.theEdit.style.width = w;
+}
+</script>
+</head>
+
+<body>
+<table border="1" width="100%">
+<tr>
+    <td onresize="doIt()"><input id="theEdit" type="text" value="hello" style="position:relative; left:0; top:0; width:50; color:red; background-color:#DDDDDD; border:1px solid gray" onclick="setDynamicWidth(this)"></td>
+    <td>hello</td>
+    <td>hello</td>
+    <td>hello</td>
+    <td>hello</td>
+    <td>hello</td>
+    <td>hello</td>
+    <td>hello</td>
+    <td>hello</td>
+    <td>hello</td>
+    <td>hello</td>
+    <td>hello</td>
+    <td>hello</td>
+</tr>
+</table>
+</body>
+</html>

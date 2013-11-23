@@ -1,0 +1,33 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>读取 mht</title>
+<style>
+    body, th, td, button {font-size:10pt;margin:5pt;}
+</style>
+
+<script>
+function loadPageFromMHT() {
+    alert( "读取 " + oFILE.value );
+    var oMsg = new ActiveXObject( "CDO.Message" );
+    var oStream = oMsg.GetStream();
+    oStream.LoadFromFile( oFILE.value );
+    oStream.Flush();
+    alert( oMsg.TextBody  );
+    alert( oMsg.HTMLBody  );
+}
+</script>
+
+</head>
+
+<body>
+
+读取 mht
+<hr>
+文件: <input id="oFILE" type="text" size="80" value="C:\test.mht">
+<br>
+<button onclick="loadPageFromMHT()">读取</button>
+
+</body>
+</html>

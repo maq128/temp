@@ -1,0 +1,20 @@
+<html>
+<head><title>test clipboard</title>
+<style>
+  body {font-size:9pt;margin:5pt;}
+  th, td {font-size:9pt;}
+</style>
+<script>
+function onPageLoaded() {
+  alert(typeof(window.external.x));
+  if (window.external.x == 'Webalone') {
+    window.external.status = '';
+  }
+}
+</script>
+</head>
+
+<body onload="onPageLoaded()">
+hello
+</body>
+</html>

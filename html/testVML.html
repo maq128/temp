@@ -1,0 +1,26 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml">
+<head><title>testVML</title>
+<style>
+v\:* { behavior: url(#default#vml) }
+</style>
+</head>
+
+<body>
+line:[<v:line style="position:absolute" from="0,0" to="100,0" >
+    <v:stroke EndArrow="Classic"/>
+</v:line>]
+
+<br>line:[<v:line style="position:absolute" from="0,10" to="100,10" >
+    <v:stroke StartArrow="Oval" EndArrow="Classic"/>
+</v:line>]
+
+<br>PolyLine:[<v:PolyLine filled="false" Points="0,0 0,100 20,150 200,100" style="position:absolute">
+    <v:stroke StartArrow="Oval" EndArrow="Classic" dashstyle="Dash" />
+</v:PolyLine>]
+
+<br>RoundRect:[<v:RoundRect style="position:relative;width:120;height:50px">
+    <v:shadow on="T" type="single" color="#b3b3b3" offset="5px,5px"/>
+    <v:TextBox inset="5pt,5pt,5pt,5pt" style="font-size:10.2pt;">Hello world!</v:TextBox>
+</v:RoundRect>]
+</body>
+</html>

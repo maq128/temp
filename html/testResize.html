@@ -1,0 +1,80 @@
+<html>
+<head><title>testResize</title>
+<style>
+  body {font-size:12px;margin:5px;}
+  th, td {font-size:12px;}
+  BODY {
+    SCROLLBAR-FACE-COLOR: #6a84ae;
+    SCROLLBAR-HIGHLIGHT-COLOR: #aaaaff;
+    SCROLLBAR-SHADOW-COLOR: #335997;
+    SCROLLBAR-3DLIGHT-COLOR: #335997;
+    SCROLLBAR-ARROW-COLOR: #ffffff;
+    SCROLLBAR-TRACK-COLOR: #335997;
+    SCROLLBAR-DARKSHADOW-COLOR: black
+  }
+  BODY {
+    scrollbar-face-color:#3396ff;
+    scrollbar-highlight-color:#FFFFFF;
+    scrollbar-3dlight-color:#3367ff;
+    scrollbar-darkshadow-color:#3366ff;
+    scrollbar-shadow-color:#336699;
+    scrollbar-arrow-color:#FFFFFF;
+    scrollbar-track-color:#E0E0E0;
+  }
+</style>
+<script>
+function onBodyResize() {
+    alert('hi');
+}
+</script>
+</head>
+
+<body onresize="onBodyResize()">
+
+下面是一个选择框：
+<select>
+  <option>第一行</option>
+  <option>第二行，比…………较…………长</option>
+  <option>第三行</option>
+</select>
+<p>
+<a href="javascript:onHref()" name="a1">a1</a> |
+<a href="javascript:onHref()" name="a2">a2</a> |
+<a href="javascript:onHref()" name="a3">a3</a> |
+<script>
+function onHref() {
+    alert(document.activeElement.tagName);
+}
+</script>
+
+<p> .
+<p> .
+<p> .
+<p> .
+<p> .
+<p> .
+<p> .
+<p> .
+<p> .
+<p> .
+<p> .
+<p> .
+<p> .
+<p> .
+<p> .
+<p> .
+<p> .
+<p> .
+<p> .
+<p> .
+<p> .
+<p> .
+<p> .
+<p> .
+<p> .
+<p> .
+<p> .
+<p> .
+<p> .
+</body>
+</html>

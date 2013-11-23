@@ -1,0 +1,51 @@
+<PUBLIC:COMPONENT>
+
+<PUBLIC:ATTACH EVENT="onload" ONEVENT="fnInit()" FOR="window" />
+
+<SCRIPT LANGUAGE="JScript">
+
+function fnInit() {
+    if (element.tagName != "COLGROUP") return;
+    var oTBODY = element.parentElement;
+    for (var idx=element.children.length-1; idx>=0; idx--) {
+        var value = element.children.item(idx).getAttribute("merge");
+        if (value != null && value.toLowerCase() == "true") {
+            fnMerge(oTBODY, idx);
+        }
+    }
+}
+
+// 对 oTBODY 的第 idx 列进行合并操作
+function fnMerge(oTBODY, idx) {
+    var str = "";
+    var oLastTD = null;
+    var strLastText = null;
+    var nRowSpan = 0;
+    // 遍历 oTBODY 中的每一行
+    for (var i=0; i<oTBODY.rows.length; i++) {
+        var oTR = oTBODY.rows[i];
+        var oTD = oTR.cells[idx];
+        if (oTD.innerText != strLastText) {
+            // 如果该单元格的文字与前一行不同，则设定跨越的行数
+            if (oLastTD != null && nRowSpan > 1) {
+                oLastTD.rowSpan = nRowSpan;
+            }
+            // 然后进行状态复位
+            oLastTD = oTD;
+            strLastText = oTD.innerText;
+            nRowSpan = 1;
+        } else {
+            // 如果该单元格的文字与前一行相同，则删除这个单元格
+            oTR.removeChild(oTD);
+            nRowSpan ++;
+        }
+    }
+    // 设定跨越的行数
+    if (oLastTD != null && nRowSpan > 1) {
+        oLastTD.rowSpan = nRowSpan;
+    }
+
+}
+
+</SCRIPT>
+<PUBLIC:COMPONENT>

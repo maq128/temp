@@ -1,0 +1,87 @@
+<html>
+<head><title>testCookie</title>
+</head>
+
+<body>
+<pre>
+<script>
+function getTTSCookie() {
+    var name = "_TTSC";
+
+    var arg = name + "=";
+    var alen = arg.length;
+    var clen = document.cookie.length;
+    var i = 0;
+
+    while (i < clen) {
+        var j = i + alen;
+        if (document.cookie.substring(i, j) == arg) {
+            var endstr = document.cookie.indexOf (";", j);
+            if (endstr == -1)
+                endstr = document.cookie.length;
+            return unescape(document.cookie.substring(j, endstr));
+        }
+        i = document.cookie.indexOf(" ", i) + 1;
+        if (i == 0) break;
+    }
+    return null;
+}
+
+function setTTSCookie(value) {
+    var name = "_TTSC";
+
+    document.cookie = name + "=" + escape (value);
+}
+
+function persistentTTS(key, val) {
+    var cv = getTTSCookie();
+    if (cv == null) {
+        cv = key + "|" + val;
+    } else {
+        var kvArray = cv.split("/");
+        var i = 0;
+        for (i=0; i<kvArray.length; i++) {
+            var kvPair = kvArray[i].split("|");
+            if (key == kvPair[0]) {
+                kvArray[i] = key + "|" + val;
+                cv = kvArray.join("/");
+                break;
+            }
+        }
+        if (i >= kvArray.length) {
+            cv += "/" + key + "|" + val;
+        }
+    }
+    setTTSCookie(cv);
+}
+
+function retrieveTTS(key) {
+    var cv = getTTSCookie();
+    if (cv == null) return null;
+
+    var kvArray = cv.split("/");
+    for (var i=0; i<kvArray.length; i++) {
+        var kvPair = kvArray[i].split("|");
+        if (key == kvPair[0]) return kvPair[1];
+    }
+    return null;
+}
+
+document.writeln("[" + document.cookie + "]");
+document.writeln("[" + getTTSCookie() + "]");
+setTTSCookie("hi");
+persistentTTS("n1", "v1");
+document.writeln("[" + document.cookie + "]");
+document.writeln("[" + getTTSCookie() + "]");
+persistentTTS("n1", "v2");
+document.writeln("[" + document.cookie + "]");
+document.writeln("[" + getTTSCookie() + "]");
+persistentTTS("n3", "v3");
+document.writeln("[" + document.cookie + "]");
+document.writeln("[" + getTTSCookie() + "]");
+document.writeln("retrieveTTS [" + retrieveTTS("n2") + "]");
+
+</script>
+</pre>
+</body>
+</html>

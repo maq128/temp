@@ -1,0 +1,45 @@
+<html>
+<head><title>testXMLDOM</title>
+<style>
+    body {font-size:10pt;margin:5pt;}
+    th, td {font-size:10pt;}
+    .msg {font-size:10pt;color:gray;}
+</style>
+</head>
+
+<body>
+<script language="Javascript">
+function onTidy() {
+    var xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+    xmlDoc.async = "false";
+    xmlDoc.loadXML(document.all("xmlsrc").value);
+    var out = "";
+    alert(xmlDoc.documentElement.childNodes.length);
+    for (var i=0; i<xmlDoc.documentElement.childNodes.length; i++) {
+        var x = xmlDoc.documentElement.childNodes.item(i);
+        //alert(x);
+        out += "\r\n<b>" + x.nodeName + "</b>";
+        out += ": ";
+        out += x.text;
+        out += "<br>";
+    }
+    alert(out);
+}
+</script>
+
+<table>
+<tr valign="top">
+    <td>
+        XML
+        <input type="button" value="Tidy!" onClick="onTidy()">
+    </td>
+</tr>
+<tr>
+    <td>
+        <textarea id="xmlsrc" cols="90" rows="25" wrap="off">&lt;root>&lt;from>loc1&lt;/from>&lt;to>loc2&lt;/to>&lt;name />&lt;/root>
+        </textarea>
+    </td>
+</tr>
+</table>
+</body>
+</html>

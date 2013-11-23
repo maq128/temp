@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>Outer</title>
+<style>
+body, td { font-size:10pt; margin:0px; padding:0px; border:1px solid red; }
+.btn
+    { background-image:url(http://www.google.com.hk/images/nav_logo8.png); border:0px; cursor:pointer; }
+.btn       { background-position:-17px 3px; width:100px; height:30px; }
+.btn:hover { background-position:-14px -29px; }
+</style>
+<script language="JavaScript">
+function changePaddingRight()
+{
+    document.body.style.paddingRight = 300 + 'px';
+    doRepair();
+}
+
+function onPageLoad()
+{
+    //alert( document.body.style.paddingRight );
+    setTimeout( changePaddingRight, 0 );
+    //changePaddingRight();
+}
+
+var x = 1;
+
+function doRepair()
+{
+    //var div = document.createElement("DIV");
+    //div.innerHTML = '<strong>dummy</strong>';
+    //document.body.appendChild( div );
+    //setTimeout( function() { document.body.removeChild( div ); }, 0 );
+    
+    document.body.style.marginRight = (x++) + 'px';
+}
+
+function doShow()
+{
+    document.body.style.paddingRight = '300px';
+    document.body.style.marginRight = '1px';
+}
+
+function doHide()
+{
+    document.body.style.paddingRight = '0px';
+    document.body.style.marginRight = '0px';
+}
+</script>
+</head>
+
+<body onload="onPageLoad()">
+
+<button onclick="doShow()">doShow()</button>
+<button onclick="doHide()">doHide()</button>
+
+<a href="http://www.google.cn"><img src="http://www.google.com.hk/images/nav_logo8.png"></a>
+:
+<img src="http://www.google.com.hk/images/nav_logo8.png">
+
+<p>
+<iframe src="DropAFile.html" width="95%" height="500"></iframe>
+</body>
+</html>

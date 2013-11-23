@@ -1,0 +1,33 @@
+<html>
+<head>
+<title>测试脚本程序是否可用</title>
+<script language="JavaScript">
+function js_test() {
+  alert("JavaScript 脚本程序能够运行！");
+}
+</script>
+
+<script language="VBScript">
+Sub vbs_test
+  MsgBox "VBScript 脚本程序能够运行！"
+End Sub
+</script>
+</head>
+
+<body>
+
+请点击下面的按钮，如果能看到一个跳出来的对话框，就说明相应的脚本程序能够运行。
+<p>
+否则说明 IE 的“运行脚本程序”功能已经被禁止了。可能的原因包括：
+<p>
+<li>IE 的安全级别设置；
+<li>第三方的安全防护软件进行了拦截；
+<li>脚本引擎(jscript.dll/vbscript.dll）被注销；
+<li>……
+
+<hr>
+<button onclick="js_test()">测试 JavaScript 脚本程序</button>
+&nbsp;&nbsp;&nbsp;&nbsp;
+<button onclick="vbs_test()">测试 VBScript 脚本程序</button>
+</body>
+</html>

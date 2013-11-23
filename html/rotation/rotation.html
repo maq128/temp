@@ -1,0 +1,81 @@
+<html>
+<head>
+<title>轮换图片</title>
+<meta http-equiv=content-type content="text/html; charset=gb2312">
+</head>
+<body>
+
+<script language="JavaScript">
+var pics =
+    [
+        { ready:false },
+        { ready:false },
+        { ready:false },
+        { ready:false }
+    ];
+
+function onImgLoaded(n,img)
+{
+    pics[n].ready = true;
+    pics[n].src = img.src;
+}
+
+function $(id) {
+  	return document.getElementById(id);
+}
+
+var curImg = -1;
+var hoverImg = -1;
+function rotateToNext()
+{
+    if ( hoverImg >= 0 && pics[hoverImg].ready ) {
+        // 如果强制指定了一个可显示的图片
+        curImg = hoverImg;
+
+    } else {
+        // 找到下一个可显示的图片
+        var idx = curImg < 0 ? (pics.length - 1) : curImg;
+        for ( var i = idx + 1; i < idx + pics.length; i++ ) {
+            if ( pics[ i % pics.length ].ready ) {
+                curImg = i % pics.length;
+                break;
+            }
+        }
+    }
+
+    // 显示指定的图片，隐藏其它图片
+    if ( curImg >= 0 ) {
+        $("banner_img").src = pics[curImg].src;
+    }
+}
+
+function hoverTo( idx )
+{
+    hoverImg = idx;
+    if ( hoverImg >= 0 ) {
+        rotateToNext();
+    }
+}
+
+setInterval( rotateToNext, 1000 );
+</script>
+
+<div style="display:none">
+    <img src="01.jpg" onload="onImgLoaded(0,this)">
+    <img src="02.jpg" onload="onImgLoaded(1,this)">
+    <img src="03.jpg" onload="onImgLoaded(2,this)">
+    <img src="04.jpg" onload="onImgLoaded(3,this)">
+</div>
+
+<img id="banner_img" src="01.jpg" width="930" height="142" border="0" usemap="#themap">
+<map name="themap">
+    <area shape="rect" coords="698,123,718,141" onmouseover="hoverTo(0)" onmouseout="hoverTo(-1)" nohref>
+    <area shape="rect" coords="719,123,739,141" onmouseover="hoverTo(1)" onmouseout="hoverTo(-1)" nohref>
+    <area shape="rect" coords="740,123,760,141" onmouseover="hoverTo(2)" onmouseout="hoverTo(-1)" nohref>
+    <area shape="rect" coords="761,123,781,141" onmouseover="hoverTo(3)" onmouseout="hoverTo(-1)" nohref>
+
+    <area shape="rect" coords="836,50,913,73"  alt="体验一下" href="#">
+    <area shape="rect" coords="836,90,913,113" alt="我要开始" href="#">
+</map>
+</body>
+</html>

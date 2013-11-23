@@ -1,0 +1,102 @@
+<html>
+<head>
+<title>test</title>
+<meta http-equiv=Content-Type content="text/html; charset=GB2312">
+<script language="JScript">
+String.prototype.trim = function() { return this.replace(/(^\s*)|(\s*$)/g, ""); }
+
+var s = "    leading and trailing spaces    ";
+window.alert(s + " (" + s.length + ")");
+s = s.trim();
+window.alert(s + " (" + s.length + ")");
+
+document.write("Pi is approximately equal to " + Math.PI);
+
+cnt = 0;
+function relay() {
+/*
+    str = "hi - ";
+    for (x in document.all) {
+        str += "/" + x + "";
+    }
+    alert(str);
+*/
+    cnt ++;
+    document.all("sq").innerHTML += " " + cnt;
+    window.setTimeout(relay, 1000);
+}
+window.setTimeout(relay, 1000);
+</script>
+</head>
+
+<body bgcolor="#eeeeee">
+<div id="sq"></div>
+<div style="width:250; height:100; overflow:auto; border:1 groove gray">
+<pre>
+line 1
+line 2 line 2 line 2 line 2 line 2 line 2 line 2 line 2 line 2 line 2 line 2 line 2 line 2
+line 3
+line 4
+line 5
+line 6
+line 7
+line 8
+</pre>
+</div>
+
+<table cellspacing=0 cellpadding=0 width=350 align=center border=0>
+  <tr>
+    <td>
+      <table cellspacing=0 cellpadding=0 width="100%" border=0 style="BORDER-RIGHT: #333333 1px solid; BORDER-TOP: #333333 1px solid; BORDER-LEFT: #333333 1px solid; BORDER-BOTTOM: #333333 1px solid;">
+        <tbody> 
+        <tr align="middle" bgcolor="#3280BE">
+          <td colspan=4 height=35 style="BORDER-BOTTOM: #333333 1px solid;"><b><font 
+            color=#ffffff>欢迎使用邮件服务</font></b></td>
+        </tr>
+        <tr>
+          <td colspan="4" height="20">&nbsp;</td>
+        </tr>
+        <tr>
+		<td colspan="3" nowrap height="30" width="56">
+		</td><td nowrap><font class="s"><b>用户名:&nbsp;</b></font><input type="text" name="usernameshow" maxlength="64" class="textbox">          </td>
+        </tr>
+        <tr>
+          <td colspan="3" nowrap height="30"></td><td nowrap>
+			<font class="s"><b>密&nbsp;&nbsp;码:&nbsp;</b></font><input type="password" name="pwshow" maxlength="32" class="textbox">
+          </td>
+        </tr>
+
+        <tr valign="bottom">
+          <td colspan="4" nowrap align="center" height="30"><font class="s" color="#000000"><input type="checkbox" name="showSecEx">增强安全性&nbsp;&nbsp;
+			<input type="checkbox" name="showsaveUser">记住用户名</font>
+          </td>
+        </tr>
+
+		</td>
+        <tr>
+		<td colspan="4" nowrap align="right" height="60">
+			<input class="Bsbttn" type=submit value=" 确定 " onclick="javascript:gook()">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		</td>
+        </tr>
+        </tbody>
+      </table>
+    </td>
+    <td width=15>
+      <table cellspacing=0 cellpadding=0 width=100% height=200 border=0>
+      <tr height=5><td></td></tr>
+      <tr height=100 bgcolor=#333333><td></td></tr>
+      </table>
+    </td>
+  </tr>
+  <tr height=5>
+    <td>
+      <table cellspacing=0 cellpadding=0 width=100% height=100% border=0>
+      <tr><td width=3></td><td width=100 bgcolor=#333333></td></tr>
+      </table>
+    </td>
+    <td bgcolor=#333333>
+    </td>
+  </tr>
+</table>
+</body>
+</html>

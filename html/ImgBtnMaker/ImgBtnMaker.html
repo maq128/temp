@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>图片按钮制作工具</title>
+
+<style>
+body   { font-size:10pt; margin:10px; }
+#main > tbody > tr > td { border:1px dotted green; padding:3px; }
+button { border:1px solid gray; background-color:#FFD; padding:4px 3px 2px 3px; vertical-align:bottom; }
+button img { vertical-align:bottom; }
+input.spin {border:0px; padding:2px 3px 0px 2px; background-color:#EEE; color:#88F; }
+  
+.btnDown, .btnLeft, .btnRight, .btnUp
+    { background-image:url(spin_buttons.png); background-color:transparent; border:0px; cursor:pointer; }
+
+.btnDown       { background-position:0px -15px; width:80px; height:15px; }
+.btnDown:hover { background-position:-80px -15px; }
+.btnLeft       { background-position:0px -30px; width:15px; height:15px; }
+.btnLeft:hover { background-position:-80px -30px; }
+.btnRight       { background-position:0px -45px; width:15px; height:15px; }
+.btnRight:hover { background-position:-80px -45px; }
+.btnUp       { background-position:0px 0px; width:80px; height:15px; }
+.btnUp:hover { background-position:-80px 0px; }
+
+.obj_frame, .obj_frame_cur { text-align:center; vertical-align:middle; font-weight:normal; }
+.obj_frame_cur       { position:absolute; border:0px solid red; cursor:move; background:url(frame_bg.png) repeat; color:yellow; font-weight:bold; z-index:2; overflow:hidden; }
+.obj_frame_cur:hover { border:0px solid red; background:url(); background-color:#EEE; color:black; }
+.obj_frame       { position:absolute; border:0px dotted silver; cursor:move; background:url(frame_bg.png) repeat; color:white; z-index:1; overflow:hidden; }
+.obj_frame:hover { border:0px solid red; background:url(frame_cur_bg.png) repeat; }
+
+#btn_preview { background:url(buttons.gif) no-repeat; background-position: 0px 0px; width:100px; height:30px; cursor:default; border:0px; text-align:left; color:yellow; font-weight:bold; }
+</style>
+
+<script language="javascript" type="text/javascript" src="prototype.js"></script>
+<script language="javascript" type="text/javascript" src="spinctrl.js"></script>
+<script language="javascript" type="text/javascript" src="dragmove.js"></script>
+<script language="javascript" type="text/javascript" src="ibm.js"></script>
+</head>
+
+<body onload="onPageLoad()">
+
+<table id="main" width="100%" height="100%" cellpadding="2" cellspacing="0" style="border-collapse:collapse;">
+<tr>
+    <td colspan="3" style="background-color:#EEE">
+        <button id="btnLoadProject" onclick="loadProject()" hidefocus><img src="open.png"> 加载项目</button>
+        <button id="btnSaveProject" onclick="saveProject()" hidefocus><img src="save.png"> 保存项目</button>
+        &nbsp; &nbsp;
+        <button onclick="exportHtml()" hidefocus><img src="export.png"> 输出 HTML</button>
+    </td>
+</tr>
+<tr>
+    <td colspan="3" nowrap>
+        <table border="0" width="100%">
+        <tr>
+            <td width="70">项目文件: </td>
+            <td><input id="fileProj" type="text" style="border:0px; padding:0px 3px; width:99%; background-color:#EEE; font-weight:bold"></td>
+        </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td colspan="3" nowrap>
+        <table border="0" width="100%">
+        <tr>
+            <td width="70">图片文件: </td>
+            <td><input id="fileImage" type="text" onchange="onChangeImage()" style="border:0px; padding:0px 3px; width:99%; background-color:#EEE; color:#88F"></td>
+        </tr>
+        </table>
+    </td>
+</tr>
+<tr style="vertical-align:top;">
+    <td rowspan="3" style="background-color:#EEE; width:320px;">
+        <div id="btn_frames" onclick="recCoord()" onmousemove="showCoord()" style="position:relative; border:0px;">
+            <img id="btn_image" src="buttons.gif">
+        </div>
+    </td>
+    <td align="center">
+        <table border="0" cellpadding="0" cellspacing="0" align="left">
+        <tr style="vertical-align:bottom;">
+            <td></td>
+            <td></td>
+            <td></td>
+
+            <td width="20px"></td>
+
+            <td align="center">
+                <div id="decreaseTop" class="btnUp"></div>
+            </td>
+
+            <td width="20px"></td>
+
+            <td></td>
+            <td></td>
+            <td></td>
+
+            <td width="20px"></td>
+
+            <td style="width:100px; text-align:center; border:1px solid silver; border-bottom:0px;">
+                高度: <input id="inputHeight" type="text" size="4" class="spin">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div id="decreaseLeft" class="btnLeft"></div>
+            </td>
+            <td style="width:100px; height:30px; text-align:center; border:1px solid silver;">
+                左右: <input id="inputLeft" type="text" size="4" class="spin">
+            </td>
+            <td>
+                <div id="increaseLeft" class="btnRight"></div>
+            </td>
+
+            <td></td>
+
+            <td style="width:100px; text-align:center; border:1px solid silver;">
+                上下: <input id="inputTop" type="text" size="4" class="spin">
+            </td>
+
+            <td></td>
+
+            <td style="width:100px; text-align:center; border:1px solid silver; border-right:0px">
+                宽度: <input id="inputWidth" type="text" size="4" class="spin">
+            </td>
+            <td style="border:1px solid silver; border-left:0px">
+                <div id="decreaseWidth" class="btnLeft"></div>
+            </td>
+            <td>
+                <div id="increaseWidth" class="btnRight"></div>
+            </td>
+
+            <td></td>
+
+            <td style="vertical-align:bottom; border:1px solid silver; border-top:0px" align="center">
+                <div id="decreaseHeight" class="btnUp"></div>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+
+            <td></td>
+
+            <td align="center">
+                <div id="increaseTop" class="btnDown"></div>
+            </td>
+
+            <td></td>
+
+            <td></td>
+            <td></td>
+            <td></td>
+
+            <td></td>
+
+            <td align="center">
+                <div id="increaseHeight" class="btnDown"></div>
+            </td>
+        </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td colspan="2" style="height:30px;">
+        <div id="zoomer" style="width:50px;">
+          <nobr>
+            <button onclick="addBtn()" style="background-color:#0C0;color:white" hidefocus>新按钮</button>
+            <button onclick="delBtn()" style="background-color:#F00;color:white" hidefocus>删除</button>
+            <button onmousedown="showBtns(false)" onmouseup="showBtns(true)" style="background-color:#08F;color:white" hidefocus>隐藏</button>
+            <button onclick="toggleCoords()" hidefocus>测点</button>
+            &nbsp;
+            class: <input id="inputClass" type="text" size="25" onchange="onChangeClass()">
+            &nbsp;
+            放大显示:
+            <button onclick="zoomTo(1)" hidefocus>1</button>
+            <button onclick="zoomTo(2)" hidefocus>2</button>
+            <button onclick="zoomTo(3)" hidefocus>3</button>
+            <button onclick="zoomTo(4)" hidefocus>4</button>
+            <button onclick="zoomTo(5)" hidefocus>5</button>
+          </nobr>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td colspan="2" style="vertical-align:top; background-color:#EEE; height:80%; padding: 5px; height:200px">
+        <div id="btn_preview">preview</div>
+    </td>
+</tr>
+</table>
+
+<div id="coords"></div>
+</body>
+</html>
