@@ -1,0 +1,60 @@
+<html>
+<head>
+<title>anything</title>
+<meta http-equiv="Content-Type" content="text/html; charset=GBK">
+<style type="text/css">
+#board {
+	position: relative;
+	float: left;
+}
+#board img {
+	vertical-align: top;
+}
+.say {
+	color: #f00c01;
+	font-size: 18px;
+	font-weight: bold;
+	position: absolute;
+	left: 0px;
+	width: 100%;
+	text-align: center;
+}
+#say-1 {
+	top: 164px;
+}
+#say-2 {
+	top: 345px;
+}
+#say-3 {
+	top: 535px;
+}
+</style>
+<script src="jquery-1.10.2.min.js"></script>
+<script>
+function onLoad()
+{
+	var qs = window.location.search.substr( 1 );
+	if ( qs.length == 0 ) return;
+	qs = decodeURIComponent( qs );
+	var list = qs.split( ' ' );
+	if ( list[0] ) {
+		document.getElementById('say-1').innerHTML = list[0];
+	}
+	if ( list[1] ) {
+		document.getElementById('say-2').innerHTML = list[1];
+	}
+	if ( list[2] ) {
+		document.getElementById('say-3').innerHTML = list[2];
+	}
+}
+</script>
+</head>
+<body onload="onLoad()">
+<div id="board">
+	<img src="bg.jpg">
+	<div id="say-1" class="say">乖女儿，你长大要做什么？</div>
+	<div id="say-2" class="say">我要做ISV</div>
+	<div id="say-3" class="say">啪！～</div>
+</div>
+</body>
+</html>
