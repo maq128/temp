@@ -1,11 +1,23 @@
 /*
 	生成全排列的算法。
 
-	permutations & combinations
+	本程序可以作为 permutations & combinations 的生成器来使用。
 
-	http://nodejs.org/api/
+	直接的目的是解决如下问题 —— 小学二年级的题目 :(
+	
+	[5]	[ ]	[ ]	[ ]		[1]
+	[ ]					[ ]
+	[ ]					[ ]
+	[ ]	[ ]	[ ]	[ ]		[ ]
+				[ ]		[ ]
+				[ ]		[ ]
+	[ ]	[ ]	[ ]	[ ]		[ ]
+
+	从 1 - 25 中选 23 个数分别填入上面的空格里（1 和 5 要在给定的位置），
+	使得三个横行和三个竖行的数字之和分别都是 51。
 */
 
+// ****************
 // **** 样本池 ****
 function Pool( samples )
 {
@@ -48,6 +60,7 @@ Pool.prototype.startComb = function(num) {
 	return new Pool.Comb(this, num);
 };
 
+// ************************
 // **** “排列”生成器 ****
 Pool.Perm = function(pool, num)
 {
@@ -112,6 +125,7 @@ Pool.Perm.prototype.nextHelper = function(pos)
 	return true;
 }
 
+// ************************
 // **** “组合”生成器 ****
 Pool.Comb = function(pool, num)
 {
@@ -194,10 +208,6 @@ Pool.Comb.prototype.nextHelper = function(pos)
 	return idx;
 }
 
-var pool = new Pool([2,3,4,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]);
-
-var cnt = 0;
-
 /*
 	5	a	a	a		1
 	b					f
@@ -207,30 +217,37 @@ var cnt = 0;
 				d		f
 	e	e	e	x		f
 */
+var t0 = new Date().getTime();
+
+var cnt = 0;
+var pool = new Pool([2,3,4,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]);
+
 var f = pool.startComb(6);
+toploop:
 while (f.next()) {
 	if (f.sum() != 51 - 1) continue;
-	var x = pool.startPerm(3);
-	while (x.next()) {
-		var perm = x.values();
+	var perm = pool.startPerm(3);
+	while (perm.next()) {
+		var x = perm.values();
 		var a = pool.startComb(3);
 		while (a.next()) {
 			if (a.sum() != 51 - 5) continue;
 			var b = pool.startComb(2);
 			while (b.next()) {
-				if (b.sum() != 51 - 5 - perm[0]) continue;
+				if (b.sum() != 51 - 5 - x[0]) continue;
 				var c = pool.startComb(2);
 				while (c.next()) {
-					if (c.sum() != 51 - perm[0] - perm[1]) continue;
+					if (c.sum() != 51 - x[0] - x[1]) continue;
 					var d = pool.startComb(2);
 					while (d.next()) {
-						if (d.sum() != 51 - perm[1] - perm[2]) continue;
+						if (d.sum() != 51 - x[1] - x[2]) continue;
 						var e = pool.startComb(3);
 						while (e.next()) {
-							if (e.sum() != 51 - perm[2]) continue;
-							console.log(1, f.values(), ' -- ', a.values(), 5, b.values(), perm[0], c.values(), perm[1], d.values(), perm[2], e.values());
+							if (e.sum() != 51 - x[2]) continue;
+							var out = [].concat(a.values(), '[5]', b.values(), '['+x[0]+']', c.values(), '['+x[1]+']', d.values(), '['+x[2]+']', e.values(), '--', '[1]', f.values());
+							console.log(out.join('  '));
 							cnt ++;
-							throw new Exception('stop');
+							//if (cnt>=100) break toploop;
 						}
 					}
 				}
@@ -238,4 +255,8 @@ while (f.next()) {
 		}
 	}
 }
-console.log('total: ', cnt);
+
+var t1 = new Date().getTime();
+
+console.log('总共 ' + cnt + ' 条符合要求的答案');
+console.log('耗时 ' + (t1 - t0)/1000 + ' 秒');
