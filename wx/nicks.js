@@ -1,7 +1,7 @@
 // javascript:void((function(){var d=document,e=d.createElement('script');e.setAttribute('charset','UTF-8');e.setAttribute('src','https://maq128.github.io/temp/wx/nicks.js?'+Math.floor(new Date/1E5));d.body.appendChild(e)})());
 
 (function() {
-	var chatrootId = '3426879703@chatroom';
+	var chatroomId = '3426879703@chatroom';
 	var nicks = {
 		'巴方': '可欣妈',
 		'春暖花开_Anna': '徐绮妈',
@@ -36,7 +36,7 @@
 		'maq': '伊彤爸',
 		'肖雨燕': '肖睿妈',
 		'肖华军': '肖华军',
-		'Alina': '靖涵妈',
+		'A li na': '靖涵妈',
 		'富伊': '伊彤妈',
 		'小龙女': '雅涵妈',
 		'燕芳-sonya': '钦源妈',
@@ -44,14 +44,16 @@
 	};
 
 	var members = {};
-	$.each(window._oContacts[chatrootId].MemberList, function(idx, member) {
+	$.each(window._oContacts[chatroomId].MemberList, function(idx, member) {
 		var username = member.UserName;
-		var nickname = member.NickName;
+		var you = window._oContacts[username];
+		if (!you) return;
+		var nickname = you.NickName;
 		var realname = nicks[nickname] || '？';
 		members[username] = nickname + '（' + realname + '）';
 	});
 
-	var chatroom = window._oContacts[chatrootId];
+	var chatroom = window._oContacts[chatroomId];
 	$('.chatItem.you .chatItemContent').each(function(idx, div) {
 		var content = $(div);
 		var img = content.children('img');
