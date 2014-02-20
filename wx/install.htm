@@ -1,0 +1,168 @@
+<html>
+<head>
+<title>微信实名</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<style type="text/css">
+h2 { background-color:white; padding:10px; margin:10px 0px; font-size:24px; line-height:26px; }
+a { color:blue; }
+.emp { color:red; }
+.steps { font: 11pt/14pt 幼圆, Arial, Helvetica, sans-serif; font-weight: bold; text-align:center; color:white; }
+.steps_body td { padding:5px 0 5px 0; }
+.browsers_list td { padding:0px 0 0px 0; }
+.frame1_out { width:100%; }
+a.shortcut { color:brown; }
+button { padding:2px 5px; }
+</style>
+
+<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+function hintFav(e)
+{
+    alert("请用右键点击这个链接，并选择“添加到收藏夹”。");
+}
+
+function hintDrag(e)
+{
+    alert("请拖拽这个链接到“收藏栏”。");
+}
+
+function showSec( id )
+{
+	$('tr').hide();
+	$('tr#' + id).show();
+}
+
+$(function() {
+	var name = "【微信实名】";
+	var title = "微信实名";
+	var href = "javascript:void((function(){var d=document,e=d.createElement('script');e.setAttribute('charset','UTF-8');e.setAttribute('src','https://maq128.github.io/temp/wx/nicks.js?'+Math.floor(new Date/1E5));d.body.appendChild(e)})());";
+	$('.shortcut').each(function(idx, a) {
+		a = $(a);
+		a.text( name );
+		a.attr( 'title', title );
+		a.attr( 'href', href );
+	});
+});
+</script>
+
+</head>
+<body>
+
+<div style="width:850px; text-align:left; margin:0px auto;">
+
+<h2>安装“微信实名”工具按钮</h2>
+<a href="https://wx.qq.com/">微信网页版</a>目前在群聊页面中无法显示“群昵称”，而只能显示账号昵称，这个小工具就是用来解决这个问题的。
+按照下面介绍的方法安装本工具之后，在微信群页面点击按钮，即可显示出用户的真实身份。
+<br><br>
+<span style="color:green">仅适用于“二七班西师附小”微信群 :)</span>
+
+<h3>IE 系列浏览器</h3>
+
+<button onclick="showSec('sec_ie8')"><img src="icon_ie.png" style="vertical-align:middle">IE8</button>
+<button onclick="showSec('sec_ie7')"><img src="icon_ie.png" style="vertical-align:middle">IE7</button>
+<button onclick="showSec('sec_ie6')"><img src="icon_ie.png" style="vertical-align:middle">IE6</button>
+<button onclick="showSec('sec_tt')"><img src="icon_tt.png" style="vertical-align:middle">腾讯TT</button>
+<button onclick="showSec('sec_360')"><img src="icon_360.png" style="vertical-align:middle">360浏览器</button>
+<button onclick="showSec('sec_maxthon')"><img src="icon_maxthon.png" style="vertical-align:middle">傲游</button>
+<button onclick="showSec('sec_sogou')"><img src="icon_sogou.png" style="vertical-align:middle">搜狗</button>
+<button onclick="showSec('sec_world')"><img src="icon_world.png" style="vertical-align:middle">世界之窗</button>
+<button onclick="showSec('sec_others')"><img src="icon_ie.png" style="vertical-align:middle">其它</button>
+
+<table border="0" style="margin:10px 0 0 50px; text-align:center;">
+<tr id="sec_ie8" style="display:none"><td>
+	1）右键点击 <a onclick="hintFav(event);return false;" title="" href="" class="shortcut"></a>
+	，选择“添加到收藏夹”，如下图所示。
+	&nbsp;&nbsp;&nbsp;&nbsp;<br>2）在浏览器菜单“查看-工具栏”中，勾选图中所示收藏夹的子文件夹。
+	<br><br>
+	<img src="dlg_ie8.png">
+</td></tr>
+
+<tr id="sec_ie7" style="display:none"><td>
+	1）右键点击 <a onclick="hintFav(event);return false;" title="" href="" class="shortcut"></a>
+	，选择“添加到收藏夹”，如下图所示。
+	&nbsp;&nbsp;&nbsp;&nbsp;<br>2）在浏览器菜单“查看-工具栏”中，勾选图中所示收藏夹的子文件夹。
+	<br><br>
+	<img src="dlg_ie7.png">
+</td></tr>
+
+<tr id="sec_ie6" style="display:none"><td>
+	1）右键点击 <a onclick="hintFav(event);return false;" title="" href="" class="shortcut"></a>
+	，选择“添加到收藏夹”，如下图所示。
+	&nbsp;&nbsp;&nbsp;&nbsp;<br>2）在浏览器菜单“查看-工具栏”中，勾选图中所示收藏夹的子文件夹。
+	<br><br>
+	<img src="dlg_ie6.png">
+</td></tr>
+
+<tr id="sec_tt" style="display:none"><td>
+	1）右键点击 <a onclick="hintFav(event);return false;" title="" href="" class="shortcut"></a>
+	，选择“添加到收藏夹”，如下图所示。
+	&nbsp;&nbsp;&nbsp;&nbsp;<br>2）在浏览器菜单“查看-工具栏”中，勾选图中所示收藏夹的子文件夹。
+	<br><br>
+	<img src="dlg_tt.png">
+</td></tr>
+
+<tr id="sec_360" style="display:none"><td>
+	1）右键点击 <a onclick="hintFav(event);return false;" title="" href="" class="shortcut"></a>
+	，选择“添加到收藏夹”，如下图所示。
+	&nbsp;&nbsp;&nbsp;&nbsp;<br>2）在浏览器菜单“查看-工具栏”中，勾选图中所示收藏夹的子文件夹。
+	<br><br>
+	<img src="dlg_360.png">
+</td></tr>
+
+<tr id="sec_maxthon" style="display:none"><td>
+	1）右键点击 <a onclick="hintFav(event);return false;" title="" href="" class="shortcut"></a>
+	，选择“添加到收藏夹”，如下图所示。
+	&nbsp;&nbsp;&nbsp;&nbsp;<br>2）在浏览器菜单“查看-工具栏”中，勾选图中所示收藏夹的子文件夹。
+	<br><br>
+	<img src="dlg_maxthon.png">
+</td></tr>
+
+<tr id="sec_sogou" style="display:none"><td>
+	1）右键点击 <a onclick="hintFav(event);return false;" title="" href="" class="shortcut"></a>
+	，选择“添加到收藏夹”，如下图所示。
+	&nbsp;&nbsp;&nbsp;&nbsp;<br>2）在浏览器菜单“查看-工具栏”中，勾选图中所示收藏夹的子文件夹。
+	<br><br>
+	<img src="dlg_sogou.png">
+</td></tr>
+
+<tr id="sec_world" style="display:none"><td>
+	1）右键点击 <a onclick="hintFav(event);return false;" title="" href="" class="shortcut"></a>
+	，选择“添加到收藏夹”，如下图所示。
+	&nbsp;&nbsp;&nbsp;&nbsp;<br>2）在浏览器菜单“查看-工具栏”中，勾选图中所示收藏夹的子文件夹。
+	<br><br>
+	<img src="dlg_world.png">
+</td></tr>
+
+<tr id="sec_others" style="display:none"><td>
+	<br>
+	可参照 IE 浏览器的操作方法。
+</td></tr>
+</table>
+
+<hr>
+
+<h3><img src="icon_chrome.png" style="vertical-align:middle"> Chrome 浏览器</h3>
+请拖拽链接 <a onclick="alert('请拖拽这个链接到“书签工具栏”。');return false;" title="" href="" class="shortcut"></a> 到浏览器的“书签工具栏”。
+<br>在拖拽之前，将浏览器设置为“总是显示书签栏”（Ctrl+Shift+B）。
+
+<hr>
+
+<h3><img src="icon_ff.png" style="vertical-align:middle"> 火狐（Firefox）浏览器</h3>
+请拖拽链接 <a onclick="alert('请拖拽这个链接到“书签工具栏”。');return false;" title="" href="" class="shortcut"></a> 到浏览器的“书签工具栏”。
+<br>在拖拽之前，在浏览器的主菜单上勾选“查看-工具栏-书签工具栏”。
+
+<hr>
+
+<h3><img src="icon_safari.png" style="vertical-align:middle"> Safari 浏览器</h3>
+请拖拽链接 <a onclick="alert('请拖拽这个链接到“书签栏”。');return false;" title="" href="" class="shortcut"></a> 到浏览器的“书签栏”。
+<br>在拖拽之前，将浏览器设置为“显示书签栏”（Ctrl+Shift+B）。
+
+<hr>
+
+<h3><img src="icon_opera.png" style="vertical-align:middle"> Opera 浏览器</h3>
+请拖拽链接 <a onclick="alert('请拖拽这个链接到“个人栏”。');return false;" title="" href="" class="shortcut"></a> 到浏览器的“个人栏”。
+<br>在拖拽之前，在浏览器的主菜单上勾选“查看-工具栏-个人栏”。
+</div>
+
+</body>
+</html>
