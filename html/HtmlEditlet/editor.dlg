@@ -1,0 +1,927 @@
+<html>
+<head>
+<script language="JavaScript">
+// 根据对话框参数设置窗口标题
+var strTitle = "编辑器";
+if (dialogArguments[0] != null && dialogArguments[0] != "")
+    strTitle = dialogArguments[0];
+document.write("<title>" + strTitle + "</title>");
+</script>
+
+<script language="JavaScript">
+function copyright() {
+    alert("Original Copyright Reserved by akmin technologies."
+          + "\r\n    http://www.editlet.com/dhtml_overview.htm"
+          + "\r\nTidy up by maq. -- 2005-12-10");
+}
+</script>
+
+<STYLE TYPE="text/css">
+
+    .button2 {
+        background-color:#eeeeee;
+        font:verdana;
+        font-weight:bold;
+        color:#000080;
+        font-size:10pt;
+        }
+
+    .button {
+        BACKGROUND-COLOR: buttonface;
+        BORDER-BOTTOM: buttonface 1px solid;
+        BORDER-LEFT: buttonface 1px solid;
+        BORDER-RIGHT: buttonface 1px solid;
+        BORDER-TOP: buttonface 1px solid;
+        TOP: 1px;
+        WIDTH: 23px
+    }
+    .buttonOver {
+        BACKGROUND-COLOR: buttonface;
+        BORDER-BOTTOM: buttonshadow 1px solid;
+        BORDER-LEFT: buttonhighlight 1px solid;
+        BORDER-RIGHT: buttonshadow 1px solid;
+        BORDER-TOP: buttonhighlight 1px solid;
+        WIDTH: 23px
+    }
+    .buttonDown {
+        BACKGROUND-COLOR: buttonface;
+        BORDER-BOTTOM: buttonhighlight 1px solid;
+        BORDER-LEFT: buttonshadow 1px solid;
+        BORDER-RIGHT: buttonhighlight 1px solid;
+        BORDER-TOP: buttonshadow 1px solid;
+        WIDTH: 23px
+    }
+    .icon {
+        BORDER-LEFT: buttonface 1px solid;
+        BORDER-TOP: buttonface 1px solid;
+        BORDER-RIGHT: buttonface 1px solid;
+        BORDER-BOTTOM: buttonface 1px solid;
+        WIDTH: 22px
+    }
+    .iconDown {
+        BORDER-LEFT: buttonface 2px solid;
+        BORDER-TOP: buttonface 2px solid;
+        BORDER-RIGHT: buttonface 0px solid;
+        BORDER-BOTTOM: buttonface 0px solid;
+    }
+    .handle {
+        BACKGROUND-COLOR: buttonface;
+        BORDER-LEFT: buttonhighlight 1px solid;
+        BORDER-RIGHT: buttonshadow 1px solid;
+        BORDER-TOP: buttonhighlight 1px solid;
+        FONT-SIZE: 1px;
+        HEIGHT: 22px;
+        WIDTH: 3px
+    }
+    .sep {
+        BORDER-LEFT: buttonshadow 1px solid;
+        BORDER-RIGHT: buttonhighlight 1px solid;
+        FONT-SIZE: 0px;
+        HEIGHT: 22px;
+        WIDTH: 1px
+    }
+</STYLE>
+
+<script language="JavaScript">
+//vars -dialogbox
+var rows1=3;
+var cols1=2;
+var arr;
+var alt;
+var htmLstr;
+var row1,col1,tblwidth=100,tblalign="center",tblbrsize=1,tblbrclr="Red",tblcellsp=1,tblcellpd=0,cellbgclr="",cellvertaln="Middle";
+//Butn states
+function buttonOver() {
+    if (event.srcElement.tagName != "IMG")
+        return false;
+    var eButton = event.srcElement.parentElement;
+    eButton.className = "buttonOver";
+}
+function buttonOut(eButton) {
+    if (event.srcElement.tagName != "IMG")
+        return false;
+    var eButton = event.srcElement.parentElement;
+    eButton.className = "button";
+}
+function buttonDown(eButton) {
+    if (event.srcElement.tagName != "IMG")
+        return false;
+    var icon  = event.srcElement;
+    var frame = icon.parentElement;
+    frame.className = "buttonDown";
+    icon.className  = "iconDown";
+}
+function buttonUp(eButton) {
+    if (event.srcElement.tagName != "IMG")
+        return false;
+    var icon  = event.srcElement;
+    var frame = icon.parentElement;
+    frame.className = "button";
+    icon.className  = "icon";
+}
+
+//Init btns
+function InitBtn(btn) {
+    btn.onmouseover = buttonOver;
+    btn.onmouseout  = buttonOut;
+    btn.onmousedown = buttonDown;
+    btn.onmouseup   = buttonUp;
+    return true;
+}
+
+//Run inbuild editor functions
+function cmdExec(cmd,opt) {
+    editArea.document.execCommand(cmd,"",opt);
+    editArea.focus();
+}
+
+//Superscript
+function superScript() {
+    var sel=editArea.document.selection.type;
+    if (sel == "Text")
+        editArea.document.execCommand("superscript");
+    else window.alert("Text not selected");
+
+}
+
+function subScript() {
+    var sel=editArea.document.selection.type;
+    if (sel == "Text")
+        editArea.document.execCommand("subscript");
+    else window.alert("Text not selected");
+}
+
+function TableProperties() {
+    //var htmLstr;
+    var arr=null;
+    var args=new Array();
+
+    var propTable = getCurrTable();
+    if (propTable != null){
+        args["edit"]=1;
+        //args["vTRows"]="";
+        //args["vTCols"]="";
+        args["vTWidth"]=propTable.getAttribute("width",0);
+        args["vTAlign"]=propTable.getAttribute("align",0);
+        args["vTBrSize"]=propTable.getAttribute("border",0);
+        args["vTBrClr"]=propTable.getAttribute("borderColor",0);
+        args["vCellSp"]=propTable.getAttribute("cellSpacing",0);
+        args["vCellPd"]=propTable.getAttribute("cellPadding",0);
+        //args["vCellBgClr"]="";
+        //args["vCellVerAlign"]="";
+
+        //arr=window.showModalDialog("InsertTable.html", args, "dialogWidth:22em; dialogHeight:20em" );
+        arr=window.showModalDialog("TableProperties.html", args, "dialogWidth:22em; dialogHeight:15em" );
+
+        if (arr !=null) {
+            //propTable.setAttribute("width",arr["vTWidth"]+"%",0);
+            propTable.setAttribute("width",arr["vTWidth"],0);
+            propTable.setAttribute("align",arr["vTAlign"],0);
+            propTable.setAttribute("border",arr["vTBrSize"],0);
+            propTable.setAttribute("borderColor",arr["vTBrClr"],0);
+            propTable.setAttribute("cellSpacing",arr["vCellSp"],0);
+            propTable.setAttribute("cellPadding",arr["vCellPd"],0);
+        }
+
+    }
+}
+
+function insertTable() {
+    editArea.focus();
+    //var pvar=Tbl;
+    //var row1,rows1,cols1,col1,tblwidth,tblalign,tblbrsize,tblbrclr,tblcellsp,tblcellpd,cellbgclr,cellvertaln;
+
+    if (editArea.document.selection.type!="None") {
+        window.alert("Deselect Text/Object and Try Again");
+        return;
+    }
+    if (editArea.document.selection.type=="None") {
+        var htmLstr;
+        var arr=null;
+        var args=new Array();
+        args["edit"]=null;
+        args["vTRows"]=3;//rows1;   //Rows
+        args["vTCols"]=2;//cols1;   //Columns
+        args["vTWidth"]=100;//tblwidth;
+        args["vTAlign"]="center";//tblalign;
+        args["vTBrSize"]=1;//tblbrsize;
+        args["vTBrClr"]="Red";//tblbrclr;
+        args["vCellSp"]=0;//tblcellsp;
+        args["vCellPd"]=0;//tblcellpd;
+        args["vCellBgClr"]="";//cellbgclr;
+        args["vCellVerAlign"]="Middle";//cellvertaln;
+
+        arr=window.showModalDialog("InsertTable.html", args, "dialogWidth:22em; dialogHeight:20em" );
+        if (arr !=null) {
+
+            rows1=arr["vTRows"];            //Rows
+            cols1=arr["vTCols"];            //Cols
+            tblwidth=arr["vTWidth"];        //Width
+            tblalign=arr["vTAlign"];        //Tbl Align;
+            tblbrsize=arr["vTBrSize"];      //Border Size
+            tblbrclr=arr["vTBrClr"];        //Tbl Border Color
+            tblcellsp=arr["vCellSp"];       //Cell Spacing
+            tblcellpd=arr["vCellPd"];       //Cell Padding
+            cellbgclr=arr["vCellBgClr"];    //Cell Bg Color
+            cellvertaln=arr["vCellVerAlign"];//Cell Vert.Align
+
+
+            if ((rows1!=null) && (cols1!=null)) {
+                if(cellbgclr!="") {
+                    htmLstr = "<TABLE class=table BGCOLOR=" +cellbgclr +" BORDER=" +tblbrsize +" BORDERCOLOR=" +tblbrclr +" WIDTH=" +tblwidth +"% ALIGN=" +tblalign+ " CELLPADDING="+tblcellpd +" CELLSPACING=" +tblcellsp +">"
+                    cellbgclr=cellbgclr;
+                }
+                else {
+                    htmLstr = "<TABLE class=table BORDER=" +tblbrsize +" BORDERCOLOR=" +tblbrclr +" WIDTH=" +tblwidth +"% ALIGN=" +tblalign+ " CELLPADDING="+tblcellpd +" CELLSPACING=" +tblcellsp +">"
+                }
+                for (row1 = 1; row1<=rows1; row1++) {
+                    htmLstr += "<TR>"
+                    for (col1 = 1; col1<=cols1; col1++) {
+                        htmLstr += "<TD ALIGN=" +cellvertaln +" BGCOLOR=" +cellbgclr +"> </TD>"
+                    }
+                    htmLstr += "</TR>"
+                }
+                htmLstr += "</TABLE>"
+
+                if (editArea.document.selection.type=="None") {
+                    var sel=editArea.document.selection.createRange();
+                    sel.pasteHTML(htmLstr);
+                    sel.select();
+                    editArea.focus();
+                }
+            }
+            else
+                editArea.focus();
+        }
+    }
+}
+
+function insertImage() {
+    editArea.focus();                                   //New 18/04/02
+    var arr,str;                    // arr for store the returned image property string,str to store the html string
+    var args=new Array();           // input args as array
+    //call for insertImage.html dialog window.
+    arr=window.showModalDialog("InsertImage.html",args,"dialogWidth:29em; dialogHeight:24em");
+//  arr=window.showModalDialog("InsertImage.jsp",args,"dialogWidth:29em; dialogHeight:24em");
+
+    if (arr==null) return;      // if the returned string is null
+    if (arr["Source"]!="") {    // if returned source value is emppty then do not insert image.
+        if (arr["HyperLink"]!="") { // hyperlink value
+            str="<A HREF='" + arr["HyperLink"] +"'>";
+        }
+        if(str!=null) {         // if hyperlink is avallable
+            str=str + "<IMG";   //add new img tag with the hyperlink
+        }
+        else {                  //if hyperlink is avallable
+            str="<IMG";         //start with image tag. no hypelink
+        }
+
+        //str="<IMG";
+        str=str+" SRC='" +arr["Source"]+"'";        // add source value
+
+        if(arr["Alternate"]!="") {                  //if alternate value is not emtpy
+            str=str+ " ALT='" + arr["Alternate"] +"'";  //add alternate prop. with pre. value
+        }
+        else {                                      //if alternate value is empty
+            str=str;                                //prev. value
+        }
+        if(arr["Alignment"]!="") {                  //image alignement value is not empty
+            if(arr["Alignment"]=="Default") {
+                str=str;
+            }
+            else {
+                str=str+ " ALIGN=" + arr["Alignment"];  //add alignment prop.value
+            }
+        }
+        else {                                      //image align. value is empty
+            str=str;                                //prev. value
+        }
+        if(arr["Border"]!="") {                     //border value is not empty
+            str=str+ " BORDER=" + arr["Border"];    // add border prop. with already avail. string
+        }
+        else {                                      //border value is empty
+            str=str+" Border=0";                    //def. border is 0
+        }
+        if(arr["Height"]!="") {                     // if height value is not empty
+            str=str+ " HEIGHT=" + arr["Height"];    //add the height value prop with the avail. string
+        }
+        else {                                      // if height value is empty
+            str=str;//+ " HEIGHT=12";               //prev. value
+        }
+        if(arr["Width"]!="") {                      //if the with is not empty
+            str=str+ " WIDTH=" + arr["Width"];      //add with prop. with the avail. string
+        }
+        else {                                      //if the with is empty
+            str=str;//+ " WIDTH=12";                //prev. value
+        }
+        if(arr["Horizontal"]!="") {                     // if hori. value is not emtpy
+            str=str+ " HSPACE=" + arr["Horizontal"];    //add hspace
+        }
+        else {                                          //if hori. value is empty
+            str=str+ " HSPACE=0";                       //def. hspace=0
+        }
+        if(arr["Vertical"]!="") {                       // if vertical value is not empty
+            str=str+ " VSPACE=" + arr["Vertical"];      //add vert property
+        }
+        else {                                          //if vertical value is empty
+            str=str+ " VSPACE=0";                       //def. vspace=0
+        }
+        str=str+">";                                    // end of the image string
+
+        if(arr["HyperLink"]!="") {                      //if hyperlink is available
+            str=str + "</A>";                           // end of hyperlink
+        }
+
+        if (editArea.document.selection.type=="None") { //if selection is none
+            var sel=editArea.document.selection.createRange();  //create the range ie. insertion point for the image
+            sel.pasteHTML(str);                         //insert image as per the return values.
+            sel.select();                               //move the cursor to the end of the image
+        }   // end of selection
+    }       //end of return value is null
+    editArea.focus();                               //set focus on the html editor contorl
+}
+
+function createLink() {
+    editArea.focus();                                   //New 18/04/02
+    var str  = prompt("Enter URL :", "http:\/\/");
+
+    if ((str!=null) && (str!="http://")) {
+        if (editArea.document.selection.type=="None") {
+            var name = prompt("Enter link name :", "");
+            var sel=editArea.document.selection.createRange();
+            if(!name)                                       // New 18/04/02
+                name=str;                                   // New 18/04/02
+            //if(name==" ")                                     // New 18/04/02
+            //  name = str;
+            //------    //New 19/04/02
+            var l;
+            l=name.length;
+            newname=null;
+            var i;
+            for(i=1;i<l;i++) {
+                if (name.charAt(i)!=" ") {
+                    newname=newname + name.charAt(i);
+                }
+            }
+            if (newname==null) {
+                name=str;
+            }
+            name=name.replace("<","<");
+            name=name.replace(">",">");
+            //--------      //New 19/04/02
+
+            sel.pasteHTML("<A HREF=\""+str+"\">"+name+"</A> ");
+            sel.select();
+            editArea.focus();
+        }
+        else
+            cmdExec("CreateLink",str);
+    }
+    else
+        editArea.focus();
+}
+
+function saveDoc() {
+    //window.alert(editArea.document.body.innerHTML);
+    dialogArguments[1].innerHTML = editArea.document.body.innerHTML;
+}
+
+function saveCloseDoc() {
+    //window.alert(editArea.document.body.innerHTML);
+    dialogArguments[1].innerHTML = editArea.document.body.innerHTML;
+    window.close();
+}
+
+function cleanDoc() {
+    editArea.focus();
+    var s;                                                  //new
+    s=editArea.document.body.innerHTML;                     //new
+    if (s.length!=0) {                                      //new
+        var conf=confirm("Warning!\nThis will clear the content")
+        if (conf)
+            editArea.document.body.innerHTML = "";
+            //editArea.focus();
+    }                                                       //new
+    else {
+        editArea.document.body.innerHTML = "";              //new
+        //editArea.focus();
+    }                                                       //new
+    var a=editArea.document.selection.createRange();
+    a.select();
+    editArea.focus();
+}
+
+function insertSpecialSymbols() {
+    //Insert Special Symbols.
+    editArea.focus();                               //New 18/04/02
+    var str;
+    str=null;                   //null initially
+    if (editArea.document.selection.type=="Control") return;
+
+//  if (editArea.document.selection.type=="None") {     // selectio is none.
+        //call insertsymbols.html dialog with no input argument.
+        //return value is the selected special symbol.
+        str=window.showModalDialog("InsertSymbols.html","","font-family:Verdana; font-size:12; dialogWidth:50em; dialogHeight:22em" );
+        if (str!=null) {        //if there is any symbol
+            var sel=editArea.document.selection.createRange();  //create the insertion point
+            sel.pasteHTML(str);                     //Insert the special symbol
+            sel.select();                           //move the cursor to the end
+        }//end fo str null
+//  }   //end of none selection
+    editArea.focus();
+}
+
+//fore Color
+function foreColor() {
+    var arr = showModalDialog("selcolor.html", "", "dialogWidth:22em; dialogHeight:23em" );
+    if (arr != null)
+        cmdExec('ForeColor',arr);
+    editArea.focus();
+}
+
+//Backcolor
+function backColor() {
+    var arr = showModalDialog("selcolor.html", "", "dialogWidth:22em; dialogHeight:23em" );
+    if (arr != null)
+        editArea.document.bgColor = arr;
+    editArea.focus();
+}
+
+function getCurrTable(){
+    if (editArea.document.selection.type == "Control") return null;
+    var sTable = editArea.document.selection.createRange().parentElement();
+    while ((sTable.tagName != "TABLE" && sTable.tagName != "BODY")){
+        sTable = sTable.parentElement;
+    }
+    if (sTable.tagName == "BODY")
+        sTable = null;
+
+    return sTable;
+}
+
+function getCurrTR(){
+    if (editArea.document.selection.type == "Control") return null;
+    var cTR = editArea.document.selection.createRange().parentElement();
+    while ((cTR.tagName != "TR" && cTR.tagName != "BODY")){
+        cTR = cTR.parentElement;
+    }
+    if (cTR.tagName == "BODY")
+        cTR = null;
+
+    return cTR;
+}
+
+function getCurrTD(){
+    if (editArea.document.selection.type == "Control") return null;
+    var cTD = editArea.document.selection.createRange().parentElement();
+    while ((cTD.tagName != "TD" && cTD.tagName != "BODY")){
+        cTD = cTD.parentElement;
+    }
+    if (cTD.tagName == "BODY")
+        cTD = null;
+
+    return cTD;
+}
+
+//Insert Row at Specified Position
+function insertRow() {
+    var insTable = getCurrTable();
+    if (insTable != null){
+        var insTR = getCurrTR();
+        if (insTR!=null) {
+            var  newTR = insTable.insertRow(insTR.rowIndex);
+            for (var x=0;x<insTR.cells.length;x++){
+                cTD = newTR.insertCell();
+            }
+        }
+    }
+    editArea.focus();
+}
+
+//Insert Column at Specified Position
+function insertCol() {
+    var insTD = getCurrTD();
+    if(insTD != null){         //.tagName
+        var currPos = insTD.cellIndex;
+        var insTable = getCurrTable();
+        for (var x=0;x<insTable.rows.length;x++) {
+            var tc=insTable.rows[x].cells.length;
+            if(tc!=0) {
+                if(currPos<=tc) {
+                    cTD = insTable.rows[x].insertCell(currPos);
+                } else {
+                    cTD = insTable.rows[x].insertCell(tc);
+                }
+            }
+        }
+    }
+    editArea.focus();
+}
+
+//Delete Current Row
+function DelRow() {
+    var delTR = getCurrTR();
+    //window.alert(delTR);
+    if(delTR != null){  //.tagName
+        var delTable = getCurrTable();
+        delTable.deleteRow(delTR.rowIndex);
+    }
+    editArea.focus();
+}
+
+//Delete Current Column
+function DelCol() {
+    var delTD = getCurrTD();
+    //window.alert(delTD);
+    if(delTD!= null){   //.tagName
+        var currPos = delTD.cellIndex;
+        var delTable = getCurrTable();
+        for (var x=0;x<delTable.rows.length;x++) {
+            var tc=delTable.rows[x].cells.length;
+            if((tc-currPos)>0) {
+                dTD = delTable.rows[x].deleteCell(currPos);
+            }
+        }
+    }
+    editArea.focus();
+}
+
+//Split Current Cell
+function SplitCell() {
+    var spTD = getCurrTD();
+    if(spTD != null){     //.tagName
+        var spTR = getCurrTR();
+        currPos = spTD.cellIndex;
+        spNewTD = spTR.insertCell(currPos+1);
+        var spTable = getCurrTable();
+        for(var x=0;x<spTable.rows.length;x++) {
+            if(x != (spTR.rowIndex)) {    // && spTable.rows[x].cells[currPos])
+                var tc=spTable.rows[x].cells.length;
+                if (currPos<=tc) {
+                    if(currPos<tc) {
+                        if(tc!=0) {
+                            spTable.rows[x].cells[currPos].colSpan += 1;
+                        }
+                    } else {
+                        if(currPos==tc) {
+                            if(tc!=0) {
+                                spTable.rows[x].cells[currPos-1].colSpan +=1;
+                            }
+                        }
+                    }
+                } else {
+                    if(tc!=0) {
+                        spTable.rows[x].cells[tc-1].colSpan += 1;
+                    }
+                }
+            }
+        }
+    }
+    editArea.focus();
+}
+
+//Merge Current Cell,Cell + 1
+function tmpMergeCells() {
+//  var spTD = getCurrTD();
+//  if(spTD != null){   //.tagName
+//    var spTR = getCurrTR();
+//    currPos = spTD.cellIndex;
+//    var spTable = getCurrTable();
+//    if ((currPos+1)<=(spTR.cells.length-1)) {
+//    spTable.rows[spTR.rowIndex].deleteCell(currPos+1);
+//    spTable.rows[spTR.rowIndex].cells[currPos].colSpan += 1;}
+//   }
+    window.alert("Merge Cells Not Available now");
+    editArea.focus();
+}
+
+function BGCellColor() {
+    var spTD = getCurrTD();
+    if(spTD != null){        //.tagName
+        var arr = showModalDialog("selcolor.html", "", "dialogWidth:22em; dialogHeight:23em" );
+        if (arr != null) {
+            var spTR = getCurrTR();
+            currPos = spTD.cellIndex;
+            var spTable = getCurrTable();
+            spTable.rows[spTR.rowIndex].cells[currPos].bgColor=arr;
+            editArea.focus();
+        }
+    }
+    editArea.focus();
+}
+
+//Border Color
+function BorderColor() {
+    var spTD = getCurrTD();
+    if(spTD != null){        //.tagName
+        var arr = showModalDialog("selcolor.html", "", "dialogWidth:22em; dialogHeight:23em" );
+        if (arr != null) {
+            var spTR = getCurrTR();
+            currPos = spTD.cellIndex;
+            var spTable = getCurrTable();
+            spTable.borderColor=arr;    //Border color
+            editArea.focus();
+        }
+    }
+    editArea.focus();
+}
+
+//Border Size
+function BorderSize(){
+    var spTD = getCurrTD();
+    if(spTD != null){        //.tagName
+        var spTR = getCurrTR();
+        currPos = spTD.cellIndex;
+        var spTable = getCurrTable();
+        var oBs=spTable.getAttribute("border",0);
+        //window.alert(oBs);
+        var bs=window.prompt("Enter New Border Size(Max.Value=1000)",oBs);
+        if ((bs!=null)&&(bs<=1000)) {
+            spTable.border=bs;  //Border color
+        }
+    }
+    editArea.focus();
+}
+
+//Changing Column Width.
+function cColWidth() {
+    var cTD = getCurrTD();
+    var maxColwidth = 0;
+    var curColwidth = 0;
+    var cw = null;
+    var tc;
+    editArea.focus();
+    if(cTD != null){        //.tagName
+        var currPos = cTD.cellIndex;
+        var cTable = getCurrTable();
+        //get current maximum col width
+        for (var x=0;x<cTable.rows.length;x++){
+            tc=cTable.rows[x].cells.length;
+            if((tc-currPos)>0) {
+                curColwidth=cTable.rows[x].cells[currPos].getAttribute("width");
+            }
+            if (maxColwidth < curColwidth)
+                maxColwidth = curColwidth;
+        }
+        if (maxColwidth == 0) maxColwidth = "100%"
+
+        cw=window.prompt("Enter Column Width",maxColwidth);
+        if (cw == null) return;
+        for (var x=0;x<cTable.rows.length;x++){
+            tc=cTable.rows[x].cells.length;
+            if((tc-currPos)>0) {
+                cTable.rows[x].cells[currPos].setAttribute("width",cw,false);
+            }
+        }
+    }
+    editArea.focus();
+}
+
+//Changing Row Height.
+function cRowHeight() {
+    var cTD = null;
+
+    var maxRowHeight = 0;
+    var curRowHeight = 0;
+    var ch = null;
+    cTD=getCurrTD();
+    editArea.focus();
+
+    if(cTD == null) return;                 //.tagName
+
+    var cTR = getCurrTR();
+    var cTable = getCurrTable();
+    for (var x=0;x<cTR.cells.length;x++){
+        curRowHeight=cTable.rows[cTR.rowIndex].cells[x].getAttribute("height");
+        if (maxRowHeight < curRowHeight)
+            maxRowHeight = curRowHeight;
+    }
+
+    if (maxRowHeight == 0) maxRowHeight = "100%"
+
+    ch=window.prompt("Enter Row Height",maxRowHeight);
+    if (ch == null) return;
+    for (var x=0;x<cTR.cells.length;x++)
+        cTable.rows[cTR.rowIndex].cells[x].setAttribute("height",ch,false);
+    editArea.focus();
+}
+
+function ColMerge() {   //COLLUMN MERGING
+    var spTD = getCurrTD();
+    if(spTD != null){
+        var cvalue="";
+        var currPos=0;
+        var  mCs=0;
+        var spTR = getCurrTR();
+        currPos = spTD.cellIndex;
+        var spTable = getCurrTable();
+        mCs=window.prompt("Enter how many columns(including Current column)",1);
+        var csp =0;
+        if (mCs<=0) return;
+
+        if (mCs!=null) {
+            if ((currPos)<=(spTR.cells.length-1)) {
+                if(mCs<=(spTR.cells.length-currPos)) {
+                    //to avoid error when user entered more than available column in the table.
+                    var j=currPos;
+                    var a=0;
+                    a=Math.abs(currPos)+Math.abs(mCs);
+                    while (j < a) {
+                        cvalue = cvalue + spTable.rows(spTR.rowIndex).cells(j).innerText;
+                        csp = csp + spTable.rows(spTR.rowIndex).cells(j).colSpan;
+                        j++;
+                    }
+                    var i=Math.abs(currPos)+1;
+                    while(i<a) {
+                        spTable.rows[spTR.rowIndex].deleteCell(currPos+1);
+                        i++;
+                    }
+                    //spTable.rows[spTR.rowIndex].cells[currPos].colSpan= mCs;
+                    spTable.rows[spTR.rowIndex].cells[currPos].colSpan= csp;
+                    spTable.rows[spTR.rowIndex].cells[currPos].innerText=cvalue;
+                }
+            }
+        }
+    }
+    //window.alert("Merge Cells Not Available now");
+    editArea.focus();
+}
+
+//Initialize Editor
+function init() {
+    //initialize buttons
+    for (i=0; i<document.body.all.length; i++) {
+        curr=document.body.all[i];
+        if (curr.className == "button") {
+            if (! InitBtn(curr)) {
+                alert("Button: " + curr.id + " failed to initialize!");
+            }
+        }
+    }
+
+    //initialize edit window
+    editArea.document.body.innerHTML = dialogArguments[1].innerHTML;
+    editArea.document.designMode="On";
+    editArea.document.body.contentEditable = true;
+    editArea.document.body.style.margin = "0 3 0 3";
+
+    InitFontList();
+
+    setTimeout("editArea.focus()",0);
+}
+
+function InitFontList() {
+    // 检测 HtmlDlgSafeHelper 是否正常工作
+    if( !document.getElementById ||
+        !document.getElementById( 'oHtmlDlgSafeHelper' ) ||
+        !document.getElementById( 'oHtmlDlgSafeHelper' ).fonts ) {
+
+        //alert( 'Could not find fonts. Mission aborted.\nSorry.' );
+        return;
+    }
+
+    // 获得字体列表
+    var arr = [];
+    var num = oHtmlDlgSafeHelper.fonts.count;
+    var i;
+    for (i=0; i<num; i++) { arr[i] = oHtmlDlgSafeHelper.fonts(i+1); }
+    arr.sort();
+
+    // 请空原来的缺省列表
+    oFontList.options.length = 1;
+
+    // 填入新的字体列表
+    for (i=0; i<num; i++) {
+        var oOption = document.createElement("OPTION");
+        oOption.value = arr[i];
+        oOption.text = arr[i];
+        oFontList.options.add(oOption);
+    }
+}
+</script>
+</head>
+
+<body onLoad='init();' bgcolor=silver topmargin="0" bottommargin="0" leftmargin="0" rightmargin="0">
+
+<CENTER>
+<TABLE border=1 bgColor=buttonface borderColorDark=white borderColorLight=black cellPadding=0 cellSpacing=0 align=center>
+<TR>
+    <TD>
+        <TABLE cellPadding=0 cellSpacing=0>
+        <TR>
+            <TD><DIV class=handle></DIV></TD>
+            <TD><DIV class=button onclick=cleanDoc();><IMG align=absMiddle alt=新建 class=icon src="images/new.gif"></DIV></TD>
+            <TD><DIV class=button onclick=saveDoc();><IMG align=absMiddle alt=保存 class=icon src="images/save.gif"></DIV></TD>
+            <TD><DIV class=button onclick=saveCloseDoc();><IMG align=absMiddle alt=保存并关闭 class=icon src="images/save_close.gif"></DIV></TD>
+            <TD><DIV class=sep></DIV></TD>
+            <TD><DIV class=button onclick="cmdExec('cut')"><IMG align=absMiddle alt=剪切 class=icon src="images/cut.gif"></DIV></TD>
+            <TD><DIV class=button onclick="cmdExec('copy')"><IMG align=absMiddle alt=复制 class=icon src="images/copy.gif"></DIV></TD>
+            <TD><DIV class=button onclick="cmdExec('paste')"><IMG align=absMiddle alt=粘贴 class=icon src="images/paste.gif"></DIV></TD>
+            <TD><DIV class=sep></DIV></TD>
+            <TD><DIV class=button onclick="cmdExec('Undo')"><IMG align=absMiddle alt="撤销" class=icon src="images/Undo.gif"></DIV></TD>
+            <TD><DIV class=button onclick="cmdExec('Redo')"><IMG align=absMiddle alt="重做" class=icon src="images/Redo.gif"></DIV></TD>
+            <TD><DIV class=sep></DIV></TD>
+            <TD><DIV class=button onclick="cmdExec('justifyleft')"><IMG align=absMiddle alt="左对齐" class=icon src="images/aleft.gif"></DIV></TD>
+            <TD><DIV class=button onclick="cmdExec('justifycenter')"><IMG align=absMiddle alt="居中对齐" class=icon src="images/center.gif"></DIV></TD>
+            <TD><DIV class=button onclick="cmdExec('justifyright')"><IMG align=absMiddle alt="右对齐" class=icon src="images/aright.gif"></DIV></TD>
+            <TD><DIV class=sep></DIV></TD>
+            <TD><DIV class=button onclick="cmdExec('insertorderedlist')"><IMG align=absMiddle alt="编号" class=icon src="images/nlist.gif"> </DIV></TD>
+            <TD><DIV class=button onclick="cmdExec('insertunorderedlist')"><IMG align=absMiddle alt="项目符号" class=icon src="images/blist.gif"> </DIV></TD>
+            <TD><DIV class=sep></DIV></TD>
+            <TD><DIV class=button onclick="cmdExec('indent')"><IMG align=absMiddle alt="增加缩进量" class=icon src="images/iright.gif"></DIV></TD>
+            <TD><DIV class=button onclick="cmdExec('outdent')"><IMG align=absMiddle alt="减少缩进量" class=icon src="images/ileft.gif"></DIV></TD>
+            <TD><DIV class=sep></DIV></TD>
+            <TD><DIV class=button onclick=createLink();><IMG align=absMiddle alt="插入链接" class=icon src="images/link.gif"></DIV></TD>
+            <TD><DIV class=sep></DIV></TD>
+            <TD><DIV class=button onclick=insertImage()><IMG align=absMiddle alt="插入图片" class=icon src="images/image.gif"></DIV></TD>
+            <TD><DIV class=sep></DIV></TD>
+            <TD><DIV class=button onclick=insertSpecialSymbols()><IMG align=absMiddle alt="插入特殊字符" class=icon src="images/asymbol.gif"></DIV></TD>
+            <TD><DIV class=sep></DIV></TD>
+            <TD><DIV class=button onclick="cmdExec('InsertHorizontalRule')"><IMG align=absMiddle alt="插入水平分隔线" class=icon src="images/hr.gif"></DIV></TD>
+            <TD><DIV class=button onclick=superScript()><IMG align=absMiddle alt="上标" class=icon src="images/superscript.gif"></DIV></TD>
+            <TD><DIV class=button onclick=subScript()><IMG align=absMiddle alt="下标" class=icon src="images/subscript.gif"></DIV></TD>
+            <TD><DIV class=sep></DIV></TD>
+            <TD><DIV class=button onClick="window.open('help_index.html','edit','scrollbars=no,resizable=no,width=600,height=450')"><IMG align=absMiddle alt="帮助" class=icon id=IMG1 language=javascript onhelp="return IMG1_onhelp()" src="images/help.gif"></DIV></TD>
+            <TD><DIV class=sep></DIV></TD>
+            <TD><DIV class=button onclick=copyright()><IMG align=absMiddle alt="版权说明" class=icon src="images/copyright.gif"></DIV></TD>
+            <TD><DIV class=sep></DIV></TD>
+        </TR>
+        </TABLE>
+    </TD>
+</TR>
+<TR>
+    <TD>
+        <TABLE cellPadding=0 cellSpacing=0>
+        <TBODY>
+        <TR>
+            <TD><DIV class=handle></DIV></TD>
+            <TD><DIV class=button onclick="cmdExec('bold')"><IMG align=absMiddle alt="加粗" class=icon src="images/bold.gif"></DIV></TD>
+            <TD><DIV class=button onclick="cmdExec('italic')"><IMG align=absMiddle alt="倾斜" class=icon src="images/italic.gif"></DIV></TD>
+            <TD><DIV class=button onclick="cmdExec('underline')"><IMG align=absMiddle alt="下划线" class=icon src="images/under.gif"></DIV></TD>
+            <TD><DIV class=sep></DIV></TD>
+            <TD>
+                <object id="oHtmlDlgSafeHelper" classid="clsid:3050f819-98b5-11cf-bb82-00aa00bdce0b" width="0" height="0"></object>
+                <SELECT id="oFontList" onchange="cmdExec('fontname',this[this.selectedIndex].value); this.value='Font';" style="LEFT: 0px; TOP: 10px">
+                    <OPTION selected value="Font">字体</OPTION>
+                    <OPTION value="Arial">Arial</OPTION>
+                    <OPTION value="Arial Black">Arial Black</OPTION>
+                    <OPTION value="Courier New">Courier New</OPTION>
+                    <OPTION value="MS Sans Serif">MS Sans Serif</OPTION>
+                    <OPTION value="Times New Roman">Times New Roman</OPTION>
+                    <OPTION value="Verdana">Verdana</OPTION>
+                    <OPTION value="Wingdings">Wingdings</OPTION>
+                    <OPTION value="宋体">宋体</OPTION>
+                    <OPTION value="黑体">黑体</OPTION>
+                    <OPTION value="楷体_GB2312">楷体_GB2312</OPTION>
+                </SELECT>
+            </TD>
+            <TD>
+                <SELECT id=FontSize onchange="cmdExec('fontsize',this[this.selectedIndex].value); FontSize.value='Size';" style="LEFT: 0px; TOP: 10px">
+                    <OPTION selected value=Size>字号</OPTION>
+                    <OPTION value=1>1</OPTION>
+                    <OPTION value=2>2</OPTION>
+                    <OPTION value=3>3</OPTION>
+                    <OPTION value=4>4</OPTION>
+                    <OPTION value=5>5</OPTION>
+                    <OPTION value=6>6</OPTION>
+                    <OPTION value=7>7</OPTION>
+                </SELECT>
+            </TD>
+            <TD><DIV class=sep></DIV></TD>
+            <TD><DIV class=button onclick=foreColor();><IMG align=absMiddle alt="设置文字颜色" class=icon src="images/tpaint.gif" id=IMG2></DIV></TD>
+            <TD><DIV class=sep></DIV></TD>
+            <TD><DIV class=button onclick=insertTable();><IMG align=absMiddle alt="插入表格" class=icon src="images/itable.gif" id=IMG3></DIV></TD>
+            <TD><DIV class=button onclick=insertRow();><IMG align=absMiddle alt="插入行" class=icon src="images/insrow.gif" id=IMG3></DIV></TD>
+            <TD><DIV class=button onclick=insertCol();><IMG align=absMiddle alt="插入列" class=icon src="images/inscol.gif" id=IMG3></DIV></TD>
+            <TD><DIV class=button onclick=DelRow();><IMG align=absMiddle alt="删除行" class=icon src="images/delrow.gif" id=IMG3></DIV></TD>
+            <TD><DIV class=button onclick=DelCol();><IMG align=absMiddle alt="删除列" class=icon src="images/delcol.gif" id=IMG3></DIV></TD>
+            <TD><DIV class=button onclick=ColMerge();><IMG align=absMiddle alt="合并单元格" class=icon src="images/mrgcell.gif" id=IMG3></DIV></TD>
+            <TD><DIV class=button onclick=SplitCell();><IMG align=absMiddle alt="分割单元格" class=icon src="images/spltcell.gif" id=IMG3></DIV></TD>
+            <TD><DIV class=sep></DIV></TD>
+            <TD><DIV class=button onclick=TableProperties();><IMG align=absMiddle alt="表格属性" class=icon src="images/props.gif" id=IMG3></DIV></TD>
+            <TD><DIV class=button onclick=BGCellColor();><IMG align=absMiddle alt="设置单元格背景色" class=icon src="images/parea.gif" id=IMG3></DIV></TD>
+            <TD><DIV class=button onclick=cColWidth();><IMG align=absMiddle alt="修改列宽度" class=icon src="images/colsize.gif" id=IMG3></DIV></TD>
+            <TD><DIV class=button onclick=cRowHeight();><IMG align=absMiddle alt="修改行高度" class=icon src="images/rowsize.gif" id=IMG3></DIV></TD>
+            <TD><DIV class=button onclick=BorderColor();><IMG align=absMiddle alt="设置边框颜色" class=icon src="images/parea.gif" id=IMG3></DIV></TD>
+            <TD><DIV class=button onclick=BorderSize();><IMG align=absMiddle alt="修改边框宽度" class=icon src="images/rowsize.gif" id=IMG3></DIV></TD>
+            <TD><DIV class=sep></DIV></TD>
+        </TR>
+        </TBODY>
+        </TABLE>
+    </TD>
+</TR>
+<TR>
+    <TD>
+        <TABLE cellPadding=0 cellSpacing=0>
+        <TBODY>
+        <TR>
+            <TD><IFRAME height=360 width=640 id=editArea></IFRAME></TD>
+        </TR>
+        </TBODY>
+        </TABLE>
+    </TD>
+</TR>
+</TABLE>
+</CENTER>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>Outlook</title>
+<style>
+    body, th, td, button {font-size:10pt;margin:5pt;}
+</style>
+
+<script>
+function recursiveContactFolder( folder, level )
+{
+    for ( var i=1; i <= olNameSpace.Folders.Count; i++ ) {
+        recursiveFolder( olNameSpace.Folders(i) );
+    }
+}
+
+var txt = "";
+
+function recursiveFolder( folder, level )
+{
+    var bIsContacts = folder.DefaultItemType == 2/*olContactItem*/;
+    var prefix = "";
+    for ( var i=0; i < level; i++ )
+        prefix += "--";
+
+    if ( bIsContacts ) {
+        txt += "<br>" + prefix + folder.Name;
+    }
+
+    for ( var i=1; i <= folder.Folders.Count; i++ ) {
+        var subFolder = folder.Folders(i);
+        if ( bIsContacts ) {
+            recursiveFolder( subFolder, level + 1 );
+        } else {
+            recursiveFolder( subFolder, level );
+        }
+    }
+
+    if ( bIsContacts ) {
+        for ( var i=1; i <= folder.Items.Count; i++ ) {
+            var item = folder.Items(i);
+            txt += "<br>--" + prefix;
+            txt += item.FileAs;
+            txt += " [" + item.Email1Address + "]";
+            txt += " [" + item.Email2Address + "]";
+            txt += " [" + item.Email3Address + "]";
+        }
+    }
+}
+
+function testOutlook() {
+    var olApp = new ActiveXObject( "Outlook.Application" );
+    var olNameSpace = olApp.GetNamespace( "MAPI" );
+    var olFolder = olNameSpace.GetDefaultFolder( 10/*olFolderContacts*/ );
+
+    txt = "";
+    recursiveFolder( olNameSpace, 0 );
+    oOutput.innerHTML = txt;
+}
+</script>
+
+</head>
+
+<body>
+
+Outlook
+<hr>
+<button onclick="testOutlook()">测试</button>
+<hr>
+<div id="oOutput"></div>
+</body>
+</html>

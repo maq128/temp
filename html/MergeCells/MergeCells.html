@@ -1,0 +1,82 @@
+<html>
+<head>
+<title>Merge cells</title>
+<meta http-equiv=Content-Type content="text/html; charset=GB2312">
+<STYLE TYPE="text/css">
+<!--
+body, th, td { font-size:10pt; }
+.special { font-weight:bold; color:#000080; background-color:#bbffff }
+
+colgroup.merge { behavior:url(merge.htc); }
+-->
+</STYLE>
+</head>
+
+<body>
+<ul>
+<b>功能：</b>
+<li>对一个 table 中指定的列进行“合并”。<br>所谓“合并”，是指把该列中连续多个相同内容的单元格合并为一个单元格。
+</ul>
+
+<ol>
+<b>用法：</b>
+<li>定义样式表——
+    <br>&lt;style type="text/css">
+    <br>&nbsp;&nbsp;<span class="special">colgroup.merge { behavior:url(merge.htc); }</span>
+    <br>&lt;/style>
+<li>在&lt;table>中指定需合并的列——
+    <br>&lt;table border="1">
+    <br><span class="special">&lt;colgroup class="merge"></span>
+    <br>&nbsp;&nbsp;&lt;col <span class="special">merge="true"</span> width="150">
+    <br>&nbsp;&nbsp;&lt;col <span class="special">merge="true"</span> width="150" align="center">
+    <br>&nbsp;&nbsp;&lt;col <span class="special">merge="true"</span> width="150" align="right">
+    <br>&nbsp;&nbsp;&lt;col width="150">
+    <br><span class="special">&lt;/colgroup></span>
+    <br>&lt;tr>
+    <br>&nbsp;&nbsp;……
+    <br>&lt;/tr>
+    <br>&lt;/table>
+</ol>
+
+<table border="1">
+<colgroup class="merge">
+    <col merge="true" width="150">
+    <col merge="true" width="150" align="center">
+    <col merge="true" width="150" align="right">
+    <col width="150">
+</colgroup>
+<tr>
+    <th>col 1</th>
+    <th>col 2</th>
+    <th>col 3</th>
+    <th>col 4</th>
+</tr>
+
+<tr>
+    <td>value 1</td><td>value 1</td><td>.</td><td>value 1</td>
+</tr>
+<tr>
+    <td>value 1</td><td>value 1</td><td>value 1</td><td>value 2</td>
+</tr>
+<tr>
+    <td>value 1</td><td>value 2</td><td>value 1</td><td>value 3</td>
+</tr>
+<tr>
+    <td>value 1</td><td>value 2</td><td>value 2</td><td>value 4</td>
+</tr>
+<tr>
+    <td>value 1</td><td>value 3</td><td>value 3</td><td>value 5</td>
+</tr>
+<tr>
+    <td>value 2</td><td>value 3</td><td>value 3</td><td>value 6</td>
+</tr>
+<tr>
+    <td>value 2</td><td>value 4</td><td>value 3</td><td>value 7</td>
+</tr>
+<tr>
+    <td>value 2</td><td>value 4</td><td>value 3</td><td>value 8</td>
+</tr>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,71 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml">
+<head>
+<title>vmlMark</title>
+<STYLE TYPE="text/css">
+body, th, td { font-size:10pt; }
+.special { font-weight:bold; color:#000080; background-color:#bbffff }
+</STYLE>
+</head>
+
+<body>
+<script language="JavaScript" src="vmlmark.js"></script>
+
+<ul>
+<b>功能：</b>
+<li>当鼠标点击到某个特定的元素上时，会出现标记；
+<li>点击到其它地方时标记消失。
+</ul>
+
+<ol>
+<b>用法：</b>
+<li>在 &lt;html> 中定义 namespace ——
+    <br>&lt;html <span class="special">xmlns:v="urn:schemas-microsoft-com:vml"</span>>
+<li>在 body 内部的任意位置引入脚本文件 vmlmark.js ——
+    <br>&lt;script language="JavaScript" src="<span class="special">vmlmark.js</span>">&lt;/script>
+<li>指定需做标记的元素——
+    <br>&lt;span <span class="special">markable</span>>some text&lt;/span>
+    <br>&lt;a href="#" <span class="special">markable</span>>some text&lt;/a>
+    <br>&lt;td <span class="special">markable</span>>.&lt;/td>
+    <br>……
+</ol>
+
+<table border="1" align="center" width="600">
+<colgroup><col align="center"><col align="center"></colgroup>
+<tr height=100>
+    <td width="300">
+        <a href="#" markable onclick="return false;">………… markable ………</a>
+        <br>
+        <br>
+        <a href="#" markable onclick="return false;">markable</a>
+        <br>
+        <br>
+        <span markable>…</span>
+    </td>
+    <td width="300"><a href="#" onclick="return false;">……… 没有 markable ………</a></td>
+</tr>
+<tr height=100>
+    <td markable>一个 <b markable>markable</b> 的元素包含在一个 markable 的 &lt;td> 中</td>
+    <td><img src="" markable></td>
+</tr>
+<tr height=100>
+    <td markable>一个 markable 的 &lt;td></td>
+    <td markable></td>
+</tr>
+<tr height=100>
+    <td markable>一个 markable 的 &lt;td></td>
+    <td>.</td>
+</tr>
+<tr height=100>
+    <td markable>一个 markable 的 &lt;td></td>
+    <td>.</td>
+</tr>
+<tr height=100>
+    <td markable>一个 markable 的 &lt;td></td>
+    <td>.</td>
+</tr>
+</table>
+
+<div id="thetrace"></div>
+
+</body>
+</html>

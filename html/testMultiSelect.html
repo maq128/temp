@@ -1,0 +1,109 @@
+<html>
+<head>
+<title>Multi Select</title>
+<style type="text/css">
+  .year      { margin:0 1 0 1; padding:0 10 0 10; background-color:#aabbcc; cursor:hand; }
+  .curyear   { margin:0 1 0 1; padding:0 10 0 10; background-color:red; cursor:hand; }
+  .month     { margin:0 1 0 1; padding:0 10 0 10; background-color:#aabbcc; cursor:hand; }
+  .curmonth  { margin:0 1 0 1; padding:0 10 0 10; background-color:red; cursor:hand; }
+  .volume    { margin:0 1 0 1; padding:0 2 0 2; background-color:#aabbcc; cursor:hand; }
+  .curvolume { margin:0 1 0 1; padding:0 2 0 2; background-color:red; cursor:hand; }
+</style>
+
+<script>
+var curYear = "2004";
+var curMonth = "9";
+var curVolume = "06";
+
+var arYears = new Array(
+                new Array("2004",
+                        new Array(
+                            new Array("10", new Array("01", "02", "03", "04", "05", "06")),
+                            new Array("9",  new Array("01", "02", "03", "04", "05", "06", "07", "08", "09")),
+                            new Array("8",  new Array("01", "11", "12", "13"))
+                        )
+                ),
+                new Array("2005",
+                        new Array(
+                            new Array("10", new Array("01", "02", "03", "04", "05", "06")),
+                            new Array("9",  new Array("01", "02", "03", "04", "05", "06", "07", "08", "09")),
+                            new Array("8",  new Array("01", "11", "12", "13")),
+                            new Array("7",  new Array("01", "11", "12", "13")),
+                            new Array("6",  new Array("01", "11", "12", "13"))
+                        )
+                )
+            );
+
+function getTextValue(el) {
+    if (typeof(el.innerText) == "string")
+        return el.innerText;
+
+    return el.textContent;
+}
+
+function changeYear(el) {
+    curYear = getTextValue(el);
+    curMonth = "";
+    curVolume = "";
+    resetMenu();
+}
+
+function changeMonth(el) {
+    curMonth = getTextValue(el);
+    curVolume = "";
+    resetMenu();
+}
+
+function changeVolume(el) {
+    curVolume = getTextValue(el);
+    resetMenu();
+    alert("now, navigate to : " + curYear + curMonth + curVolume + ".html");
+}
+
+function resetMenu() {
+    var sYears = "年度：";
+    var sMonths = "";
+    var sVolumes = "";
+    for (i=0; i<arYears.length; i++) {
+        var oYear = arYears[i];
+        var sYear = oYear[0];
+        var arMonths = oYear[1];
+        var clzYear = (sYear == curYear) ? "curyear" : "year";
+        sYears += "<span onclick=changeYear(this) class=" + clzYear + ">" + sYear + "</span>";
+        //alert(sYear + "/" + curYear);
+
+        if (sYear == curYear) {
+            sMonths = "月度：";
+            for (j=0; j<arMonths.length; j++) {
+                var oMonth = arMonths[j];
+                var sMonth = oMonth[0];
+                var arVolumes = oMonth[1];
+                var clzMonth = (sMonth == curMonth) ? "curmonth" : "month";
+                sMonths += "<span onclick=changeMonth(this) class=" + clzMonth + ">" + sMonth + "</span>";
+
+                if (sMonth == curMonth) {
+                    sVolumes = "期数：";
+                    for (k=0; k<arVolumes.length; k++) {
+                        var sVolume = arVolumes[k];
+                        var clzVolume = (sVolume == curVolume) ? "curvolume" : "volume";
+                        sVolumes += "<span onclick=changeVolume(this) class=" + clzVolume + ">" + sVolume + "</span>";
+                    }
+                }
+            }
+        }
+    }
+
+    document.getElementById("Years").innerHTML = sYears;
+    document.getElementById("Months").innerHTML = sMonths;
+    document.getElementById("Volumes").innerHTML = sVolumes;
+}
+</script>
+</head>
+
+<body onload="resetMenu()">
+
+<span id="Years"></span>&nbsp;&nbsp;<span id="Months"></span>
+<br><span id="Volumes"></span>
+
+</body>
+</html>

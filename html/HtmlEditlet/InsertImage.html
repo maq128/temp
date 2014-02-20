@@ -1,0 +1,107 @@
+<HTML>
+<HEAD>
+<TITLE>Insert Image</TITLE>
+<!--This html file is used insert images in the html file.
+this is called from the ShowEditor.htm file when pressing the InsertImage button
+we have to enter image source,alternate text,hyperlink,width,height, alignment
+and horizontal and vertical spacing for that corresponding image.
+we can select the image by pressing the Browse button.
+this will invoke the image manager.
+-->
+<style>
+  body, .button{background: buttonface;font-family:"MS Sans Serif";font-size:9pt;margin:0px;}
+  .text {font-family:"MS Sans Serif";font-size:9pt;padding:5px 0px 5px 0px;}
+</style>
+<SCRIPT ID=clientEventHandlersJS LANGUAGE=javascript>
+
+  function isInt() {
+    // acception only numbers not other characters
+    return ((event.keyCode >= 48) && (event.keyCode <= 57))
+  }
+<!--
+function OK_onclick() {
+    //return value as a Array. this array elements are retreived in the ShowEditor html file.
+    var vArr=new Array();       // to return the image properties to the showEditor.htm file
+    vArr["Source"]=txtImageSource.value;        //image file name. it should not be emtpy
+    vArr["Alternate"]=txtAlternate.value;       //image alternate text, ie. displayed when the image not available at that position
+    vArr["HyperLink"]=txtHyperlink.value;       //hyperlink for this image. speficy if necessary otherwise leave it as emtpy
+    vArr["Border"]=txtBorder.value;             //images border size. def. value =0
+    vArr["Alignment"]=lstAlignment.value;       //image alignment
+    vArr["Height"]=txtHeight.value;             //image height. def. value is image height
+    vArr["Width"]=txtWidth.value;               //image width. def. value is image width
+    vArr["Horizontal"]=txtHorizontal.value;     //image horizontal spacing. def. value is 0
+    vArr["Vertical"]=txtVertical.value;         //image vertical spaceng. def. value is 0
+    window.returnValue=vArr;                    //return as array of given values.
+    window.close();                             //close the window.
+}
+
+function CANCEL_onclick() {
+    //to close the window.
+    window.close();
+}
+
+function txtImageSource_onkeypress() {
+event.returnValue=false;//to disable the keypress event. not allow user to type anything in it
+}
+
+
+function window_onload() {
+    txtImageSource.disabled=true; ////to disable the txtImageSource text box. not allow user to type anything in it
+}
+
+function Browse_onclick() {
+//here we have to include the file that is used to upload image, select image and list image.
+//we can select and insert a image.
+//we can upload a new image into server.
+//we can select all available images.
+
+    var str="";     //to store the return image file name with path.
+    var str = showModalDialog("ImageManager.html", "img_manager", "dialogWidth:500px; dialogHeight:350px; status:no;" );
+    if (str!=null) {
+        if (str=="r") {
+            str="";
+            //insertImage();
+            Browse_onclick();
+        } else {
+            txtImageSource.value=str;           //assign image source's value as returned image soruce
+        }
+        //txtImageSource.focus();               //set focus on the imageSource text box. com 12/08
+    }
+}
+//-->
+</SCRIPT>
+
+</HEAD>
+<BODY bgcolor="#c0c0c0" LANGUAGE=javascript onload="return window_onload()">
+<FIELDSET ALIGN=center style="HEIGHT: 104px; WIDTH: 444px"><LEGEND>Source</LEGEND>
+     &nbsp;Image Source&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;
+    <input name="txtImageSource" size=31 tabindex="0" style="HEIGHT: 22px; WIDTH: 231px LANGUAGE=javascript onkeypress="return txtImageSource_onkeypress()">&nbsp;<INPUT name=Browse style="HEIGHT: 28px; WIDTH: 79px" tabIndex=1 type=button value=Browse LANGUAGE=javascript onclick="return Browse_onclick()" size=27><BR>
+    &nbsp; Alternate Text&nbsp; :&nbsp;&nbsp; <input name="txtAlternate" tabindex="2" style="HEIGHT: 22px; LEFT: 90px; TOP: 43px; WIDTH: 312px" size="38" maxLength=50><BR>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; HyperLink&nbsp; &nbsp;:&nbsp;&nbsp; <input name="txtHyperlink" tabindex="2" style="HEIGHT: 22px; LEFT: 90px; TOP: 67px; WIDTH: 314px" size="38" maxLength=150>
+</FIELDSET>
+<FIELDSET align=center style="HEIGHT: 75px; WIDTH: 444px"> <LEGEND>Image Properties</LEGEND>&nbsp;Border Thickness :<INPUT name=txtBorder size=2
+style="HEIGHT: 22px; LEFT: 189px; TOP: 104px; WIDTH: 57px" tabIndex=3 value=0 LANGUAGE=javascript onkeypress="event.returnValue=isInt();" maxLength=2>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Alignment&nbsp;
+:&nbsp;&nbsp; <SELECT name=lstAlignment size=1 style="HEIGHT: 22px; WIDTH: 151px" tabIndex=4>
+<OPTION selected value=Left>Left</OPTION>
+<OPTION value=Right>Right</OPTION>
+<OPTION value=Default>Default</OPTION>&nbsp;</SELECT>
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Width(%):<INPUT name=txtWidth size=3
+style="HEIGHT: 22px; LEFT: 116px; TOP: 44px; WIDTH: 59px" tabIndex=5 LANGUAGE=javascript onkeypress="event.returnValue=isInt();" maxLength=3>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Height(%)&nbsp;
+:&nbsp;&nbsp;
+<INPUT name=txtHeight size=3 tabIndex=6 onkeypress="event.returnValue=isInt();" maxLength=3>
+</FIELDSET>
+<FIELDSET align=center style="HEIGHT: 51px; LEFT: 76px; TOP: 179px; WIDTH: 444px"><LEGEND>Spacing</LEGEND>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Horizontal &nbsp;:&nbsp;<input name="txtHorizontal" size="3" tabindex="7" LANGUAGE=javascript onkeypress="event.returnValue=isInt();" maxLength=2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Vertical&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;<input name="txtVertical" size="3" tabindex="8" LANGUAGE=javascript onkeypress="event.returnValue=isInt();" maxLength=2>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</FIELDSET>
+<FIELDSET style="HEIGHT: 51px; WIDTH: 444px"
+align=center>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <INPUT language=javascript id=OK style="HEIGHT: 28px; LEFT: 195px; TOP: 224px; WIDTH: 71px" onclick="return OK_onclick()" tabIndex=9 type=button value=OK size=23>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<INPUT language=javascript id=CANCEL style="HEIGHT: 28px; LEFT: 206px; TOP: 13px; WIDTH: 76px" onclick="return CANCEL_onclick()" tabIndex=10 type=button value=Cancel name=Cancel>
+</FIELDSET>
+</BODY>
+</HTML>

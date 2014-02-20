@@ -1,0 +1,33 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>保存页面到 mht</title>
+<style>
+    body, th, td, button {font-size:10pt;margin:5pt;}
+</style>
+
+<script>
+function savePageToMHT() {
+    alert( "保存 " + oURL.value + " 到 " + oFILE.value );
+    var oMsg = new ActiveXObject( "CDO.Message" );
+    oMsg.CreateMHTMLBody( oURL.value );
+    var oStream = oMsg.GetStream();
+    oStream.SaveToFile( oFILE.value, 2 /*adSaveCreateOverWrite*/ );
+}
+</script>
+
+</head>
+
+<body>
+
+保存页面到 mht
+<hr>
+网址: <input id="oURL" type="text" size="80" value="http://www.google.com">
+<br>
+文件: <input id="oFILE" type="text" size="80" value="C:\test.mht">
+<br>
+<button onclick="savePageToMHT()">保存</button>
+
+</body>
+</html>

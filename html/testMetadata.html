@@ -1,0 +1,96 @@
+<html>
+<head><title>testMetadata</title>
+<style>
+    body {font-size:10pt;margin:5pt;}
+    th, td {font-size:10pt;}
+    .msg {font-size:10pt;color:gray;}
+</style>
+</head>
+
+<body>
+<script language="Javascript">
+function doQuery(conn, sql) {
+    var ret = "<p><b>" + sql + "</b></p><table border=1><tr>";
+    var rs = conn.Execute(sql);
+    var fieldCount = 0;
+    for(var fieldEnum = new Enumerator(rs.Fields); !fieldEnum.atEnd(); fieldEnum.moveNext()) {
+	    field = fieldEnum.item();
+	    fieldCount ++;
+
+        ret += "<th>" + field.Name + "(" + field.Type + ")</th>";
+    }
+    ret += "</tr>";
+    while (!rs.EOF) {
+        ret += "<tr>";
+        for (var i=0; i<fieldCount; i++) {
+            ret += "<td>" + rs(i) + "</td>";
+        }
+        ret += "</tr>";
+        rs.MoveNext();
+    }
+    rs.close();
+
+    ret += "</table>";
+    return ret;
+}
+
+function doListCatalogs(conn, sql) {
+    var ret = "<p><b>" + sql + "</b></p><table border=1><tr>";
+    var criteria = new Array(null);
+    var rs = conn.OpenSchema(1); // adSchemaCatalogs
+    var fieldCount = 0;
+    for(var fieldEnum = new Enumerator(rs.Fields); !fieldEnum.atEnd(); fieldEnum.moveNext()) {
+	    field = fieldEnum.item();
+	    fieldCount ++;
+
+        ret += "<th>" + field.Name + "(" + field.Type + ")</th>";
+    }
+    ret += "</tr>";
+    while (!rs.EOF) {
+        ret += "<tr>";
+        for (var i=0; i<fieldCount; i++) {
+            ret += "<td>" + rs(i) + "</td>";
+        }
+        ret += "</tr>";
+        rs.MoveNext();
+    }
+    rs.close();
+
+    ret += "</table>";
+    return ret;
+}
+
+    connString = "Provider=SQLOLEDB.1;Data Source=MAQ;User ID=sa;Password=password;Initial Catalog=pubs";
+    sqlString = "SELECT * FROM AIS20040805182403.dbo.t_SystemProfile";
+
+    document.write("<b>connString:</b> " + connString);
+
+    try {
+        conn = new ActiveXObject("ADODB.Connection");
+        conn.Open(connString);
+        //conn.properties("Password") = "xx";
+
+        if (false) {
+            strMsg = "";
+            var propEnum = new Enumerator(conn.properties)
+            for (i=0; !propEnum.atEnd(); propEnum.moveNext()) {
+                var prop = propEnum.item();
+                strMsg += "" + (i++) + ": " + prop.name + " [" + prop.value + "]<br>";
+            }
+            document.all("msg").innerHTML = strMsg;
+        }
+        var ret = doQuery(conn, sqlString);
+        document.write(ret);
+        conn.close();
+    } catch (E) {
+        alert("" + E.number + " : " + E.description);
+    }
+</script>
+
+<div id="msg" class="msg"></div>
+<table border="1">
+<colgroup width=50>
+<colgroup width=300>
+</table>
+</body>
+</html>

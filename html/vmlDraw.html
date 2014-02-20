@@ -1,0 +1,45 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml">
+<head><title>testVML</title>
+<style>
+v\:* { behavior: url(#default#vml) }
+</style>
+<script>
+var trace = "";
+var startX=0, startY=0;
+function fnClickSomewhere() {
+    if (startX == 0 && startY == 0) {
+        startX = event.x;
+        startY = event.y;
+        mark.style.posLeft=event.x;
+        mark.style.posTop=event.y;
+        mark.style.visibility = "visible";
+        trace = "0,0";
+    } else {
+        trace += "," + (event.x - startX) + "," + (event.y - startY);
+        mark.Points.value = trace;
+        thetrace.innerText = trace;
+    }
+}
+</script>
+</head>
+
+<body onclick="fnClickSomewhere()">
+<v:PolyLine id="mark" filled="false" Points="0,0" style="visibility:hidden;position:absolute;">
+    <v:stroke dashstyle="ShortDash" Color="red" Weight="2" />
+</v:PolyLine>
+
+<table border=1>
+<tr height=150>
+    <td width="300">在页面内点击，画线</td>
+    <td width="300">1 2</td>
+</tr>
+<tr height=150>
+    <td>2 1</td>
+    <td>2 2</td>
+</tr>
+</table>
+
+<div id="thetrace"></div>
+
+</body>
+</html>

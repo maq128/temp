@@ -1,0 +1,20 @@
+<html>
+<head><title>testResize</title>
+<script>
+function onBodyResize() {
+    alert('hi');
+}
+
+function onBodyLoaded() {
+    alert('hi');
+    document.body.onresize = onBodyResize;
+}
+</script>
+</head>
+
+<body onload="onBodyLoaded()" xonresize="onBodyResize()">
+
+hello, world !
+
+</body>
+</html>

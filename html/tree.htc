@@ -1,0 +1,51 @@
+<PUBLIC:COMPONENT>
+
+<PUBLIC:PROPERTY NAME="child" />
+<PUBLIC:PROPERTY NAME="status" />
+
+<PUBLIC:ATTACH EVENT="onclick" ONEVENT="ExpandCollapse()" />
+<PUBLIC:ATTACH EVENT="onload" ONEVENT="Init()" FOR="window" />
+
+<SCRIPT LANGUAGE="JScript">
+var imgexpand   = "<img src=tree_exp.gif> ";
+var imgcollapse = "<img src=tree_col.gif> ";
+var imgleaf     = "<img src=tree_doc.gif> ";
+
+var strStatus   = "collapse";
+var strExpand   = ""; // "- "; // "&#8595; ";
+var strCollapse = ""; // "+ "; // "&#8594; ";
+var strLeaf     = ""; // "&nbsp; ";
+
+function Init() {
+    if (status == "expand") strStatus = "expand";
+    strExpand += imgexpand + element.innerHTML;
+    strCollapse += imgcollapse + element.innerHTML;
+    strLeaf += imgleaf + element.innerHTML;
+
+    if (child != null) {
+        element.innerHTML = (strStatus == "collapse" ? strCollapse : strExpand);
+        element.document.all(child).style.display = (strStatus == "collapse" ? "none" : "");
+        element.document.all(child).style.marginLeft = "15pt";
+        element.style.cursor = "hand";
+    } else {
+        element.innerHTML = strLeaf;
+        element.style.cursor = "default";
+    }
+}
+
+function ExpandCollapse() {
+    if (child == null) return;
+
+    if (strStatus == "collapse") {
+        strStatus = "expand";
+        element.document.all(child).style.display = "";
+        element.innerHTML = strExpand;
+    } else {
+        strStatus = "collapse";
+        element.document.all(child).style.display = "none";
+        element.innerHTML = strCollapse;
+    }
+}
+
+</SCRIPT>
+<PUBLIC:COMPONENT>

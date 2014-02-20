@@ -1,0 +1,68 @@
+<html>
+<head>
+<title>test of XMLHTTP</title>
+</head>
+
+<body>
+<script language="JavaScript">
+function getXMLRequester() {
+    var xmlhttp_request = false;
+    try{
+        if( window.ActiveXObject ){
+            for( var i = 5; i; i-- ){
+                try{
+                    if( i == 2 ){
+                        xmlhttp_request = new ActiveXObject( "Microsoft.XMLHTTP" );    
+                    }else{
+                        xmlhttp_request = new ActiveXObject( "Msxml2.XMLHTTP." + i + ".0" );	
+                        xmlhttp_request.setRequestHeader("Content-Type","text/xml");
+                        xmlhttp_request.setRequestHeader("Content-Type","gb2312");
+                    }
+                    break;
+                }catch(e){                        
+                    xmlhttp_request = false;
+                }
+            }
+        }else if( window.XMLHttpRequest ){
+            xmlhttp_request = new XMLHttpRequest();
+            if (xmlhttp_request.overrideMimeType) {
+                xmlhttp_request.overrideMimeType('text/xml');
+            }
+        }
+    }catch(e){
+        xmlhttp_request = false;
+    }
+    return xmlhttp_request ;
+}
+
+var request;
+function doTest() {
+    request = getXMLRequester();
+    request.onreadystatechange = doContents;
+    //request.open('GET', "http://blog.sina.com.cn/u/1400837702", true);
+    request.open('GET', "http://counter3.blog.sina.com.cn/x.cc?uid=1400837702&cid=7514118", true);
+    request.setRequestHeader("Referer", "http://blog.sina.com.cn/u/1400837702");
+    request.setRequestHeader("MyReferer", "http://blog.sina.com.cn/u/1400837702");
+    request.send(null);
+}
+
+function doContents() {
+    if (request.readyState == 4) {// 收到完整的服务器响应
+        if (request.status == 200) {//HTTP服务器响应的值OK
+            oOutput.innerHTML = request.responseText;
+        } else {
+            alert(request.status);
+        }
+    }
+}
+
+function doXXX() {
+    alert('xxx');
+}
+</script>
+
+<button id="oTest" onclick="doTest()">测试</button>
+<pre id="oOutput">
+</pre>
+</body>
+</html>
