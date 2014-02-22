@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>微信网页版助手 - 选项</title>
+<style type="text/css">
+body {
+	background: #4E5359 url(bg.png) repeat 0 0;
+}
+
+.panel {
+	width: 400px;
+	border-radius: 2px 2px 6px 6px;
+	-background-color: #EFF3F7;
+}
+
+.title {
+	line-height: 40px;
+	border-top: 1px solid #9BA3AE;
+	border-bottom: 1px solid #333;
+	background-color: #6B7888;
+	background: -webkit-gradient(linear, left top,left bottom, from(#6B7888),to(#545E6A), color-stop(0.1,#6A7786),color-stop(0.5,#5E6977),color-stop(0.9,#56616D),color-stop(1.0,#545E6A));
+	background-image: -moz-linear-gradient(top, #6A7786 10%, #5E6977 50%, #56616D 90%, #545E6A 100%);
+	border-radius: 4px 4px 0 0;
+	-webkit-border-radius: 4px 4px 0 0;
+	text-align: center;
+	color: #fff;
+	font-size: 14px;
+	font-family: '微软雅黑';
+}
+
+.pane {
+	font-size: 12px;
+	background-color: #EFF3F7;
+	padding: 2px;
+}
+
+textarea {
+	background-color: #EFF3F7;
+	border: 1px solid gray;
+	width: 390px;
+	height: 500px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="panel">
+	<div class="title">在这里设置 昵称 对应的 显示名</div>
+	<div class="pane" style="color:green">
+		每行输入一个用户的昵称和希望显示的名字，中间用逗号分隔
+	</div>
+	<div class="pane">
+		<textarea id="nicks"></textarea>
+	</div>
+</div>
+<script src="options.js"></script>
+
+</body>
+</html>
