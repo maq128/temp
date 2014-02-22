@@ -1,6 +1,0 @@
-ZZZ
-B`1.txt`1.txt
-B`another branch`2.txt
-B`bad branch`3.txt
-L`a leaf
-ZZZ
