@@ -1,0 +1,39 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>readyState</title>
+<style>
+    body {font-size:10pt;margin:5pt;}
+</style>
+</head>
+
+<body>
+
+<div id="oMsg" style="border:1 dotted gray;">
+readyState:
+</div>
+
+<script>
+function doLoad()
+{
+    //alert(document.all.oIFrame.src);
+    //document.all.oIFrame.src = "http://www.kaixin001.com/!repaste/detail.php?uid=256059&urpid=776621233";
+    document.all.oIFrame.src = "http://www.kaixin001.com/!repaste/detail.php?uid=6081529&urpid=779590596";
+    //alert(document.all.oIFrame.src);
+}
+
+function doTest()
+{
+    rs = event.srcElement.readyState;
+    oMsg.innerHTML += "&nbsp;" + rs;
+}
+</script>
+
+<br>
+<button onclick="doLoad()">doLoad()</button>
+<br>
+<iframe id="oIFrame" onreadystatechange="doTest()" frameborder=1 scrolling=yes width="800" height="500"></iframe>
+
+</body>
+</html>

@@ -1,0 +1,208 @@
+<HTML>
+<HEAD>
+<TITLE>Modify Table Properties</TITLE>
+
+<style>
+  body, .button{background: buttonface;font-family:"MS Sans Serif";font-size:9pt;margin:0px;}
+  .text {font-family:"MS Sans Serif";font-size:9pt;padding:5px 0px 5px 0px;}
+  .inputs {padding-right:15px;}
+  .controls{width:100%;text-align:right;margin-top:5px;margin-right:3px}
+</style>
+
+<script language="JScript">
+  function isInt() {
+    return ((event.keyCode >= 48) && (event.keyCode <= 57))
+  }
+
+function txtTblRows_onblur() {
+	if((txtTblRows.value=="")||(isNaN(txtTblRows.value))) {
+		txtTblRows.value=3;
+		txtTblRows.focus();
+	}
+}
+
+function txtTblWidth_onblur() {
+	 if((txtTblWidth.value=="")||(isNaN(txtTblWidth.value))) {
+		//txtTblWidth.value="100";
+		txtTblWidth.value=gW;
+		txtTblWidth.focus();
+		return;
+	 }
+}
+
+function txtTblColumns_onblur() {
+	if((txtTblColumns.value=="")||(isNaN(txtTblColumns.value))) {
+		txtTblColumns.value=2;
+		txtTblColumns.focus();
+		return;
+	}
+}
+
+function txtTblBorderSize_onblur() {
+	if((txtTblBorderSize.value=="")||(isNaN(txtTblBorderSize.value))) {
+		txtTblBorderSize.value=1;
+		txtTblBorderSize.focus();
+		return;
+	}
+}
+
+function txtTblCellPadding_onblur() {
+	if((txtTblCellPadding.value=="")||(isNaN(txtTblCellPadding.value))) {
+		txtTblCellPadding.value=0;
+		txtTblCellPadding.focus();
+		return;
+	}
+}
+
+function txtTblCellSpacing_onblur() {
+	if((txtTblCellSpacing.value=="")||(isNaN(txtTblCellSpacing.value))) {
+		txtTblCellSpacing.value=0;
+		txtTblCellSpacing.focus();
+		return;
+	}
+}
+
+</script>
+
+<SCRIPT ID=clientEventHandlersJS LANGUAGE=javascript>
+<!--
+var gW=0;
+function butTblBorderColor_onclick() {
+	var BrClr;
+	BrClr=window.showModalDialog("selcolor.html", "", "dialogWidth:22em; dialogHeight:23em" );
+	//window.alert("Selected Color: "+BrClr);
+	if (BrClr != null) { 	
+   		txtTblBorderColor.value=BrClr; 			
+   		window.txtTblBorderColor.style.backgroundColor=""+BrClr; }   	 
+	return;
+}
+
+function butCellBgColor_onclick() {
+	var BgClr;
+	BgClr=window.showModalDialog("selcolor.html", "", "dialogWidth:22em; dialogHeight:23em" );
+	if (BgClr != null)  {	
+   		txtCellBgColor.value=BgClr; 			
+  		window.txtCellBgColor.style.backgroundColor=""+BgClr;  }
+	return;
+}
+
+function butCancel_onclick() {
+	window.close();
+}
+-->
+</SCRIPT>
+
+<script language="JScript" for="window" event="onload">
+  var s;
+  var i;
+  for ( elem in window.dialogArguments )
+  {
+    switch( elem )
+    {
+    case "vTWidth":
+	var w;
+	var l;
+	w=window.dialogArguments["vTWidth"];
+	l=w.length;
+	s="";
+	for(i=0;i<=l;i++) {
+		if(w.charAt(i)!="%") {
+			s=s+w.charAt(i);
+		}
+	}
+	txtTblWidth.value=s;
+	gW=Math.abs(s);
+      //txtTblWidth.value = window.dialogArguments["vTWidth"];
+      break;
+    case "vTAlign":
+      selTblAlign.value = window.dialogArguments["vTAlign"];
+      break;
+    case "vTBrSize":
+      txtTblBorderSize.value = window.dialogArguments["vTBrSize"];
+      break;
+    case "vTBrClr":
+      txtTblBorderColor.value = window.dialogArguments["vTBrClr"];
+	  txtTblBorderColor.style.backgroundColor=""+window.dialogArguments["vTBrClr"];       
+      break;      
+    case "vCellSp":
+      txtTblCellSpacing.value = window.dialogArguments["vCellSp"];
+      break;
+    case "vCellPd":
+      txtTblCellPadding.value = window.dialogArguments["vCellPd"];
+      break;     
+    }
+  }
+</script>
+
+<SCRIPT LANGUAGE=JavaScript FOR=Ok EVENT=onclick>
+<!--
+	var vArr=new Array();	
+   	//vArr["vTRows"]=Math.abc(txtTblRows.value);
+	//vArr["vTCols"]=Math.abs(txtTblColumns.value);
+
+	if(Math.abs(txtTblWidth.value)<=0) {
+		window.alert("Table Width an integer between 1 and 100");
+		txtTblWidth.focus();
+		return;				
+	}
+
+	if(Math.abs(txtTblWidth.value)>100) {
+		window.alert("Table Width Not more than 100%");
+		txtTblWidth.focus();
+		return;
+	}
+	vArr["vTWidth"]=Math.abs(txtTblWidth.value)+"%";	  
+	vArr["vTAlign"]=selTblAlign.value;	
+	vArr["vTBrSize"]=Math.abs(txtTblBorderSize.value);
+	vArr["vTBrClr"]=txtTblBorderColor.value;
+	vArr["vCellSp"]=Math.abs(txtTblCellSpacing.value);
+	vArr["vCellPd"]=Math.abs(txtTblCellPadding.value);
+	//vArr["vCellBgClr"]=txtCellBgColor.value;     
+      //vArr["vCellVerAlign"]=selCellVertAlign.value;
+    window.returnValue = vArr;
+    window.close();    
+  -->
+</SCRIPT>
+</HEAD>
+
+<BODY>
+
+<DIV> &nbsp; </DIV>  
+      
+<FIELDSET ALIGN=center ID=FS1><LEGEND>Table attributes</LEGEND>    
+	<TABLE>
+		<TR>
+          <td class="text">Width(%):</td>
+          <td class="inputs"><INPUT name=txtTblWidth type="text" size="3" maxlength="3" onkeypress="event.returnValue=isInt();" onblur="return txtTblWidth_onblur()"></td>  
+          <td class="text">Alignment:</td>
+          <td class="inputs"><SELECT id=selTblAlign name=selTblAlign> 
+								<OPTION selected value="left">left
+								<OPTION value="right">right
+								<OPTION value="center">center</OPTION>
+							 </SELECT> </TD>
+		</TR>                          
+        
+        <TR>
+			<td class="text">Border size:</td>
+			<td class="inputs"><INPUT name=txtTblBorderSize type="text" size="3" maxlength="2" onkeypress="event.returnValue=isInt();"  onblur="return txtTblBorderSize_onblur()"></td>  
+            <td class="text">Border color:</td>
+			<td class="inputs"><INPUT name=txtTblBorderColor type="text" size="11" maxlength="11" DISABLED><INPUT name=butTblBorderColor style="HEIGHT: 24px; WIDTH: 26px" type=button value=... LANGUAGE=javascript onclick="return butTblBorderColor_onclick()"> </td>
+        </TR>
+
+        <TR>
+			<td class="text">Cell spacing:</td>
+			<td class="inputs"><INPUT name=txtTblCellSpacing type="text" size="3" maxlength="2" onkeypress="event.returnValue=isInt();" onblur="return txtTblCellSpacing_onblur()"></td>  
+			<td class="text">Cell padding:</td>
+			<td class="inputs"><INPUT name=txtTblCellPadding type="text" size="3" maxlength="2" onkeypress="event.returnValue=isInt();" onblur="return txtTblCellPadding_onblur()"></td>  
+		</TR>
+	</TABLE>
+</FIELDSET>
+<DIV>&nbsp;</DIV>
+
+<div class="controls">
+<input id="Ok" class="button" type="button" value="     OK     "> 
+<input class="button" type="button" value="  Cancel  " onclick="window.close();" id=button1 name=button1>
+</div>
+<DIV>&nbsp;</DIV>
+</BODY>
+</HTML>

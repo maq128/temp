@@ -1,0 +1,38 @@
+<html>
+<head>
+<title>test</title>
+<meta http-equiv="Content-Type" content="text/html; charset=GBK" />
+</head>
+
+<body>
+<button id="btnOk" onclick="onBtnOkClick()">btnOk</button>
+
+<script language="Javascript">
+var obj = document.all.btnOk;
+//eval('function obj::onclick(){alert("xxx");}');
+
+function btnOk::onclick()
+{
+    alert( 'Ok from function btnOk::onclick()' );
+}
+
+function onBtnOkClick()
+{
+    alert( 'Ok from function onBtnOkClick()' );
+}
+</script>
+
+<script language="VBScript">
+Sub btnOk_onclick()
+    MsgBox "Ok from Sub btnOk_onclick()"
+End Sub
+</script>
+
+<script language="Javascript">
+function obj::xonclick()
+{
+    alert( 'Ok from function obj::onclick()' );
+}
+</script>
+</body>
+</html>

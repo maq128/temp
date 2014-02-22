@@ -1,0 +1,25 @@
+<html>
+<head>
+<title>test</title>
+<meta http-equiv="Content-Type" content="text/html; charset=GBK" />
+</head>
+
+<body>
+<script language="Javascript">
+    try {
+        var probe = new ActiveXObject("KDLogin.Accts");
+        var server = "";
+        probe.GetList(server);
+        for (var i=0; i<probe.Count; i++) {
+            document.write("server: " + server);
+            document.write("<br>Name: " + probe.item(i+1).Name);
+            document.write("<br>Number: " + probe.item(i+1).Number);
+            document.write("<br>ID: " + probe.item(i+1).ID);
+            document.write("<br>Version: " + probe.item(i+1).Version);
+        }
+    } catch(E){
+        alert("" + E.number + " : " + E.description);
+    }
+</script>
+</body>
+</html>

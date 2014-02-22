@@ -1,0 +1,49 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>图片尺寸自适应</title>
+<style>
+    body,table,tr,td {margin:0;padding:0;border:0;text-align:center;vertical-align:middle;}
+</style>
+<script>
+var imgOrigWidth = 1;
+var imgOrigHeight = 1;
+
+function doInit() {
+    imgOrigWidth = oImg.width;
+    imgOrigHeight = oImg.height;
+}
+
+function doResize() {
+    var imgWidth = imgOrigWidth; if (imgWidth < 5) imgWidth = 5;
+    var imgHeight= imgOrigHeight;if (imgHeight< 5) imgHeight= 5;
+    var canvasWidth = document.body.clientWidth; if (canvasWidth < 5) canvasWidth = 5;
+    var canvasHeight= document.body.clientHeight;if (canvasHeight< 5) canvasHeight= 5;
+
+    if ( imgWidth <= canvasWidth && imgHeight <= canvasHeight ) {
+        oImg.removeAttribute( "width" );
+        oImg.removeAttribute( "height" );
+        return;
+    }
+
+    if ( imgWidth/canvasWidth > imgHeight/canvasHeight ) {
+        oImg.width = canvasWidth-4;
+        oImg.removeAttribute( "height" );
+    } else {
+        oImg.removeAttribute( "width" );
+        oImg.height = canvasHeight-4;
+    }
+}
+</script>
+</head>
+
+<body scroll="no" onload="doInit();doResize()" onresize="doResize()">
+
+<table width="100%" height="100%" border="0">
+<tr><td id="oCanvas">
+<img id="oImg" src="small.jpg">
+</td></tr>
+</table>
+
+</body>
+</html>

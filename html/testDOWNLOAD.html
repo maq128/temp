@@ -1,0 +1,19 @@
+<html>
+<head><title>testDOWNLOAD</title>
+<script>
+function onDownloadDone(s) {
+    alert(s);
+}
+</script>
+
+</head>
+
+<body>
+click
+<A ID="oDownload"
+   STYLE="behavior:url(#default#download)"
+   HREF="javascript:oDownload.startDownload('testDOWNLOAD.html', onDownloadDone)">
+here</A>
+to download this file.
+</body>
+</html>

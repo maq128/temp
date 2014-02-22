@@ -1,0 +1,23 @@
+body {margin:0;font-family:"MS Sans Serif";font-size:9pt;}
+TD{font-family:"MS Sans Serif";font-size:9pt;}
+.statusDisplay{border: 1px solid; border-color:  buttonshadow buttonhighlight buttonhighlight buttonshadow;font-family:"MS Sans Serif";font-size:9pt;}
+#dFileViewBorder{width:100%;overflow:hidden;height:300px;padding:2px;border-width: 1px;border-style: solid;border-color: buttonhighlight buttonshadow buttonshadow buttonhighlight ;background-Color:buttonface;}
+#dFileView{width:100%;overflow:hidden;border-width: 1px; border-style: solid; border-color: buttonshadow buttonhighlight buttonhighlight buttonshadow; background-Color:#ffffff;}
+#dFileListingHeader SPAN {border-width: 1px; border-style: solid;border-color: buttonhighlight buttonshadow buttonshadow buttonhighlight ; background-Color:buttonface;}
+#dFileListing{height:255px; width:100%; overflow:auto; behavior:url(includes/recordset.htc);}
+#tFileListing{table-layout: fixed;}
+.File{margin-left: 5px;}
+.FileName, .FileSize, .FileDateLastMod, .FileAttrib, .FileMode, #dFileListingHeader SPAN{ overflow:hidden; hieght:12px; cursor: default; padding: 0px 3px;}
+.FileIcon{width:15px; height:17px; margin-right:5px;}
+.FileName, #lFileName{width:100%;}
+.FileSize{width:45px; text-align:right;}
+#lFileSize{width:100%;text-align:right;}
+.FileSizeLabel{width:15px;}
+.FileDateLastMod, #lFileDateLastMod{width:100%;}
+#sortArrow{width:8px;height:7px;margin-left:10px;}
+.recordRow{behavior:url(record.htc);}
+.toolBar {background: buttonface; border-width: 1px; border-style: solid;border-color: buttonhighlight buttonshadow buttonshadow buttonhighlight ;height: 1px;width:1px;padding: 1px;  width:100%;}    
+.toolBar td img	{margin-right: 2px;}
+.button {behavior:url(button.htc);  width:1px; height:1px; background:buttonface;border:1px solid buttonface;padding:1px;cursor:default;font-family:"MS Sans Serif";font-size:9pt;}
+.separator	{width: 2; height: 100%; border-left: 1 solid buttonshadow;	border-right: 1 solid buttonhighlight;}
+.handle	{width: 2; height: 10;border-style: solid;border-width:1px 1px 1px 2px; border-color: buttonhighlight buttonshadow buttonshadow buttonhighlight;}

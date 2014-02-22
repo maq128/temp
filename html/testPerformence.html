@@ -1,0 +1,26 @@
+<html>
+<head>
+<title>testPerformence</title>
+</head>
+
+<body>
+<script>
+var dt1 = new Date();
+var t1 = "" + dt1.getHours() + ":" + dt1.getMinutes() + ":" + dt1.getSeconds() + "." + dt1.getMilliseconds();
+
+document.write("<TABLE width=100% border=1>");
+for (var i=0; i<10000; i++) {
+    document.write("<tr>");
+    document.write("<td>" + i + "</td>");
+    document.write("<td>" + (new Date()).getTime() + "</td>");
+    document.write("</tr>");
+}
+document.write("</TABLE>");
+
+var dt2 = new Date()
+var t2 = "" + dt2.getHours() + ":" + dt2.getMinutes() + ":" + dt2.getSeconds() + "." + dt2.getMilliseconds();
+alert("stat - \r\n" + t1 + "\r\n" + t2 + ", " + ((dt2.getTime() - dt1.getTime())/1000.0));
+</script>
+
+</body>
+</html>

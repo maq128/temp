@@ -1,0 +1,61 @@
+<html>
+<head><title>testADO</title>
+<style>
+  body {font-size:9pt;margin:5pt;}
+  th, td {font-size:9pt;}
+</style>
+</head>
+
+<body>
+<pre>
+<script>
+{
+    var s1 = 'g'.charCodeAt(0);
+    var s2 = 'y'.charCodeAt(0);
+    var plain = "passworda";
+    for (var i=0; i<plain.length; i++) {
+        var c = plain.charCodeAt(i);
+
+        document.write( (new Number(c)).toString(16) );
+
+        var r1 = Math.floor((c + (s2 - s1)) / 26) + 0x61;
+        document.write( " " );
+        document.write( (new Number(r1)).toString(16) );
+
+        document.write( "(" );
+        document.write( String.fromCharCode(r1) );
+        document.write( ")" );
+
+        var r2 = (c + (s2 - s1)) % 26 + 0x61;
+        document.write( " " );
+        document.write( (new Number(r2)).toString(16) );
+
+        document.write( "(" );
+        document.write( String.fromCharCode(r2) );
+        document.write( ")" );
+
+        document.write( "\r\n" );
+    }
+}
+document.write("<hr>");
+{
+    var cipher = "avefjgffokffksefhz";
+    var s1 = cipher.charCodeAt(0);
+    var s2 = cipher.charCodeAt(cipher.length - 1);
+    for (var i=cipher.length-2, k=0; i > 0; i -= 2, k = 1-k) {
+        var c = cipher.charCodeAt(i - k);
+
+        document.write( String.fromCharCode(c) );
+
+        var p = c - (s2 - s1 - 7);
+        if (p < "a".charCodeAt(0)) p += 26;
+        document.write( " " );
+        document.write( String.fromCharCode(p) );
+
+        document.write( "\r\n" );
+    }
+}
+</script>
+</pre>
+</body>
+</html>

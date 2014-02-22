@@ -1,0 +1,85 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>秒表</title>
+</head>
+
+<body onkeyup="begin(event)"  onkeydown="stop(event)" >
+<script type=text/javascript>
+var then;
+
+var running=0;
+var timeint;
+var i=0;
+var totalsec;
+var sec;
+var min;
+var subsec;
+var secdis;
+var mindis;
+var subsecdis;
+
+function stop(evt) {
+    if (running==1 && evt.keyCode==32) {
+        clearTimeout(timeint);
+    }
+}
+
+function begin(evt) {
+    if (evt.keyCode==32) {
+        if (running==0) {
+            then=new Date();
+            running=1;
+            show();
+        } else if (running==1) {
+            running=2;
+        } else {
+            document.getElementById("watch").innerHTML="00:00.00";
+            running=0;
+        }
+    }
+}
+
+function show() {
+    var now=new Date();
+    diff=now.getTime()-then.getTime();
+    //i++;
+    totalsec=Math.floor(diff/1000);
+    sec=totalsec%60;
+
+    if (sec<10)
+        secdis="0"+sec;
+    else
+        secdis=sec;
+
+    min=(totalsec-sec)/60;
+
+    if (min<10)
+        mindis="0"+min;
+    else
+        mindis=min;
+
+    subsec=Math.floor((diff%1000)/10);
+
+    if (subsec<10)
+        subsecdis="0"+subsec;
+    else
+        subsecdis=subsec;
+
+    document.getElementById("watch").innerHTML=mindis+":"+secdis+"."+subsecdis;
+    timeint=setTimeout("show()",50)
+}
+
+</script>
+
+<center>
+<div id="watch" style="width: 359px; height: 80px ; font-size:48pt; font-family:Arial; font-weight:bold; color:navy; text-align:center" >00:00.00</div>
+<p>
+用<font color="#000080"><b>空格</b></font>键开始(key up)、停止(key down)、复位，enjoy：）</p>
+<p><b><font color="#FF0000">注意：</font></b>请先最大化窗口或拉伸窗口使右边的滚动条不出现，否则空格键会让窗口滚动。
+</p>
+</center>
+
+</body>
+</html>

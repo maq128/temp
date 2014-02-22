@@ -1,0 +1,28 @@
+<html>
+<head>
+<title>test Dialog</title>
+<meta http-equiv="Content-Type" content="text/html; charset=GBK" />
+
+<script>
+<!--
+function dlg1() {
+    window.showModalDialog("testDlg.dlg", null, "dialogWidth:380px;dialogHeight:180px;status:no");
+}
+
+var dlgModeless;
+function dlg2() {
+    if (dlgModeless == null || dlgModeless.closed)
+        dlgModeless = window.showModelessDialog("testDlg.dlg", null, "dialogWidth:380px;dialogHeight:180px;status:no");
+    dlgModeless.focus();
+}
+-->
+</script>
+</head>
+
+<body>
+
+<button onclick="dlg1()">window.showModalDialog</button>
+<button onclick="dlg2()">window.showModelessDialog</button>
+
+</body>
+</html>

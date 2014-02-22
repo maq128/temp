@@ -1,0 +1,205 @@
+<html>
+<head><title>testSQL</title>
+<style>
+    body {font-size:10pt;margin:5pt;}
+    table {border:1px solid black;}
+    th, td {font-size:10pt;border:1px solid black;}
+    .msg {font-size:10pt;color:gray;}
+</style>
+
+<script language="Javascript">
+var conn;
+var rs;
+var fieldCount;
+var rowCount;
+var batchCount = 10;
+var bStop;
+
+function stopIt() {
+    bStop = true;
+}
+
+function fetchRow() {
+    if (!bStop) {
+        for (var batch=0; batch<batchCount && !rs.EOF; batch++) {
+            var oTR = document.createElement("TR");
+            document.all.oRows.insertAdjacentElement("beforeEnd", oTR);
+            for (var i=0; i<fieldCount; i++) {
+                var value = "" + rs(i);
+                var oTD = document.createElement("TD");
+                oTR.insertAdjacentElement("beforeEnd", oTD);
+                oTD.noWrap="true";
+                if (value != "null") {
+                    oTD.innerText = value;
+                } else {
+                    //oTD.innerHTML = "<font color=silver>null</font>";
+                    oTD.bgColor = "#eeeeee";
+                }
+            }
+            rs.MoveNext();
+            document.all.oRowCount.innerText = ++rowCount;
+        }
+        if (rs.EOF) bStop = true;
+        window.setTimeout(fetchRow, 0);
+    } else {
+        rs.close();
+        conn.close();
+        document.all.btnStop.style.display = "none";
+    }
+}
+
+function startQuery(connString, sqlString) {
+    try {
+        conn = new ActiveXObject("ADODB.Connection");
+        conn.Open(connString);
+
+        if (false) {
+            strMsg = "";
+            var propEnum = new Enumerator(conn.properties)
+            for (i=0; !propEnum.atEnd(); propEnum.moveNext()) {
+                var prop = propEnum.item();
+                strMsg += "" + (i++) + ": " + prop.name + " [" + prop.value + "]<br>";
+            }
+            document.all("msg").innerHTML = strMsg;
+        }
+
+        rs = conn.Execute(sqlString);
+        fieldCount = 0;
+        var oTR = document.createElement("TR");
+        document.all.oRows.insertAdjacentElement("beforeEnd", oTR);
+        for(var fieldEnum = new Enumerator(rs.Fields); !fieldEnum.atEnd(); fieldEnum.moveNext()) {
+    	    field = fieldEnum.item();
+    	    fieldCount ++;
+
+            var oTH = document.createElement("TH");
+            oTR.insertAdjacentElement("beforeEnd", oTH);
+            oTH.noWrap="true";
+            oTH.innerText = field.Name + "(" + field.Type + ")";
+        }
+        document.all.oTotalRowCount.innerText = rs.RecordCount;
+
+        rowCount = 0;
+        bStop = false;
+        window.setTimeout(fetchRow, 1);
+
+    } catch (E) {
+        alert("" + E.number + " : " + E.description);
+    }
+}
+
+function doIt() {
+
+    // 参考 http://www.ConnectionStrings.com
+
+    // 中达集团
+    connString = "Driver={SQL Server};Server=localhost;Database=standby  database;Uid=sa;Pwd=password;";
+    sqlString = "SELECT"
+                + " ACODE AS AccountID,"
+                + " ANAME AS AccountName,"
+                + " DC AS BalanceFlag"
+              + " FROM ACODE"
+              + " ORDER BY ACODE";
+    sqlString = 
+        "SELECT DISTINCT"
+      +     " aa.ACODE AS AccountID,"
+      +     " SUM(CASE WHEN aa.MONTH=bb.MONTH THEN aa.RMBBALANCE ELSE 0 END) AS Amount"
+      + " FROM"
+      +     " (SELECT ACODE.ACODE,BALANCE.RMBBALANCE,BALANCE.MONTH"
+      +     " FROM ACODE LEFT JOIN BALANCE ON ACODE.ACODE=BALANCE.ACODE"
+      +     ") aa,"
+      +     " (SELECT TOP 1 MONTH FROM MONTHLOGB) bb"
+      + " GROUP BY aa.ACODE"
+      + " ORDER BY AccountID";
+    sqlString = 
+        "SELECT"
+      +     " '' AS VoucherID,"
+      +     " b.VDATE AS VDate,"
+      +     " CAST(b.MONTH AS VARCHAR(2))+(SELECT VNAME FROM VTYPE a WHERE a.VTYPE=b.VTYPE) AS VType,"
+      +     " b.VNO AS VNumber,"
+      +     " ISNULL(a.VAPPENDIX,0) AS AttNumber,"
+      +     " '' AS EntryID,"
+      +     " b.ACODE AS AccountID,"
+      +     " b.EXPL AS EDesc,"
+      +     " (CASE b.VDC WHEN 1 THEN b.RMB ELSE 0 END) AS DebitAmount,"
+      +     " (CASE b.VDC WHEN -1 THEN b.RMB ELSE 0 END) AS CreditAmount" 
+      + " FROM"
+      +     " IVOUCHER b,"
+      +     " HVOUCHER a"
+      + " WHERE b.MONTH=a.MONTH"
+      +   " AND b.VTYPE=a.VTYPE"
+      +   " AND b.VNO=a.VNO"
+      +   " AND b.YEAR=a.YEAR"
+      +   " AND a.VCHECK IS NOT NULL"
+      +   " AND a.VKEEPER IS NOT NULL"
+      + " ORDER BY VDATE,VTYPE,VNUMBER,AccountID";
+    sqlString = "SELECT TOP 1 MONTH FROM MONTHLOGB";
+
+    // 中石化威海分公司
+    xlsFile = "J:\\TEMP\\账套采集\\中石化威海分公司\\2004\\1月凭证流水查询.xls";
+    xlsFile = "J:\\TEMP\\账套采集\\中石化威海分公司\\2004\\明细余额查询.xls";
+    connString = "Driver={Microsoft Excel Driver (*.xls)};DriverId=790;FirstRowHasNames=0;Dbq=" + xlsFile + ";DefaultDir=J:\\TEMP\\账套采集\\中石化威海分公司\\2004;";
+    connString = "Driver={Microsoft Excel Driver (*.xls)};DriverId=790;Dbq=" + xlsFile + ";";
+    connString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + xlsFile + ";Extended Properties=\"Excel 8.0;HDR=NO;IMEX=1\"";
+
+    sqlString = "SELECT DISTINCT * FROM [Sheet1$A3:P10002] ORDER BY F1,F2,F3";
+    sqlString = "SELECT DISTINCT F1, F2, F3, F4, F5, F13, F14 FROM [Sheet1$A3:P10002] ORDER BY F1,F2,F3";
+    sqlString = "SELECT F1, F2, F4, F5, F13, F14 FROM [Sheet1$]";
+    sqlString = "SELECT {fn CONVERT(F4, SQL_INTEGER)},* FROM [Sheet1$]";
+    sqlString = "SELECT COUNT(*) FROM [Sheet1$]";
+    sqlString = "SELECT * FROM [Sheet1$]";
+    sqlString = "SELECT F1, F2, F3, F5, IIF(LEN(F5)=0, 1.1, 1), CInt(F5) FROM [Sheet1$A6:N1845]";
+
+    xlsFile = "J:\\TEMP\\账套采集\\中石化威海分公司\\2004\\明细余额查询.xls";
+    connString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + xlsFile + ";Extended Properties=\"Excel 8.0;HDR=NO;IMEX=1;\"";
+    sqlString = "SELECT F1 AS AccountID, F2 AS AccountName, CInt(F3) AS BalanceFlag FROM [Sheet1$A6:N1845]";
+
+    xlsFile = "J:\\TEMP\\账套采集\\中石化威海分公司\\2004\\明细余额查询.xls";
+    connString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + xlsFile + ";Extended Properties=\"Excel 8.0;HDR=NO;IMEX=1;\"";
+    sqlString = "SELECT F1 AS AccountID, (IIF(Len(F4)>0, CDbl(F4), 0) - IIF(Len(F6)>0, CDbl(F6), 0))*CInt(F3) AS Amount FROM [Sheet1$A6:N1845]";
+
+    xlsFile = "J:\\TEMP\\账套采集\\中石化威海分公司\\2004\\1月凭证流水查询.xls";
+    connString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + xlsFile + ";Extended Properties=\"Excel 8.0;HDR=NO;IMEX=1;\"";
+    sqlString = "SELECT DISTINCT Right(F1,5)+'-'+F2 AS VoucherID, F1 AS VDate, '凭' AS VType, F3 AS VNumber, 0 AS AttNumber, '' AS EntryID, F5 AS AccountID, F4 AS Descrip, IIF(Len(F13)>0, CDbl(F13), 0) AS DebitAmount, IIF(Len(F14)>0, CDbl(F14), 0) AS CreditAmount FROM [Sheet1$A3:P10002] WHERE Left(F1, 4)='2004' ORDER BY 2,1,3,4";
+    sqlString = "SELECT DISTINCT F5 AS AccountID, F1 AS VDate, '凭' AS VType, F2 AS VNumber, 0 AS AttNumber, F4 AS Descrip, IIF(Len(F13)>0, CDbl(F13), 0) AS DebitAmount, IIF(Len(F14)>0, CDbl(F14), 0) AS CreditAmount FROM [Sheet1$A3:P10002] WHERE Left(F1, 4)='2004' ORDER BY 2,3,4,1";
+
+    document.all.oConnString.innerText = connString;
+    document.all.oSqlString.innerText = sqlString;
+    document.all.oRowCount.innerText = "0";
+
+    startQuery(connString, sqlString);
+}
+</script>
+</head>
+
+<body onload="doIt()">
+
+<div id="msg" class="msg"></div>
+
+<table border="1" cellspacing="0" style="border-collapse:collapse;">
+<tr>
+    <th align="right">connString:</th>
+    <td id="oConnString" colspan="2"></td>
+</tr>
+<tr>
+    <th align="right">sqlString:</th>
+    <td id="oSqlString" colspan="2"></td>
+</tr>
+<tr>
+    <th align="right">rows:</th>
+    <td style="padding:0 20 0 20" nowrap>
+        <span id="oRowCount">z</span>
+        /
+        <span id="oTotalRowCount">z</span>
+    </td>
+    <td width="90%" style="padding-left:20"><a id="btnStop" href="#" onclick="stopIt();return false;">Stop !</a></td>
+</tr>
+</table>
+
+<br>
+
+<table border="1" cellspacing="0" style="border-collapse:collapse;">
+<tbody id="oRows">
+</tbody>
+</table>
+</body>
+</html>

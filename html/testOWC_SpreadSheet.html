@@ -1,0 +1,53 @@
+<html>
+<head>
+<title>test OWC - SpreadSheet</title>
+
+<script>
+function initData() {
+    //ss1.HTMLURL = "http://localhost:335/Page1.htm";
+    //ss1.xLoadText("D:\\Maq\\Work\\ASK\\dist\\webroot\\test.csv");
+    //alert(ss1.HTMLData);
+}
+</script>
+</head>
+
+<body onload="initData()">
+
+<XML id="dbXML">
+<data>
+  <row>
+     <Stat_Date>2003-06-01</Stat_Date>
+     <Call_Num>100</Call_Num>
+     <Call_Fee>200</Call_Fee>
+  </row>
+  <row>
+     <Stat_Date>2003-07-01</Stat_Date>
+     <Call_Num>200</Call_Num>
+     <Call_Fee>400</Call_Fee>
+  </row>
+</data>
+</XML>
+
+<textarea id="oMsg" cols="110" rows="15"></textarea>
+
+<br>
+<button onclick="document.all.oMsg.innerText = ss1.HTMLData;">Ã·»° HTML</button>
+<button onclick="ss1.HTMLData = document.all.oMsg.innerText;">◊¢»Î HTML</button>
+
+<table datasrc="#dbXML" style="width:100%;BORDER-COLLAPSE: collapse;" border=1 cellpadding=0 cellspacing=0>
+   <tr>
+    <td><div type=text datafld=Stat_Date></div></td>
+    <td><div type=text datafld=Call_Num></div></td>
+    <td><div type=text datafld=Call_Fee></div></td>
+   </tr>
+</table>
+
+<OBJECT
+    id="ss1"
+    DATASRC="#dbXML"
+    style="WIDTH:400px;TOP:0px;HEIGHT:280px"
+    classid=clsid:0002E510-0000-0000-C000-000000000046 VIEWASTEXT>
+</OBJECT>
+
+</body>
+</html>

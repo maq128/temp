@@ -1,0 +1,52 @@
+<html>
+<head><title>test</title>
+<style>
+    body {font-size:10pt;margin:5pt;}
+    th, td {font-size:10pt;}
+    .msg {font-size:10pt;color:gray;}
+</style>
+</head>
+
+<body>
+<script language="Javascript">
+    connString = "Provider=SQLOLEDB;Data Source=maq;Initial Catalog=Sample;User ID=sa;Password=;";
+    sqlString = "SELECT FGroupID, FName FROM T_AcctGroup";
+    document.write("<b>connString:</b> " + connString);
+    document.write("<br><b>sqlString:</b> " + sqlString);
+</script>
+<div id="msg" class="msg"></div>
+<table border="1">
+<colgroup width=50>
+<colgroup width=300>
+<script language="Javascript">
+    try {
+        conn = new ActiveXObject("ADODB.Connection");
+        conn.Open(connString);
+        //conn.properties("Password") = "xx";
+
+        if (false) {
+            strMsg = "";
+            var propEnum = new Enumerator(conn.properties)
+            for (i=0; !propEnum.atEnd(); propEnum.moveNext()) {
+                var prop = propEnum.item();
+                strMsg += "" + (i++) + ": " + prop.name + " [" + prop.value + "]<br>";
+            }
+            document.all("msg").innerHTML = strMsg;
+        }
+        rs = conn.Execute(sqlString);
+    
+        //alert(typeof(rs));
+        while (!rs.EOF) {
+            document.write("<tr><td>" + rs(0) + "</td><td>" + rs(1) + "</td></tr>");
+            rs.MoveNext();
+        }
+    
+        rs.close();
+        conn.close();
+    } catch (E) {
+        alert("" + E.number + " : " + E.description);
+    }
+</script>
+</table>
+</body>
+</html>

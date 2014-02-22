@@ -1,0 +1,41 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>Anit Jail Breaking</title>
+<style>
+    body {font-size:10pt;margin:5pt;}
+</style>
+
+<script>
+var bCheck = true;
+
+function onTimeOut()
+{
+    bCheck = false;
+}
+
+function onLoad()
+{
+    window.setTimeout( onTimeOut, 1000 );
+}
+
+function onUnLoad()
+{
+    if ( bCheck ) {
+        window.event.returnValue = '如果选择“确定”将跳转到“只显示目标网摘页面”的状态。';
+    }
+}
+</script>
+</head>
+
+<body onload="onLoad()" onbeforeunload="onUnLoad()">
+
+<div id="oMsg" style="border:1 dotted gray;">
+Anit Jail Breaking
+</div>
+
+<iframe width=800 height=600 frameborder=1 scrolling=auto src="http://wiki.mbalib.com/wiki/%E3%80%8A22%E6%9D%A1%E5%95%86%E8%A7%84%E3%80%8B"></iframe>
+
+</body>
+</html>

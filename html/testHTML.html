@@ -1,0 +1,35 @@
+<html>
+<head><title>testHTML</title>
+<script>
+function doSomething()
+{
+    alert("[" + typeof(cbFunc) + "]");
+    if (typeof(cbFunc) == "function") cbFunc();
+}
+function cbFuncx() {
+    alert("hi - I'm callback !");
+}
+
+function doLoad() {
+    alert("doLoad()");
+}
+function doUnload() {
+    alert("doUnload()");
+}
+
+function doClick() {
+    alert(event.srcElement.tagName + " - " + event.srcElement.canHaveHTML);
+}
+</script>
+
+</head>
+
+<body onLoad="doLoad()" onUnload="doUnload()" onclick="doClick()">
+<form name="theForm">
+    <input type=file onpropertychange="doSomething()" name=theFile>
+    <p>
+    <input type=button value=²âÊÔ onclick="doSomething()">
+</form>
+<img src="">
+</body>
+</html>

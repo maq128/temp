@@ -1,0 +1,236 @@
+<HTML>
+<HEAD>
+<TITLE>Insert Symbol</TITLE>
+<!--This html file is used to insert other non keyboard characters.
+this is called from the ShowEditor.htm file by pressing insert special characters icon.
+we can select any given character and press ok. this character is pasted at the cursor position.
+ -->
+<!--Local style to this window -->
+<STYLE TYPE="text/css">
+ BODY   {margin-left:10; font-family:Verdana; font-size:12; background:menu}
+ BUTTON {width:5em}
+ P      {text-align:center}
+ TABLE  {cursor:hand}
+</STYLE>
+
+<SCRIPT LANGUAGE=JavaScript FOR=ChrTable EVENT=onclick>
+<!--
+//when clicking on the character in the character table.
+//return value is the selected special character.
+  SelChr.value = event.srcElement.title;
+// -->
+</SCRIPT>
+
+<SCRIPT LANGUAGE=JavaScript FOR=ChrTable EVENT=onmouseover>
+<!--
+// to display the mouseover character.
+  text = event.srcElement.title;
+  RGB.innerText = text;
+// -->
+</SCRIPT>
+
+<SCRIPT LANGUAGE=JavaScript FOR=ChrTable EVENT=onmouseout>
+<!--
+  RGB.innerText = " ";//empty 
+// -->
+</SCRIPT>
+
+<SCRIPT LANGUAGE=JavaScript FOR=Ok EVENT=onclick>
+<!--
+  var SelSym;			//New 19/04/02
+  SelSym=SelChr.value;
+  if (SelSym.length==0)
+  {
+	  window.alert("Select Any Character and press OK");
+	  return;
+  } 	
+  else
+  {	 
+	window.returnValue = SelChr.value;		//return value is the selected spc. character.
+	window.close();							//close the window
+  }
+  
+// -->
+</SCRIPT>
+
+<SCRIPT ID=clientEventHandlersJS LANGUAGE=javascript>
+<!--
+
+function SelChr_onkeypress() {
+event.returnValue=false;//to disable the keypress event. not allow user to type anything in it
+}
+
+function window_onload() {
+ SelChr.disabled=true; ////to disable the selchr text box. not allow user to type anything in it
+}
+
+//-->
+</SCRIPT>
+</HEAD>
+
+<!-- Copyright 1999 Microsoft Corporation. All rights reserved. -->
+<BODY LANGUAGE=javascript onload="return window_onload()">
+<!-- <DIV> &nbsp; </DIV> -->
+<P>
+<TABLE ID=ChrTable  BORDER=1  BORDERCOLOR=SILVER  BORDERCOLORLIGHT=WHITE  BORDERCOLORDARK=BLACK  CELLSPACING=0  CELLPADDING=0>
+<TR>
+
+</TR>
+<TR>
+	<TD TITLE=&amp;#033;>&#033;</TD>
+	<TD TITLE=&amp;#34;>"</TD>
+	<TD TITLE=&amp;#35;>#</TD>
+	<TD TITLE=&amp;#36;>$</TD>
+	<TD TITLE=&amp;#37;>&#037;</TD>
+	<TD TITLE=&amp;#38;>&amp;</TD>
+	<TD TITLE=&amp;#39;>&#039;</TD>
+	<TD TITLE=&amp;#40;>&#040;</TD>
+	<TD TITLE=&amp;#41;>&#041;</TD>
+	<TD TITLE=&amp;#42;>&#042;</TD>
+	<TD TITLE=&amp;#43;>&#043;</TD>
+	<TD TITLE=&amp;#44;>&#044;</TD>
+	<TD TITLE=&amp;#45;>&#045;</TD>
+	<TD TITLE=&amp;#46;>&#046;</TD>
+	<TD TITLE=&amp;#47;>&#047;</TD>	
+	<TD TITLE=&amp;#58;>&#058;</TD>
+	<TD TITLE=&amp;#59;>&#059;</TD>
+	<TD TITLE=&amp;#60;>&#060;</TD>
+	<TD TITLE=&amp;#61;>&#061;</TD>
+	<TD TITLE=&amp;#62;>&#062;</TD>
+	<TD TITLE=&amp;#63;>&#063;</TD>
+	<TD TITLE=&amp;#64;>&#064;</td>
+	<TD TITLE=&amp;#91;>&#091;</TD>
+	<TD TITLE=&amp;#92;>&#092;</TD>
+	<TD TITLE=&amp;#93;>&#093;</TD>
+	<TD TITLE=&amp;#94;>&#094;</TD>
+	<TD TITLE=&amp;#95;>&#095;</TD>
+	<TD TITLE=&amp;#96;>&#096;</TD>
+	<TD TITLE=&amp;#123;>&#123;</TD>
+	<TD TITLE=&amp;#124;>&#124;</TD>
+	<TD TITLE=&amp;#125;>&#125;</TD>
+</TR>
+
+<TR>	
+	<TD TITLE=&amp;#126;>&#126;</TD>	
+	
+	<TD TITLE=&amp;#161;>&#161;</TD>
+	<TD TITLE=&amp;#162;>&#162;</TD>
+	<TD TITLE=&amp;#163;>&#163;</TD>
+	<TD TITLE=&amp;#164;>&#164;</TD>
+	<TD TITLE=&amp;#165;>&#165;</TD>
+	<TD TITLE=&amp;#166;>&#166;</TD>
+	<TD TITLE=&amp;#167;>&#167;</TD>
+	<TD TITLE=&amp;#168;>&#168;</TD>
+	<TD TITLE=&amp;#169;>&#169;</TD>
+	<TD TITLE=&amp;#170;>&#170;</TD>
+	<TD TITLE=&amp;#171;>&#171;</TD>
+	<TD TITLE=&amp;#172;>&#172;</TD>
+	<TD TITLE=&amp;#173;>&#173;</TD>
+	<TD TITLE=&amp;#174;>&#174;</TD>
+	<TD TITLE=&amp;#175;>&#175;</TD>
+	<TD TITLE=&amp;#176;>&#176;</TD>
+	<TD TITLE=&amp;#177;>&#177;</TD>
+	<TD TITLE=&amp;#178;>&#178;</TD>
+	<TD TITLE=&amp;#179;>&#179;</TD>
+	<TD TITLE=&amp;#180;>&#180;</TD>
+	<TD TITLE=&amp;#181;>&#181;</TD>
+	<TD TITLE=&amp;#182;>&#182;</TD>
+	<TD TITLE=&amp;#183;>&#183;</TD>
+	<TD TITLE=&amp;#184;>&#184;</TD>
+	<TD TITLE=&amp;#185;>&#185;</TD>
+	<TD TITLE=&amp;#186;>&#186;</TD>
+	<TD TITLE=&amp;#187;>&#187;</TD>
+	<TD TITLE=&amp;#188;>&#188;</TD>
+	<TD TITLE=&amp;#189;>&#189;</TD>
+	<TD TITLE=&amp;#190;>&#190;</TD>
+</TR>
+<TR>	
+
+	<TD TITLE=&amp;#191;>&#191;</TD>
+	<TD TITLE=&amp;#192;>&#192;</TD>
+	<TD TITLE=&amp;#193;>&#193;</TD>
+	<TD TITLE=&amp;#194;>&#194;</TD>
+	<TD TITLE=&amp;#195;>&#195;</TD>
+	<TD TITLE=&amp;#196;>&#196;</TD>
+	<TD TITLE=&amp;#197;>&#197;</TD>
+	<TD TITLE=&amp;#198;>&#198;</TD>
+	<TD TITLE=&amp;#199;>&#199;</TD>
+	<TD TITLE=&amp;#200;>&#200;</TD>
+	<TD TITLE=&amp;#201;>&#201;</TD>
+	<TD TITLE=&amp;#202;>&#202;</TD>
+	<TD TITLE=&amp;#203;>&#203;</TD>
+	<TD TITLE=&amp;#204;>&#204;</TD>
+	<TD TITLE=&amp;#205;>&#205;</TD>
+	<TD TITLE=&amp;#206;>&#206;</TD>
+	<TD TITLE=&amp;#207;>&#207;</TD>
+	<TD TITLE=&amp;#208;>&#208;</TD>
+	<TD TITLE=&amp;#209;>&#209;</TD>
+	<TD TITLE=&amp;#210;>&#210;</TD>
+	<TD TITLE=&amp;#211;>&#211;</TD>
+	<TD TITLE=&amp;#212;>&#212;</TD>
+	<TD TITLE=&amp;#213;>&#213;</TD>
+	<TD TITLE=&amp;#214;>&#214;</TD>
+	<TD TITLE=&amp;#215;>&#215;</TD>
+	<TD TITLE=&amp;#216;>&#216;</TD>
+	<TD TITLE=&amp;#217;>&#217;</TD>
+	<TD TITLE=&amp;#218;>&#218;</TD>
+	<TD TITLE=&amp;#219;>&#219;</TD>
+   <TD TITLE=&amp;#220;>&#220;</TD>
+   <TD TITLE=&amp;#221;>&#221;</TD>
+</TR>
+<TR>		
+	
+	<TD TITLE=&amp;#222;>&#222;</TD>
+	<TD TITLE=&amp;#223;>&#223;</TD>
+	<TD TITLE=&amp;#224;>&#224;</TD>
+	<TD TITLE=&amp;#225;>&#225;</TD>
+	<TD TITLE=&amp;#226;>&#226;</TD>
+	<TD TITLE=&amp;#227;>&#227;</TD>
+	<TD TITLE=&amp;#228;>&#228;</TD>
+	<TD TITLE=&amp;#229;>&#229;</TD>
+	<TD TITLE=&amp;#230;>&#230;</TD>
+	<TD TITLE=&amp;#231;>&#231;</TD>
+	<TD TITLE=&amp;#232;>&#232;</TD>
+	<TD TITLE=&amp;#233;>&#233;</TD>
+	<TD TITLE=&amp;#234;>&#234;</TD>
+	<TD TITLE=&amp;#235;>&#235;</TD>
+	<TD TITLE=&amp;#236;>&#236;</TD>
+	<TD TITLE=&amp;#237;>&#237;</TD>
+	<TD TITLE=&amp;#238;>&#238;</TD>
+	<TD TITLE=&amp;#239;>&#239;</TD>
+	<TD TITLE=&amp;#240;>&#240;</TD>
+	<TD TITLE=&amp;#241;>&#241;</TD>
+	<TD TITLE=&amp;#242;>&#242;</TD>
+	<TD TITLE=&amp;#243;>&#243;</TD>
+	<TD TITLE=&amp;#244;>&#244;</TD>
+	<TD TITLE=&amp;#245;>&#245;</TD>
+	<TD TITLE=&amp;#246;>&#246;</TD>
+	<TD TITLE=&amp;#247;>&#247;</TD>
+	<TD TITLE=&amp;#248;>&#248;</TD>
+	<TD TITLE=&amp;#249;>&#249;</TD>
+	<TD TITLE=&amp;#250;>&#250;</TD>
+   <TD TITLE=&amp;#251;>&#251;</TD>
+	<TD TITLE=&amp;#252;>&#252;</TD>
+</TR>
+<TR>		
+
+	<TD TITLE=&amp;#253;>&#253;</TD>
+	<TD TITLE=&amp;#254;>&#254;</TD>
+	<TD TITLE=&amp;#255;>&#255;</TD>   
+   
+   <TD TITLE=&amp;#153;>&#153;</TD>   
+   <TD TITLE=&amp;#612;>&#612;</TD>   
+   <TD TITLE=&amp;#8482;>&#8482;</TD>   
+</TR>
+</TABLE>
+<P>
+<LABEL FOR=SelChr>Symbol:</LABEL>
+<INPUT TYPE=TEXT SIZE=20 ID=SelChr LANGUAGE=javascript onkeypress="return SelChr_onkeypress()">
+<BR>
+<SPAN ID=RGB>&nbsp;</SPAN>
+
+<P>
+<BUTTON ID=Ok TYPE=SUBMIT>OK</BUTTON>
+<BUTTON ONCLICK="window.close();" id=button1 name=button1>Cancel</BUTTON>
+</BODY>
+</HTML>

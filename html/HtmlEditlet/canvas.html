@@ -1,0 +1,28 @@
+<html>
+<head>
+<title>canvas</title>
+</head>
+
+<body>
+
+<script>
+var dlgEditor;
+function doEdit(title, obj) {
+    if (dlgEditor == null || dlgEditor.closed) {
+        var args = [];
+        args[0] = title;
+        args[1] = obj;
+        dlgEditor = window.showModelessDialog("editor.dlg", args, "dialogWidth:650px;dialogHeight:445px;status:no;resizable:no");
+    }
+    dlgEditor.focus();
+}
+</script>
+
+<button onclick="doEdit('µÚÒ»¶Î', oCanvas)">±à¼­</button>
+
+<div id="oCanvas" style="border:1 solid silver">
+some text.
+</div>
+
+</body>
+</html>
