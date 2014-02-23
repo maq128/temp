@@ -51,7 +51,8 @@ function parseNicks()
 			'小龙女,雅涵妈',
 			'燕芳-sonya,钦源妈',
 			'娜美,思妍妈',
-			'大熊,弘毅爸'
+			'大熊,弘毅爸',
+			'靜燃是我,若虹妈'
 		].join('\n');
 		localStorage[ 'nicks' ] = lines;
 	}
