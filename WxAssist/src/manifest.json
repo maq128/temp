@@ -1,0 +1,45 @@
+{
+	"name"              : "微信网页版助手",
+	"version"           : "0.1",
+	"manifest_version"  : 2,
+	"description"       : "微信网页版增强功能，主要是在群聊窗口显示联系人的昵称信息。",
+
+	"permissions": [
+	],
+
+	"icons": {
+		"16" : "icon16.png",
+		"48" : "icon48.png",
+		"128": "icon128.png"
+	},
+
+	"options_page": "options.html",
+
+	"background": {
+		"persistent": false,
+		"scripts": [ "background.js" ]
+	},
+
+	"content_scripts": [{
+		"matches"    : [ "*://wx.qq.com/*" ],
+		"run_at"     : "document_end",
+		"js"         : [ "content.js" ],
+		"all_frames" : true
+	}],
+
+	"externally_connectable": {
+		"matches": ["*://wx.qq.com/*"]
+	},
+
+	"browser_action": {
+		"default_icon": {
+			"19": "icon48.png",
+			"38": "icon48.png"
+		},
+		"default_title": "微信网页版助手"
+	},
+
+	"web_accessible_resources": [
+		"page.js"
+	]
+}
