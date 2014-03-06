@@ -1,10 +1,10 @@
-服务器端按照 OpenVPN Server
+服务器端安装 OpenVPN Server
 ===========================
 
 #### 使用环境
 
 	服务器：Linode VPS, CentOS 6.2 (x64)
-	客户端：Windows 8 Ent. x64
+	客户端：Windows 8 Ent (x64)
 
 #### 参考资料
 
@@ -13,29 +13,28 @@
 
 #### CentOS 上安装并配置 OpenVPN Server
 
-* rpm -Uvh http://pkgs.repoforge.org/rpmforge-release/rpmforge-release-0.5.3-1.el6.rf.x86_64.rpm
-* yum install openvpn
-* cp /usr/share/doc/openvpn-2.2.2/sample-config-files/server.conf /etc/openvpn/
-* 编辑 /etc/openvpn/server.conf 文件，内容如下
-
-	port 1194
-	proto udp
-	dev tun
-	ca /etc/openvpn/easy-rsa/keys/ca.crt
-	cert /etc/openvpn/easy-rsa/keys/server.crt
-	key /etc/openvpn/easy-rsa/keys/server.key
-	dh /etc/openvpn/easy-rsa/keys/dh1024.pem
-	server 10.8.0.0 255.255.255.0
-	push "redirect-gateway def1 bypass-dhcp"
-	keepalive 10 120
-	tls-auth /etc/openvpn/easy-rsa/keys/ta.key 0
-	comp-lzo
-	persist-key
-	persist-tun
-	status /var/log/openvpn-status.log
-	log /var/log/openvpn.log
-	log-append /var/log/openvpn.log
-	verb 3
+	rpm -Uvh http://pkgs.repoforge.org/rpmforge-release/rpmforge-release-0.5.3-1.el6.rf.x86_64.rpm
+	yum install openvpn
+	cp /usr/share/doc/openvpn-2.2.2/sample-config-files/server.conf /etc/openvpn/
+	# 编辑 /etc/openvpn/server.conf 文件，内容如下
+		port 1194
+		proto udp
+		dev tun
+		ca /etc/openvpn/easy-rsa/keys/ca.crt
+		cert /etc/openvpn/easy-rsa/keys/server.crt
+		key /etc/openvpn/easy-rsa/keys/server.key
+		dh /etc/openvpn/easy-rsa/keys/dh1024.pem
+		server 10.8.0.0 255.255.255.0
+		push "redirect-gateway def1 bypass-dhcp"
+		keepalive 10 120
+		tls-auth /etc/openvpn/easy-rsa/keys/ta.key 0
+		comp-lzo
+		persist-key
+		persist-tun
+		status /var/log/openvpn-status.log
+		log /var/log/openvpn.log
+		log-append /var/log/openvpn.log
+		verb 3
 
 #### 准备配置密钥
 
