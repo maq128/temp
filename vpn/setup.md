@@ -1,22 +1,21 @@
-服务器端安装 OpenVPN Server
-===========================
+#### 参考资料
+
+	在 CentOS 6 架设 OpenVPN Server
+	http://jamyy.dyndns.org/blog/2013/09/5220.html
 
 #### 使用环境
 
 	服务器：Linode VPS, CentOS 6.2 (x64)
 	客户端：Windows 8 Ent (x64)
 
-#### 参考资料
-
-	在 CentOS 6 架设 OpenVPN Server
-	http://jamyy.dyndns.org/blog/2013/09/5220.html
+服务器端安装 OpenVPN Server
+===========================
 
 #### CentOS 上安装并配置 OpenVPN Server
 
 	rpm -Uvh http://pkgs.repoforge.org/rpmforge-release/rpmforge-release-0.5.3-1.el6.rf.x86_64.rpm
 	yum install openvpn
-	cp /usr/share/doc/openvpn-2.2.2/sample-config-files/server.conf /etc/openvpn/
-	# 编辑 /etc/openvpn/server.conf 文件，内容如下
+	# 创建并编辑 /etc/openvpn/server.conf 文件，内容如下
 		port 1194
 		proto udp
 		dev tun
@@ -42,7 +41,7 @@
 	cd /etc/openvpn/easy-rsa
 	ln -s openssl-1.0.0.cnf openssl.cnf
 	chmod +x build-* clean-all pkitool whichopensslcnf
-	# 编辑 /etc/openvpn/easy-rsa/vars 文件，前面内容不管，确认结尾部分如下（其实就是缺省，貌似可以自己改）：
+	# 编辑 /etc/openvpn/easy-rsa/vars 文件，前面内容不管，确认末尾部分如下（其实就是缺省，貌似可以自己改）：
 		export KEY_COUNTRY="US"
 		export KEY_PROVINCE="CA"
 		export KEY_CITY="SanFrancisco"
@@ -90,16 +89,16 @@
 		Sign the certificate? [y/n] 回答 y
 		1 out of 1 certificate requests certified, commit? [y/n] 回答 y
 
-	启动 OpenVPN 服务
+#### 启动 OpenVPN 服务
 
-		service openvpn start
+	service openvpn start
 
-	设置开机启动 OpenVPN 服务
+#### 设置开机启动 OpenVPN 服务
 
-		chkconfig openvpn on
+	chkconfig openvpn on
 
-Win8 上安装运行 OpenVPN Client 端
-=================================
+Win8 上安装运行 OpenVPN Client
+==============================
 
 下载 OpenVPN Windows Installer
 
