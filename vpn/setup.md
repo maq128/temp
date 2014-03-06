@@ -116,7 +116,7 @@ Win8 上安装运行 OpenVPN Client
 	/etc/openvpn/easy-rsa/keys/client-test.crt
 	/etc/openvpn/easy-rsa/keys/client-test.key
 
-创建并编辑文件 C:\Program Files\OpenVPN\config\client.ovpn 内容如下（注意 IP 地址部分）
+创建并编辑文件 C:\Program Files\OpenVPN\config\client.ovpn 内容如下（注意 IP 地址部分）：
 
 	client
 	dev tun
@@ -141,11 +141,11 @@ Win8 上安装运行 OpenVPN Client
 双网卡路由问题
 ==============
 
-一般来说，客户端 PC 本来已经有一个网卡可以上网（A），OpenVPN Client 建立 VPN 连接后，会创建一个“软网卡（B）”跟 OpenVPN Server 建立隧道。
+一般来说，客户端 PC 本来已经有一个网卡（A）可以上网，OpenVPN Client 建立 VPN 连接后，会创建一个“软网卡（B）”用于跟 OpenVPN Server 建立隧道。
 
-如果不做特殊设置，当一个应用软件发起网络请求的时候，很可能会被路由到 A 上，这样就没有 VPN 的效果了。下面方法是把 B 设置为系统的缺省网关。
+如果不做特殊设置，当一个应用软件发起网络请求的时候，很可能会被路由到 A 上，这样就没有 VPN 的效果了。下面的方法就是要把 B 设置为系统的缺省网关。
 
-	网卡属性 → Internet协议（TCP/IP) → 高级 → TCP/IP 属性
+	在网络设置里面找到 B 网卡属性，依次进入：Internet协议（TCP/IP) → 高级 → TCP/IP 属性
 
 		“IP 设置”页签里，添加默认网关（IP 为 10.8.0.5，跃点数为 1）
 		“DNS”页签里，添加 DNS 服务器（IP 为 8.8.8.8）
