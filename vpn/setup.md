@@ -97,6 +97,15 @@
 
 	chkconfig openvpn on
 
+#### 设置服务器网络环境
+
+	# 编辑 /etc/sysctl.conf 文件，设置：
+		net.ipv4.ip_forward = 1
+
+	sysctl -p
+	iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -j MASQUERADE
+	service iptables save
+
 Win8 上安装运行 OpenVPN Client
 ==============================
 
