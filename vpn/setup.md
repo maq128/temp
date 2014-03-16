@@ -8,6 +8,7 @@
 	服务器：Linode VPS, CentOS 6.2 (x64)
 	客户端：Windows 8 Ent (x64)
 
+
 服务器端安装 OpenVPN Server
 ===========================
 
@@ -106,6 +107,7 @@
 	iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -j MASQUERADE
 	service iptables save
 
+
 Win8 上安装运行 OpenVPN Client
 ==============================
 
@@ -146,6 +148,7 @@ Win8 上安装运行 OpenVPN Client
 把桌面上的 OpenVPN GUI 快捷设置为“以管理员身份运行”。
 
 双击运行 OpenVPN GUI，在托盘上会出现一个图标，双击这个图标即可建立连接。
+
 
 双网卡路由问题
 ==============
