@@ -8,7 +8,7 @@
 
         // 在当前的 Composition Item 上操作
         var item = app.project.activeItem;
-        if (!item || item.typeName != 'Composition') {
+        if (!item || (item.typeName != 'Composition' && item.typeName != '合成')) {
             alert('请先打开一个 Composition Item');
             return;
         }
