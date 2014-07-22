@@ -1,7 +1,6 @@
 ﻿{
     function createSubtitles(thisObj)
     {
-
         // 读入字幕文件
         var subtitles = loadSrt();
         if (!subtitles) return;
@@ -27,20 +26,20 @@
             var textDocument = prop.value;
             textDocument.resetCharStyle();
             textDocument.text = '';
-            textDocument.fontSize = 80;
+            textDocument.fontSize = 62;
             textDocument.fillColor = [1, 1, 1];
             textDocument.strokeColor = [0, 0, 0];
-            textDocument.strokeWidth = 10;
+            textDocument.strokeWidth = 6;
             textDocument.font = 'Microsoft YaHei';
             textDocument.strokeOverFill = false;
             textDocument.applyStroke = true;
             textDocument.applyFill = true;
-            textDocument.justification = ParagraphJustification.LEFT_JUSTIFY;
+            textDocument.justification = ParagraphJustification.CENTER_JUSTIFY;
             prop.setValue(textDocument);
 
             // 设定文字位置
             prop = layer.Transform.property('Position');
-            prop.setValue([50, 400, 0]);
+            prop.setValue([Math.floor(item.width / 2), item.height - 60, 0]);
         }
 
         // 清除所有 keyframes
@@ -50,11 +49,16 @@
         }
 
         // 创建 keyframes
+        var getPerfectTimePosition = function(t) {
+            t = Math.round(t / item.frameDuration) * item.frameDuration - 0.001;
+            if (t < 0) t = 0;
+            return t;
+        };
         prop.setValueAtTime(0.0, '');
         for (var i=0; i < subtitles.length; i++) {
             var subtitle = subtitles[i];
-            prop.setValueAtTime(subtitle.from, subtitle.text);
-            prop.setValueAtTime(subtitle.to, '');
+            prop.setValueAtTime(getPerfectTimePosition(subtitle.from), subtitle.text);
+            prop.setValueAtTime(getPerfectTimePosition(subtitle.to), '');
         }
 
         app.endUndoGroup();
