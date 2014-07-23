@@ -29,7 +29,7 @@
             textDocument.fontSize = 62;
             textDocument.fillColor = [1, 1, 1];
             textDocument.strokeColor = [0, 0, 0];
-            textDocument.strokeWidth = 6;
+            textDocument.strokeWidth = 10;
             textDocument.font = 'Microsoft YaHei';
             textDocument.strokeOverFill = false;
             textDocument.applyStroke = true;
@@ -50,9 +50,7 @@
 
         // 创建 keyframes
         var getPerfectTimePosition = function(t) {
-            t = Math.round(t / item.frameDuration) * item.frameDuration - 0.001;
-            if (t < 0) t = 0;
-            return t;
+            return Math.round(t / item.frameDuration) * item.frameDuration;
         };
         prop.setValueAtTime(0.0, '');
         for (var i=0; i < subtitles.length; i++) {
