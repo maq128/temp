@@ -27,6 +27,7 @@
             textDocument.resetCharStyle();
             textDocument.text = '';
             textDocument.fontSize = 62;
+            textDocument.tracking = 22;
             textDocument.fillColor = [1, 1, 1];
             textDocument.strokeColor = [0, 0, 0];
             textDocument.strokeWidth = 10;
