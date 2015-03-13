@@ -5,3 +5,7 @@
 #### XDEBUG
 
 	javascript:(function(){document.location+=(document.location.href.indexOf('?')>0?'&':'?')+'XDEBUG_SESSION_START=ECLIPSE_DBGP'+'&KEY='+(new Date().getTime())})()
+
+#### 网页插入脚本
+
+	javascript:(function(){var e=document.createElement('script');e.setAttribute('type','text/javascript');e.setAttribute('charset','UTF-8');e.setAttribute('src','http://a.tbcdn.cn/s/aplus_v2.js');document.body.appendChild(e)})()
