@@ -1,0 +1,44 @@
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference
+
+// http://nodejs.org/api/
+// https://www.npmjs.org/
+安装 nodejs & npm
+
+// https://www.npmjs.org/package/collections
+// https://github.com/montagejs/collections
+npm install collections
+
+// https://www.npmjs.org/package/backgrounder
+// http://jolira.github.io/backgrounder/
+npm install backgrounder
+
+// https://www.npmjs.org/package/client-http
+// https://github.com/hkbarton/node-client-http/
+npm install client-http
+
+// https://www.npmjs.org/package/promise
+// https://github.com/then/promise
+npm install promise
+
+// https://www.npmjs.org/package/mysql
+// https://github.com/felixge/node-mysql
+npm install mysql
+
+-------------
+
+npm config set registry https://registry.npmjs.org/
+npm config set registry http://registry.cnpmjs.org/
+
+// https://www.npmjs.org/package/is
+npm install is
+
+// https://www.npmjs.org/package/node.extend
+npm install node.extend
+
+// https://www.npmjs.org/package/DynWorker
+// https://github.com/passcod/DynWorker
+npm install DynWorker
+
+// https://www.npmjs.org/package/webworker
+// https://github.com/pgriess/node-webworker
+npm install webworker
