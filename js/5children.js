@@ -213,7 +213,7 @@ function run()
                 best = ptr;
 
                 // 输出当前最优方案
-                var solution = [ptr + ' steps:'];
+                var solution = [ptr + ' steps, ' + counters[0] + ' times per child:'];
                 for (var i=0; i <= ptr; i++) {
                     solution.push(nodes[path[i].node].visual);
                 }
