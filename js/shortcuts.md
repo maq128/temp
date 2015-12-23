@@ -1,6 +1,6 @@
 #### 微博大字
 
-	javascript:(function(){var z=16,d=document,s=d.head.appendChild(d.createElement("style"));s.appendChild(d.createTextNode(""));s.sheet.insertRule(".W_f14{font-size:"+z+"px}");s.sheet.insertRule(".WB_expand,.WB_sonFeed .WB_text{font-size:"+(z-1)+"px}");})()
+	javascript:(function(){var z=16,d=document,s=d.head.appendChild(d.createElement("style"));s.appendChild(d.createTextNode(""));s.sheet.insertRule(".W_f14{font-size:"+z+"px}");s.sheet.insertRule(".WB_expand,.WB_sonFeed .WB_text,.WB_main_c{font-size:"+(z-1)+"px}");})()
 
 #### XDEBUG
 
