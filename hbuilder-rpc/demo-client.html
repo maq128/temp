@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>hbuilder-rpc demo client</title>
+<script src="js/mui.js"></script>
+<script src="js/rpc-client.js"></script>
+<script type="text/javascript">
+mui.init();
+mui.plusReady(function() {
+	mui('#btn-rpc-call')[0].addEventListener('tap', function() {
+		// 通过 RpcClient.invoke() 调用另一个 WebView 中的服务函数
+		RpcClient.invoke('demo-rpc-server', 'demo-rpc-service', {
+			greeting: 'hi !',
+			from: plus.webview.currentWebview().id,
+			num: window._call_num = (window._call_num || 0) + 1
+		}, function(resp) {
+			// resp 是服务执行结果
+			mui('#rpc-call-resp')[0].innerText = JSON.stringify(resp, undefined, '    ');
+		});
+	});
+});
+</script>
+</head>
+<body style="border:5px solid cyan">
+	<button id="btn-rpc-call">rpc-call</button>
+	<div id="rpc-call-resp" style="border:1px solid green; white-space:pre;"> </div>
+</body>
+</html>

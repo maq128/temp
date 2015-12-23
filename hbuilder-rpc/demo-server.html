@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>hbuilder-rpc demo server</title>
+<script src="js/mui.js"></script>
+<script src="js/rpc-server.js"></script>
+<script type="text/javascript">
+mui.init();
+
+// 通过 RpcServer.expose() 暴露一个服务函数供其它 WebView 中的 js 调用
+RpcServer.expose('demo-rpc-service', function(params, finish) {
+	// 入口参数
+	mui('#rpc-call-params')[0].innerText = JSON.stringify(params, undefined, '    ');
+
+	// 服务功能完成后，调用 finish() 把结果发回给调用者
+	finish({
+		success: true,
+		result: {
+			reply: 'hi, ' + params.from + '.',
+			num: window._call_num = (window._call_num || 0) + 1
+		}
+	});
+});
+</script>
+</head>
+<body style="border:5px solid cyan">
+	hbuilder-rpc 是一种在 WebView 之间实现 js 函数调用的方法。
+	<div id="rpc-call-params" style="border:1px solid green; white-space:pre;"> </div>
+</body>
+</html>
