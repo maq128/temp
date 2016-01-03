@@ -9,3 +9,8 @@
 #### 网页插入脚本
 
 	javascript:(function(){var e=document.createElement('script');e.setAttribute('type','text/javascript');e.setAttribute('charset','UTF-8');e.setAttribute('src','http://a.tbcdn.cn/s/aplus_v2.js');document.body.appendChild(e)})()
+
+#### DCloud免折行
+
+	http://ask.dcloud.net.cn/question/14304
+	javascript:(function(){var i=$('iframe').get(0),d=(i&&i.contentDocument)||document,s=d.head.appendChild(d.createElement("style"));s.appendChild(d.createTextNode(""));s.sheet.insertRule("pre.prettyprint{overflow-x:scroll;}",0);s.sheet.insertRule("pre.prettyprint code{word-wrap:initial;white-space:pre;}",0);})()
