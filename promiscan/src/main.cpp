@@ -1,14 +1,23 @@
 #include "promiscan.h"
 
-typedef bool (loop_callback)();
-
 pcap_t *pc;
 libnet_t *pLibnetCtx;
+string my_intf;
+u_int8_t my_mac[6] = {0x08, 0x00, 0x27, 0x3b, 0x8a, 0x2a};
+u_int8_t my_ip[4] = {0xc0, 0xa8, 0x96, 0x2d};
+int num = 0;
+map<string, string> all_found;
 
-bool initInterface(const char *intf)
+bool initInterface()
 {
+	bool succ = getLocalMac(my_intf.c_str(), my_mac);
+	if (!succ) {
+		dbg_printf("Cannot get local MAC.\n");
+		return true;
+	}
+
 	char errBuf[PCAP_ERRBUF_SIZE];
-	pc = pcap_create(intf, errBuf);
+	pc = pcap_create(my_intf.c_str(), errBuf);
 	if (!pc) {
 		dbg_printf("pcap_create failed: %s\n", errBuf);
 		return true;
@@ -48,25 +57,7 @@ bool initInterface(const char *intf)
 
 	struct bpf_program bpf;
 	r = pcap_compile(pc, &bpf,
-			"("
-				// 目标端口是 80
-				"(tcp dst port 80)"
-				" and "
-				// tcp payload 长度大于 0
-				"(((ip[2:2] - ((ip[0]&0xf)<<2)) - ((tcp[12]&0xf0)>>2)) != 0)"
-				" and "
-				// tcp payload 的前 4 个字节为 "GET "
-				"(tcp[((tcp[12]&0xf0)>>2):4] == 0x47455420)"
-			") or ("
-				// radius acct
-				"(udp src port 1813)"
-				" and "
-				// sa-msg-port
-				"(udp dst port 1646)"
-				" and "
-				// Accounting-Request
-				"(udp[8] == 0x04)"
-			")",
+			"ether proto 0x0806 and arp[6:2]==2",
 			1, PCAP_NETMASK_UNKNOWN);
 
 	if (r) {
@@ -86,7 +77,7 @@ bool initInterface(const char *intf)
 
 	char errbuf[LIBNET_ERRBUF_SIZE];
 	pLibnetCtx = libnet_init(
-			LIBNET_RAW4,	/* injection type */
+			LIBNET_LINK,	/* injection type */
 			NULL,			/* network interface */
 			errbuf);		/* errbuf */
 	if (pLibnetCtx == NULL) {
@@ -111,61 +102,103 @@ void releaseInterface()
 
 void procPacket(u_char *userarg, const struct pcap_pkthdr *pkthdr, const u_char *packet)
 {
-	dumpHex(packet, pkthdr->caplen);
-	dumpHeaders(pkthdr, packet);
-}
+//	dumpHex(packet, pkthdr->caplen);
+//	dumpHeaders(pkthdr, packet);
+	if (pkthdr->caplen < 42) return;
+	for (int i=0; i < 6; i++) {
+		if (my_mac[i] != packet[32 + i]) return;
+	}
+	for (int i=0; i < 4; i++) {
+		if (my_ip[i] != packet[38 + i]) return;
+	}
 
-int num = 2;
+	char str_mac[20];
+	char str_ip[20];
+	sprintf(str_mac, "%02X-%02X-%02X-%02X-%02X-%02X", packet[22], packet[23], packet[24], packet[25], packet[26], packet[27]);
+	sprintf(str_ip, "%d.%d.%d.%d", packet[28], packet[29], packet[30], packet[31]);
+	all_found.insert(pair<string, string>(str_ip, str_mac));
+	printf("promiscuous: MAC(%s) IP(%s)\n", str_mac, str_ip);
+}
 
 bool inject_packet()
 {
-	if (num >= 10) return false;
 	num ++;
-	dbg_printf("inject_packet %d\n", num);
-	return true;
 
-//	int MTU = 1500;
-//	int max_packet_size = (MTU - LIBNET_IPV4_H - LIBNET_TCP_H);
-//		max_packet_size -= (max_packet_size % 8);
-//
-//	libnet_ptag_t ip_tag = LIBNET_PTAG_INITIALIZER;
-//
-//	int packet_size = 1; // ?
-//
-//	ip_tag = libnet_build_ipv4(
-//			LIBNET_IPV4_H + LIBNET_TCP_H + packet_size,	/* length */
-//			0,											/* TOS */
-//			242,										/* IP ID */
-//			0,											/* IP Frag */
-//			123,										/* TTL */
-//			IPPROTO_TCP,								/* protocol */
-//			0,											/* checksum */
-//			htonl(dst_ip),						/* source IP */
-//			htonl(src_ip),						/* destination IP */
-//			NULL,										/* payload */
-//			0,											/* payload size */
-//			pLibnetCtx,									/* libnet handle */
-//			ip_tag);									/* libnet id */
-//	if (ip_tag == -1) {
-//		dbg_printf("Can't build IP header: %s\n", libnet_geterror(pLibnetCtx));
-//		goto bad;
-//	}
-//
-//	int c;
-//	c = libnet_write(pLibnetCtx);
-//	if (c == -1) {
-//		dbg_printf("Write error: %s\n", libnet_geterror(pLibnetCtx));
-//		goto bad;
-//	}
-//
-//bad:
-//	libnet_clear_packet(pLibnetCtx);
-//	return true;
+	if (num < 255 && num != my_ip[3]) {
+		printf("check: %d.%d.%d.%d\n", my_ip[0], my_ip[1], my_ip[2], num);
+
+//		0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+//		0x08, 0x00, 0x27, 0x3b, 0x8a, 0x2a,
+//		0x08, 0x06,
+//		0x00, 0x01,
+//		0x08, 0x00,
+//		0x06,
+//		0x04,
+//		0x00, 0x01,
+//		0x08, 0x00, 0x27, 0x3b, 0x8a, 0x2a,
+//		0xc0, 0xa8, 0x96, 0x2d,
+//		0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+//		0xc0, 0xa8, 0x96, 0x20
+
+		u_int8_t tha[6] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+		u_int8_t tpa[4];
+		tpa[0] = my_ip[0];
+		tpa[1] = my_ip[1];
+		tpa[2] = my_ip[2];
+		tpa[3] = num;
+		libnet_ptag_t arp_tag = libnet_build_arp(
+			0x0001,					// u_int16_t 		hrd,
+			0x0800,					// u_int16_t 		pro,
+			6,						// u_int8_t 		hln,
+			4,						// u_int8_t 		pln,
+			1,						// u_int16_t 		op,
+			my_mac,					// u_int8_t *	 	sha,
+			my_ip,					// u_int8_t *	 	spa,
+			tha,					// u_int8_t *	 	tha,
+			tpa,					// u_int8_t *	 	tpa,
+			NULL,					// u_int8_t *	 	payload,
+			0,						// u_int32_t 		payload_s,
+			pLibnetCtx,				// libnet_t *	 	l,
+			LIBNET_PTAG_INITIALIZER	// libnet_ptag_t 	ptag
+		);
+
+		if (arp_tag == -1) {
+			dbg_printf("libnet_build_arp() error: %s\n", libnet_geterror(pLibnetCtx));
+		} else {
+			u_int8_t dst[6] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xfe};
+			libnet_ptag_t ether_tag = libnet_build_ethernet(
+				dst,					// u_int8_t * 		dst,
+				my_mac,					// u_int8_t * 		src,
+				0x0806,					// u_int16_t 		type,
+				NULL,					// u_int8_t * 		payload,
+				0,						// u_int32_t 		payload_s,
+				pLibnetCtx,				// libnet_t * 		l,
+				LIBNET_PTAG_INITIALIZER	// libnet_ptag_t 	ptag
+			);
+
+			if (arp_tag == -1) {
+				dbg_printf("libnet_build_ethernet() error: %s\n", libnet_geterror(pLibnetCtx));
+			} else {
+				int c;
+				c = libnet_write(pLibnetCtx);
+				if (c == -1) {
+					dbg_printf("libnet_write() error: %s\n", libnet_geterror(pLibnetCtx));
+				}
+			}
+		}
+
+		libnet_clear_packet(pLibnetCtx);
+	} else {
+		printf("idle: %d\n", num);
+	}
+
+	if (num >= 260) return false;
+	return true;
 }
 
-int capture_start(const char *intf)
+int scan()
 {
-	bool err = initInterface(intf);
+	bool err = initInterface();
 	if (err) {
 		return EXIT_FAILURE;
 	}
@@ -194,48 +227,14 @@ int capture_start(const char *intf)
 		}
 	}
 
+	printf("found %d nodes in promiscuous mode:\n", all_found.size());
+	for (map<string, string>::iterator it = all_found.begin(); it != all_found.end(); it ++) {
+		pair<string, string> found = *it;
+		printf("  %s  %s\n", found.second.c_str(), found.first.c_str());
+	}
+
 	releaseInterface();
 	return EXIT_SUCCESS;
-}
-
-void listInterfaces()
-{
-	char errBuf[PCAP_ERRBUF_SIZE];
-	pcap_if_t *intfs;
-	int r = pcap_findalldevs(&intfs, errBuf);
-	if (r) {
-		dbg_printf("pcap_findalldevs: %s\n", errBuf);
-		return;
-	}
-	pcap_if_t *intf = intfs;
-	while (intf) {
-		if ((intf->flags & PCAP_IF_LOOPBACK) == 0 &&
-			(intf->flags & PCAP_IF_UP) == PCAP_IF_UP &&
-			(intf->flags & PCAP_IF_RUNNING) == PCAP_IF_RUNNING &&
-			strcmp(intf->name, "any") != 0) {
-
-			printf("%s", intf->name);
-
-			pcap_addr_t *addr = intf->addresses;
-			while (addr) {
-				if (addr->addr->sa_family == AF_INET) {
-					sockaddr_in *addr_in = (sockaddr_in *)addr->addr;
-					char buf[INET_ADDRSTRLEN];
-					inet_ntop(AF_INET, &(addr_in->sin_addr), buf, sizeof(buf));
-					printf(" (%s)", buf);
-//				} else if (addr->addr->sa_family == AF_INET6) {
-//					sockaddr_in6 *addr_in6 = (sockaddr_in6 *)addr->addr;
-//					char buf[INET6_ADDRSTRLEN];
-//					inet_ntop(AF_INET6, &(addr_in6->sin6_addr), buf, sizeof(buf));
-//					printf(" (%s)", buf);
-				}
-				addr = addr->next;
-			}
-			printf("\n");
-		}
-		intf = intf->next;
-	}
-	pcap_freealldevs(intfs);
 }
 
 int main(int argc, char **argv)
@@ -245,12 +244,14 @@ int main(int argc, char **argv)
 		"Usage:",
 		"    promiscan [options...]",
 		"Options:",
+		"    -i, --intf intf    Interface name of the NIC",
 		"    -l, --list         List all available network interfaces",
 		"    -h, --help         This help text",
 		NULL
 	};
 
 	static struct option long_options[] = {
+		{"intf",	required_argument,	0,	'i'},
 		{"list",	no_argument,		0,	'l'},
 		{"help",	no_argument,		0,	'h'},
 		{0, 0, 0, 0}
@@ -261,8 +262,11 @@ int main(int argc, char **argv)
 	int option_index = 0;
 	bool abort = false;
 	int c;
-	while (!abort && (c = getopt_long(argc, argv, "lh", long_options, &option_index)) != -1) {
+	while (!abort && (c = getopt_long(argc, argv, "i:lh", long_options, &option_index)) != -1) {
 		switch (c) {
+		case 'i':
+			my_intf = optarg;
+			break;
 		case 'l':
 			arg_list = true;
 			break;
@@ -281,12 +285,22 @@ int main(int argc, char **argv)
 		return EXIT_SUCCESS;
 	}
 
+	uint32_t ip_found = enumInterfaces(my_intf.c_str(), arg_list);
 	if (arg_list) {
-		listInterfaces();
 		return EXIT_SUCCESS;
 	}
 
-	int r = capture_start("eth0");
+	if (my_intf.size() == 0) {
+		printf("Interface name required.\n");
+		return EXIT_SUCCESS;
+	}
+
+	if (ip_found == 0) {
+		printf("Cannot get IP for interface '%s'.\n", my_intf.c_str());
+		return EXIT_SUCCESS;
+	}
+
+	int r = scan();
 
 	return r;
 }

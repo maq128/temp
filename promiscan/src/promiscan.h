@@ -11,12 +11,8 @@
 #include <locale.h>
 
 #include <string>
-#include <algorithm>
 #include <iterator>
-#include <vector>
 #include <map>
-#include <fstream>
-#include <sstream>
 using namespace std;
 
 #include <linux/if_ether.h>
@@ -38,4 +34,5 @@ using namespace std;
 
 // implements in utils.cpp
 void dumpHex(const u_char *packet, int len);
-void dumpHeaders(const struct pcap_pkthdr *pkthdr, const u_char *packet);
+bool getLocalMac(const char *intf, uint8_t *mac);
+uint32_t enumInterfaces(const char *intf, bool print);
