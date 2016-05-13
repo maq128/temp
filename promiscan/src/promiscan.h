@@ -35,4 +35,4 @@ using namespace std;
 // implements in utils.cpp
 void dumpHex(const u_char *packet, int len);
 bool getLocalMac(const char *intf, uint8_t *mac);
-uint32_t enumInterfaces(const char *intf, bool print);
+map<uint32_t, string> enumInterfaces();

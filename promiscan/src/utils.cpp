@@ -41,15 +41,15 @@ bool getLocalMac(const char *intf, uint8_t *mac)
 	return false;
 }
 
-uint32_t enumInterfaces(const char *name, bool print)
+map<uint32_t, string> enumInterfaces()
 {
-	uint32_t ip_found = 0;
+	map<uint32_t, string> ips;
 	char errBuf[PCAP_ERRBUF_SIZE];
 	pcap_if_t *intfs;
 	int r = pcap_findalldevs(&intfs, errBuf);
 	if (r) {
 		dbg_printf("pcap_findalldevs: %s\n", errBuf);
-		return ip_found;
+		return ips;
 	}
 	pcap_if_t *intf = intfs;
 	while (intf) {
@@ -58,26 +58,19 @@ uint32_t enumInterfaces(const char *name, bool print)
 			(intf->flags & PCAP_IF_RUNNING) == PCAP_IF_RUNNING &&
 			strcmp(intf->name, "any") != 0)
 		{
-			if (print) printf("%s", intf->name);
-
 			pcap_addr_t *addr = intf->addresses;
 			while (addr) {
 				if (addr->addr->sa_family == AF_INET) {
 					sockaddr_in *addr_in = (sockaddr_in *)addr->addr;
 					char buf[INET_ADDRSTRLEN];
 					inet_ntop(AF_INET, &(addr_in->sin_addr), buf, sizeof(buf));
-					if (print) printf(" (%s)", buf);
-
-					if (strcmp(name, intf->name) == 0) {
-						ip_found = addr_in->sin_addr.s_addr;
-					}
+					ips.insert(pair<uint32_t, string>(addr_in->sin_addr.s_addr, intf->name));
 				}
 				addr = addr->next;
 			}
-			if (print) printf("\n");
 		}
 		intf = intf->next;
 	}
 	pcap_freealldevs(intfs);
-	return ip_found;
+	return ips;
 }

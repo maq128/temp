@@ -4,18 +4,12 @@ pcap_t *pc;
 libnet_t *pLibnetCtx;
 string my_intf;
 u_int8_t my_mac[6] = {0x08, 0x00, 0x27, 0x3b, 0x8a, 0x2a};
-u_int8_t my_ip[4] = {0xc0, 0xa8, 0x96, 0x2d};
+u_int8_t my_ip[4] = {0x00, 0x00, 0x00, 0x00};
 int num = 0;
 map<string, string> all_found;
 
 bool initInterface()
 {
-	bool succ = getLocalMac(my_intf.c_str(), my_mac);
-	if (!succ) {
-		dbg_printf("Cannot get local MAC.\n");
-		return true;
-	}
-
 	char errBuf[PCAP_ERRBUF_SIZE];
 	pc = pcap_create(my_intf.c_str(), errBuf);
 	if (!pc) {
@@ -198,11 +192,6 @@ bool inject_packet()
 
 int scan()
 {
-	bool err = initInterface();
-	if (err) {
-		return EXIT_FAILURE;
-	}
-
 	struct pollfd pollinfo;
 	pollinfo.fd = pcap_get_selectable_fd(pc);
 	pollinfo.events = POLLIN;
@@ -233,7 +222,6 @@ int scan()
 		printf("  %s  %s\n", found.second.c_str(), found.first.c_str());
 	}
 
-	releaseInterface();
 	return EXIT_SUCCESS;
 }
 
@@ -285,22 +273,59 @@ int main(int argc, char **argv)
 		return EXIT_SUCCESS;
 	}
 
-	uint32_t ip_found = enumInterfaces(my_intf.c_str(), arg_list);
+	// 遍历所有可用的 interfaces
+	map<uint32_t, string> ips = enumInterfaces();
 	if (arg_list) {
+		for (map<uint32_t, string>::iterator it = ips.begin(); it != ips.end(); it ++) {
+			pair<uint32_t, string> ip = *it;
+			struct in_addr in;
+			in.s_addr = ip.first;
+			printf("%s (%s)%s\n", ip.second.c_str(), inet_ntoa(in), (it == ips.begin() ? "*" : ""));
+		}
 		return EXIT_SUCCESS;
 	}
 
 	if (my_intf.size() == 0) {
-		printf("Interface name required.\n");
-		return EXIT_SUCCESS;
+		// 如果没有指定 interface，则使用第一个找到的
+		for (map<uint32_t, string>::iterator it = ips.begin(); it != ips.end(); it ++) {
+			pair<uint32_t, string> ip = *it;
+			my_intf = ip.second;
+			*((uint32_t *)my_ip) = ip.first;
+			break;
+		}
+	} else {
+		// 如果指定了 interface，则使用第一个对应的 IP
+		for (map<uint32_t, string>::iterator it = ips.begin(); it != ips.end(); it ++) {
+			pair<uint32_t, string> ip = *it;
+			if (my_intf == ip.second) {
+				*((uint32_t *)my_ip) = ip.first;
+				break;
+			}
+		}
 	}
 
-	if (ip_found == 0) {
-		printf("Cannot get IP for interface '%s'.\n", my_intf.c_str());
-		return EXIT_SUCCESS;
+	if (my_ip[0] == 0) {
+		printf("No available interface found.\n");
+		return EXIT_FAILURE;
 	}
 
+	if (!getLocalMac(my_intf.c_str(), my_mac)) {
+		dbg_printf("Cannot get local MAC.\n");
+		return EXIT_FAILURE;
+	}
+
+	if (initInterface()) {
+		printf("Cannot initialize interface '%s'.\n", my_intf.c_str());
+		return EXIT_FAILURE;
+	}
+
+	printf("Scanning promiscuous nodes through interface %s (%d.%d.%d.%d) ...\n",
+		my_intf.c_str(),
+		my_ip[0], my_ip[1], my_ip[2], my_ip[3]
+	);
 	int r = scan();
+
+	releaseInterface();
 
 	return r;
 }
