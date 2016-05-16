@@ -50,7 +50,7 @@ bool initInterface()
 	r = pcap_compile(pc, &bpf,
 			"udp src port 8000"		/* OICQ 的服务器端口 */
 			" and udp[8]==0x02"		/* OICQ Protocol Flag */
-			" and udp[12]==0x02",	/* OICQ Command: Heart Message */
+			" and udp[12]==0x81",	/* OICQ Command: Get status of friend */
 			1, PCAP_NETMASK_UNKNOWN);
 
 	if (r) {
