@@ -48,7 +48,9 @@ bool initInterface()
 
 	struct bpf_program bpf;
 	r = pcap_compile(pc, &bpf,
-			"udp src port 8000 and udp[8]==0x02",
+			"udp src port 8000"		/* OICQ 的服务器端口 */
+			" and udp[8]==0x02"		/* OICQ Protocol Flag */
+			" and udp[12]==0x02",	/* OICQ Command: Heart Message */
 			1, PCAP_NETMASK_UNKNOWN);
 
 	if (r) {
@@ -133,7 +135,7 @@ int listen()
 	while (loop_check()) {
 		int r = poll(&pollinfo, 1, 200);
 		if (r < 0) {
-			// 如果是被 SIGINT/SIGUSR1 打断，则继续工作
+			/* 如果是被 SIGINT/SIGUSR1 打断，则继续工作 */
 			if (errno == EINTR) continue;
 
 			dbg_printf("poll: %08X\n", r);
@@ -204,7 +206,7 @@ int main(int argc, char **argv)
 		return EXIT_SUCCESS;
 	}
 
-	// 遍历所有可用的 interfaces
+	/* 遍历所有可用的 interfaces */
 	multimap<string, uint32_t> names = enumInterfaces();
 	if (arg_list) {
 		for (multimap<string, uint32_t>::iterator it = names.begin(); it != names.end(); it ++) {
@@ -217,7 +219,7 @@ int main(int argc, char **argv)
 	}
 
 	if (my_intf.size() == 0) {
-		// 如果没有指定 interface，则使用第一个找到的
+		/* 如果没有指定 interface，则使用第一个找到的 */
 		for (multimap<string, uint32_t>::iterator it = names.begin(); it != names.end(); it ++) {
 			pair<string, uint32_t> ip = *it;
 			my_intf = ip.first;

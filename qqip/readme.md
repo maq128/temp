@@ -4,6 +4,8 @@
 
 #### 参考资料
 
+	Wireshark: packet-oicq.c
+	https://sourcecodebrowser.com/wireshark/1.2.4/packet-oicq_8c_source.html
 
 #### 构建第三方程序库
 
