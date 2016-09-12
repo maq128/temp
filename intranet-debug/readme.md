@@ -36,53 +36,52 @@
 
 2. Nginx 配置文件：
 
+		lua_shared_dict debug_hosts 1m;
+		server {
+			listen			80;
+			server_name		*.debug.abc.com;
+			default_type	text/html;
 
-	lua_shared_dict debug_hosts 1m;
-	server {
-		listen			80;
-		server_name		*.debug.abc.com;
-		default_type	text/html;
+			set $upstream "";
 
-		set $upstream "";
-
-		location ~ /iamhere(/(.+))? {
-			set $request_ip $2;
-			content_by_lua_block {
-				local debug_hosts = ngx.shared.debug_hosts;
-				local cur_host = ngx.var.http_host;
-				local ip = ngx.var.request_ip;
-				if ip == nil or string.len(ip) == 0 then
-					ip = ngx.var.remote_addr;
-				end
-				debug_hosts:set(cur_host, ip);
-				ngx.say('mapping ' .. cur_host .. ' to ' .. ip);
-			}
-		}
-
-		location = /no-debug-host.html {
-			content_by_lua_block {
-				ngx.say('no-debug-host');
-			}
-		}
-
-		location / {
-			rewrite_by_lua_block {
-				local debug_hosts = ngx.shared.debug_hosts;
-				local cur_host = ngx.var.http_host;
-				local ip = debug_hosts:get(cur_host);
-				if ip == nil or string.len(ip) == 0 then
-					return ngx.redirect("/no-debug-host.html");
-				else
-					ngx.var.upstream = ip;
-				end
+			location ~ /iamhere(/(.+))? {
+				set $request_ip $2;
+				content_by_lua_block {
+					local debug_hosts = ngx.shared.debug_hosts;
+					local cur_host = ngx.var.http_host;
+					local ip = ngx.var.request_ip;
+					if ip == nil or string.len(ip) == 0 then
+						ip = ngx.var.remote_addr;
+					end
+					debug_hosts:set(cur_host, ip);
+					ngx.say('mapping ' .. cur_host .. ' to ' .. ip);
+				}
 			}
 
-			proxy_pass http://$upstream:80;
-			proxy_set_header Host $host;
-			proxy_set_header X-Real-IP $remote_addr;
-			proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+			location = /no-debug-host.html {
+				content_by_lua_block {
+					ngx.say('no-debug-host');
+				}
+			}
+
+			location / {
+				rewrite_by_lua_block {
+					local debug_hosts = ngx.shared.debug_hosts;
+					local cur_host = ngx.var.http_host;
+					local ip = debug_hosts:get(cur_host);
+					if ip == nil or string.len(ip) == 0 then
+						return ngx.redirect("/no-debug-host.html");
+					else
+						ngx.var.upstream = ip;
+					end
+				}
+
+				proxy_pass http://$upstream:80;
+				proxy_set_header Host $host;
+				proxy_set_header X-Real-IP $remote_addr;
+				proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+			}
 		}
-	}
 
 3. 使用：
 
