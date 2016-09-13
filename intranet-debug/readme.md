@@ -44,17 +44,26 @@
 
 			set $upstream "";
 
-			location ~ /iamhere(/(.+))? {
+			location ~ ^/iamhere(/(\d+\.\d+\.\d+\.\d+))? {
 				set $request_ip $2;
 				content_by_lua_block {
 					local debug_hosts = ngx.shared.debug_hosts;
 					local cur_host = ngx.var.http_host;
 					local ip = ngx.var.request_ip;
 					if ip == nil or string.len(ip) == 0 then
-						ip = ngx.var.remote_addr;
+						debug_hosts:delete(cur_host);
+						ngx.say(cur_host .. ' --> X<br>');
+					else
+						debug_hosts:set(cur_host, ip);
+						ngx.say(cur_host .. ' --> ' .. ip .. '<br>');
 					end
-					debug_hosts:set(cur_host, ip);
-					ngx.say('mapping ' .. cur_host .. ' to ' .. ip);
+					ngx.say('<hr>');
+
+					local hosts = debug_hosts:get_keys();
+					for i = 1, #hosts do
+						local host = hosts[i];
+						ngx.say(host .. ' --> ' .. debug_hosts:get(host) .. '<br>');
+					end
 				}
 			}
 
@@ -85,17 +94,15 @@
 
 3. 使用：
 
-	一台开发机想把自己注册为 zhangsan.debug.abc.com 的话，可以发送下面这个请求：
-
-		http://zhangsan.debug.abc.com/iamhere
-
-	或者
+	一台开发机想把自己注册为 zhangsan.debug.abc.com 的时候，可以发送下面这个请求：
 
 		http://zhangsan.debug.abc.com/iamhere/192.168.0.123
 
-	后一种形式适用于当内网存在路由级联的情况，服务器 S 无法直接获取开发机的内网 IP 地址。
+	注册之后，无论从内网还是从公网，都可以访问 http://zhangsan.debug.abc.com/ 了。
 
-	经过这样的注册之后，无论从内网还是从公网，都可以访问 http://zhangsan.debug.abc.com/ 了。
+	若要取消注册，可以发送下面这个请求：
+
+		http://zhangsan.debug.abc.com/iamhere
 
 4. 关于安全性的考虑：
 
