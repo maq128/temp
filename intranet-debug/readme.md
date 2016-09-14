@@ -45,11 +45,11 @@
 			set $upstream "";
 
 			location ~ ^/iamhere(/(\d+\.\d+\.\d+\.\d+))? {
-				set $request_ip $2;
+				set $mapping_ip $2;
 				content_by_lua_block {
-					local debug_hosts = ngx.shared.debug_hosts;
 					local cur_host = ngx.var.http_host;
-					local ip = ngx.var.request_ip;
+					local debug_hosts = ngx.shared.debug_hosts;
+					local ip = ngx.var.mapping_ip;
 					if ip == nil or string.len(ip) == 0 then
 						debug_hosts:delete(cur_host);
 						ngx.say(cur_host .. ' --> X<br>');
@@ -75,8 +75,13 @@
 
 			location / {
 				rewrite_by_lua_block {
-					local debug_hosts = ngx.shared.debug_hosts;
 					local cur_host = ngx.var.http_host;
+					local pos = string.find(cur_host, ':');
+					if pos ~= nil then
+						cur_host = string.sub(cur_host, 1, pos - 1);
+					end
+
+					local debug_hosts = ngx.shared.debug_hosts;
 					local ip = debug_hosts:get(cur_host);
 					if ip == nil or string.len(ip) == 0 then
 						return ngx.redirect("/no-debug-host.html");
