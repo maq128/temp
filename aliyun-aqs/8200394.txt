@@ -1,0 +1,19 @@
+漏洞名称：微擎帐号管理SQL注入
+补丁编号：8200394
+补丁文件：.../web/source/activity/store.ctrl.php
+补丁来源：云盾自研
+更新时间：2016-09-26 08:16:42
+漏洞描述：微擎/web/source/activity/store.ctrl.php文件中，对输入参数$_GPC['id']的键值未进行严格过
+          滤，导致数组键注入。【注意：该补丁为云盾自研代码修复方案，云盾会根据您当前代码是否符
+		  合云盾自研的修复模式进行检测，如果您自行采取了底层/框架统一修复、或者使用了其他的修复方案，可
+		  能会导致您虽然已经修复了改漏洞，云盾依然报告存在漏洞，遇到该情况可选择忽略该漏洞提示】
+
+@@ -196,7 +196,7 @@ if($do =='delete') {
+ 	if($count > 0) {
+ 		message("该门店下有{$count}名店员.请将店员变更到其他门店后,再进行删除操作", referer(), 'error');
+ 	}
+-	pdo_delete('activity_stores',array('id' => $_GPC['id'], 'uniacid' => $_W['uniacid']));
++	if (is_array($_GPC['id'])) { $_GPC['id'] = explode("','", implode("','", $_GPC['id']) ); } pdo_delete('activity_stores',array('id' => $_GPC['id'], 'uniacid' => $_W['uniacid']));
+ 	if (COUPON_TYPE == WECHAT_COUPON) {
+ 		$location = pdo_fetch('SELECT status,location_id FROM ' . tablename('activity_stores') . ' WHERE uniacid = :aid AND id = :id', array(':aid' => $_W['uniacid'], ':id' => $id));
+ 		if(!empty($location['location_id'])) {

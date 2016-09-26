@@ -1,0 +1,36 @@
+漏洞名称：微擎反序列化注入漏洞
+补丁编号：8200372
+补丁文件：.../web/source/cloud/dock.ctrl.php
+补丁来源：云盾自研
+更新时间：2016-09-26 08:16:25
+漏洞描述：微擎的/web/source/cloud/dock.ctrl.php中，对POST输入参数未进行正确过滤，已经后续的类
+          型比较中未使用===全等比较，导致黑客可利用范序列注入以及PHP的类型转换特性进行注入攻
+		  击，获取WEBSHELL。【注意：该补丁为云盾自研代码修复方案，云盾会根据您当前代码是否符合云盾自研
+		  的修复模式进行检测，如果您自行采取了底层/框架统一修复、或者使用了其他的修复方案，可能会导致您
+		  虽然已经修复了改漏洞，云盾依然报告存在漏洞，遇到该情况可选择忽略该漏洞提示】
+
+@@ -85,13 +85,13 @@ if($do == 'download') {
+ 	
+ 	$_W['setting']['site']['token'] = authcode(cache_load('cloud:transtoken'), 'DECODE');
+ 	$string = (md5($file) . $ret['path'] . $_W['setting']['site']['token']);
+-	if(!empty($_W['setting']['site']['token']) && md5($string) == $ret['sign']) {
++	if(!empty($_W['setting']['site']['token']) && md5($string) === $ret['sign']) {
+ 		$path = IA_ROOT . $ret['path'];
+ 		load()->func('file');
+ 		@mkdirs(dirname($path));
+ 		file_put_contents($path, $file);
+ 		$sign = md5(md5_file($path) . $ret['path'] . $_W['setting']['site']['token']);
+-		if($ret['sign'] == $sign) {
++		if($ret['sign'] === $sign) {
+ 			exit('success');
+ 		}
+ 	}
+@@ -220,7 +220,7 @@ function __secure_decode($post) {
+ 	}
+ 	$ret = iunserializer($data);
+ 	$string = ($ret['data'] . $_W['setting']['site']['token']);
+-	if(md5($string) == $ret['sign']) {
++	if(md5($string) === $ret['sign']) {
+ 		return $ret['data'];
+ 	}
+ 	return false;
