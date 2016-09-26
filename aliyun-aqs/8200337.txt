@@ -5,16 +5,16 @@
 更新时间：2016-09-26 08:16:02
 漏洞描述：微擎的/web/source/site/article.ctrl.php中对$_GPC['template']、$_GPC['title']、
           $_GPC['description']、$_GPC['source']、$_GPC['author']参数未进行正确转义过滤，导致SQL
-		  注入的产生。【注意：该补丁为云盾自研代码修复方案，云盾会根据您当前代码是否符合云盾自研的修复模
-		  式进行检测，如果您自行采取了底层/框架统一修复、或者使用了其他的修复方案，可能会导致您虽然已经
-		  修复了改漏洞，云盾依然报告存在漏洞，遇到该情况可选择忽略该漏洞提示】
+          注入的产生。【注意：该补丁为云盾自研代码修复方案，云盾会根据您当前代码是否符合云盾自研的修复模
+          式进行检测，如果您自行采取了底层/框架统一修复、或者使用了其他的修复方案，可能会导致您虽然已经
+          修复了改漏洞，云盾依然报告存在漏洞，遇到该情况可选择忽略该漏洞提示】
 
 @@ -75,7 +75,7 @@ if($do == 'display') {
- 	} else {
- 		$item['credit'] = array();
- 	}
--	if (checksubmit('submit')) {
-+	if (checksubmit('submit')) { if (!empty($_GPC['title'])) { mysql_set_charset("gbk"); $_GPC['template'] = mysql_real_escape_string($_GPC['template']); $_GPC['title'] = mysql_real_escape_string($_GPC['title']); $_GPC['description'] = mysql_real_escape_string($_GPC['description']); $_GPC['source'] = mysql_real_escape_string($_GPC['source']); $_GPC['author'] = mysql_real_escape_string($_GPC['author']); }
- 		if (empty($_GPC['title'])) {
- 			message('标题不能为空，请输入标题！');
- 		}
+    } else {
+        $item['credit'] = array();
+    }
+-   if (checksubmit('submit')) {
++   if (checksubmit('submit')) { if (!empty($_GPC['title'])) { mysql_set_charset("gbk"); $_GPC['template'] = mysql_real_escape_string($_GPC['template']); $_GPC['title'] = mysql_real_escape_string($_GPC['title']); $_GPC['description'] = mysql_real_escape_string($_GPC['description']); $_GPC['source'] = mysql_real_escape_string($_GPC['source']); $_GPC['author'] = mysql_real_escape_string($_GPC['author']); }
+        if (empty($_GPC['title'])) {
+            message('标题不能为空，请输入标题！');
+        }
