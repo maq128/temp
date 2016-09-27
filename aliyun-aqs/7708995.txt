@@ -1,0 +1,20 @@
+漏洞名称：Discuz uc.key泄露导致代码注入漏洞
+补丁编号：7708995
+补丁文件：.../api/uc.php
+补丁来源：云盾自研
+更新时间：2016-09-27 09:07:06
+漏洞描述：在Discuz中，uc_key是UC客户端与服务端通信的通信密钥，discuz中的/api/uc.php存在代码写
+          入漏洞，导致黑客可写入恶意代码获取uckey，最终进入网站后台，造成数据泄漏。您也可以登
+          录官方网站更新到最新版本解决。【注意：该补丁为云盾自研代码修复方案，云盾会根据您当前代码是否符
+          合云盾自研的修复模式进行检测，如果您自行采取了底层/框架统一修复、或者使用了其他的修复方案，可
+          能会导致您虽然已经修复了改漏洞，云盾依然报告存在漏洞，遇到该情况可选择忽略该漏洞提示】
+
+@@ -236,7 +236,7 @@ class uc_note {
+        return API_RETURN_SUCCEED;
+    }
+ 
+-   function updateapps($get, $post) {
++   function updateapps($get, $post) { if($post['UC_API']) { $post['UC_API'] = addslashes($post['UC_API']); } 
+        if(!API_UPDATEAPPS) {
+            return API_RETURN_FORBIDDEN;
+        }
