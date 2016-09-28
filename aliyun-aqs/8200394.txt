@@ -17,3 +17,5 @@
     if (COUPON_TYPE == WECHAT_COUPON) {
         $location = pdo_fetch('SELECT status,location_id FROM ' . tablename('activity_stores') . ' WHERE uniacid = :aid AND id = :id', array(':aid' => $_W['uniacid'], ':id' => $id));
         if(!empty($location['location_id'])) {
+
+注：微擎官方版本 2016.9.27 已经修复了这个漏洞，安骑士也不再报警了。
