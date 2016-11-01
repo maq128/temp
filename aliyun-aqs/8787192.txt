@@ -1,0 +1,20 @@
+漏洞名称：微擎SQL注入漏洞
+补丁编号：8787192
+补丁文件：.../web/source/paycenter/wxmicro.ctrl.php
+补丁来源：云盾自研
+更新时间：2016-11-01 09:45:36
+漏洞描述：微擎CMS的/web/source/paycenter/wxmicro.ctrl.php中，对$post['member']['uid']输入参数未
+          进行严格类型转义，导致SQL注入的发生。【注意：该补丁为云盾自研代码修复方案，云盾会根
+          据您当前代码是否符合云盾自研的修复模式进行检测，如果您自行采取了底层/框架统一修复、或者使用了
+          其他的修复方案，可能会导致您虽然已经修复了改漏洞，云盾依然报告存在漏洞，遇到该情况可选择忽略该
+          漏洞提示】
+
+@@ -26,7 +26,7 @@ if($do == 'pay') {
+        $log = "系统日志:会员消费【{$total}】元";
+        
+        if($post['member']['uid'] > 0) {
++           $user = pdo_get('mc_members', array('uniacid' => $_W['uniacid'], 'uid' => $post['member']['uid']));
+-           $user = pdo_get('mc_members', array('uniacid' => $_W['uniacid'], 'uid' => intval($post['member']['uid']) ));;
+            if(empty($user)) {
+                message(error(-1, '用户不存在'), '', 'ajax');
+            }
