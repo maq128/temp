@@ -6,6 +6,9 @@
 
 	npm install -g cnpm --registry=https://registry.npm.taobao.org
 
+或者固定配置：
+
+	npm config set registry=https://registry.npm.taobao.org
 
 不过，有的时候要安装的包需要从其它服务器下载，如果遇到障碍的话，需要通过代理服务器才能正常下载。
 
