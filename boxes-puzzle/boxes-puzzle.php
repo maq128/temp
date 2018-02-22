@@ -47,7 +47,8 @@ $puzzles = [
 		'.SBSSB.',
 	],
 
-	'彗星 20' => [ // 此关只能找到最少 5 步的解法，无法过关 :(
+	// 此关只能找到最少 5 步的解法，无法过关，若非题目本身有误，就是本程序算法有疏漏 :(
+	'彗星 20' => [
 		'.......',
 		'.......',
 		'.......',
@@ -273,7 +274,8 @@ function resolve($boxes, $board, $counter, $steps, $mvIdx, $mvDir = null) {
 
 			// 递归求解，若成功，则输出此步走法（最终输出为倒序），递归结束
 			if (resolve($boxes, $board, $counter, $steps - 1, $idx, $dir)) {
-				echo "  ({$box[1]}, {$box[2]}) - {$dir}\n";
+				$chr = chr(ord('A') + $idx);
+				echo "  ({$box[1]}, {$box[2]}) {$chr} - {$dir}\n";
 				return true;
 			}
 		}
@@ -281,18 +283,28 @@ function resolve($boxes, $board, $counter, $steps, $mvIdx, $mvDir = null) {
 	return false;
 }
 
-function printPuzzle($boxes, $board) {
+function _printPuzzle($boxes, $board, $asColor = true) {
 	$lines = [];
 	foreach (range(BOARD_MAX_Y, 0, -1) as $y) {
 		$line = $y;
 		foreach (range(0, BOARD_MAX_X) as $x) {
 			$idx = $board[$x][$y];
-			$line .= ' ' . (isset($idx) ? $boxes[$idx][0] : '.');
+			if (isset($idx)) {
+				$chr = $asColor ? $boxes[$idx][0] : chr(ord('A') + $idx);
+			} else {
+				$chr = '.';
+			}
+			$line .= " {$chr}";
 		}
 		$lines[] = $line;
 	}
 	$lines[] = '  ' . implode(' ', range(0, BOARD_MAX_X));
 	echo implode("\n", $lines) . "\n\n";
+}
+
+function printPuzzle($boxes, $board) {
+	_printPuzzle($boxes, $board, true);
+	_printPuzzle($boxes, $board, false);
 	echo 'total: ' . count($boxes) . " boxes\n\n";
 }
 
