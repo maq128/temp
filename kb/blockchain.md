@@ -45,6 +45,9 @@
 	10分钟完成阿里云环境搭建以太坊私有链
 	https://zhuanlan.zhihu.com/p/32911405
 
+	获取 block hash 作为随机数
+	https://github.com/fivedogit/solidity-baby-steps/blob/master/contracts/35_coin_flipper.sol
+
 
 # Linux 上构建 geth
 
