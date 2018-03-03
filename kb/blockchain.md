@@ -1,5 +1,7 @@
 # 参考资料
 
+- 教程
+
 	如何发布你自己的 ICO？
 	https://mp.weixin.qq.com/s/xH6lRj2ZX_fSiRDTjlmPuw
 
@@ -12,6 +14,14 @@
 	ETHEREUM PET SHOP
 	http://truffleframework.com/tutorials/pet-shop
 
+	A Guide to Ropsten Testnet Setup
+	https://medium.com/@crissimrobert/a-guide-to-ropsten-testnet-setup-f8952d615417
+
+	10分钟完成阿里云环境搭建以太坊私有链
+	https://zhuanlan.zhihu.com/p/32911405
+
+- 手册
+
 	web3 JavaScript library
 	https://github.com/ethereum/web3.js/
 	https://github.com/ethereum/wiki/wiki/JavaScript-API
@@ -19,8 +29,7 @@
 	Solidity
 	http://solidity.readthedocs.io/en/latest/index.html
 
-	A Guide to Ropsten Testnet Setup
-	https://medium.com/@crissimrobert/a-guide-to-ropsten-testnet-setup-f8952d615417
+- 概念原理知识
 
 	Ethereum Wiki
 	https://github.com/ethereum/go-ethereum/wiki
@@ -32,18 +41,17 @@
 	https://medium.com/taipei-ethereum-meetup/oracle%E7%B3%BB%E5%88%97%E4%B8%80-human-oracle-cb7ed8268030
 	https://medium.com/taipei-ethereum-meetup/oracle%E7%B3%BB%E5%88%97%E4%BA%8C-my-oracle-d86ea6971431
 
+	EOS.IO 技术白皮书
+	https://github.com/EOSIO/Documentation/blob/master/zh-CN/TechnicalWhitePaper.md
+
+- 实操工具
+
 	在 Ropsten 测试网络申请获得 Ether
 	http://faucet.ropsten.be:3001/
 
 	在 Etherscan 查看账户信息
 	https://ropsten.etherscan.io/address/0x640243b03ea3bd384b30823f91460735ba1ccd49
 	https://ropsten.etherscan.io/address/0x04bf942d727c9729df4490fd9e9da0cdb49e84b5
-
-	EOS.IO 技术白皮书
-	https://github.com/EOSIO/Documentation/blob/master/zh-CN/TechnicalWhitePaper.md
-
-	10分钟完成阿里云环境搭建以太坊私有链
-	https://zhuanlan.zhihu.com/p/32911405
 
 	获取 block hash 作为随机数
 	https://github.com/fivedogit/solidity-baby-steps/blob/master/contracts/35_coin_flipper.sol
@@ -67,10 +75,12 @@
 
 	https://github.com/ethereum/ropsten
 	
-	/mnt/bin/geth/bin/geth --testnet removedb
-	/mnt/bin/geth/bin/geth --testnet --cache 512
+	/mnt/bin/geth/bin/geth --datadir /mnt/ethereum/testnet --testnet removedb
+	/mnt/bin/geth/bin/geth --datadir /mnt/ethereum/testnet --testnet --cache 512
+	"%APPDATA%\Ethereum Wallet\binaries\Geth\unpacked\geth.exe" --testnet --cache 512
 
-	/mnt/bin/geth/bin/geth --testnet attach
+	/mnt/bin/geth/bin/geth --datadir /mnt/ethereum/testnet attach
+	"%APPDATA%\Ethereum Wallet\binaries\Geth\unpacked\geth.exe" attach ipc:\\.\pipe\geth.ipc
 	> eth.syncing
 	> eth.blockNumber
 	> eth.getBlock('latest').number
