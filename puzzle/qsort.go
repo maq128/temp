@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	const len = 10000000
+	const len = 100000000
 	var arr [len]int
 	for i := 0; i < len; i++ {
 		arr[i] = i + 1
@@ -20,60 +20,68 @@ func main() {
 	fmt.Println(arr[len/2-100 : len/2+100])
 
 	t0 = time.Now()
-	done := make(chan bool)
-	go qsort(arr[:], done)
-	<-done
+	qsort(arr[:], nil, 1)
 	fmt.Println("qsort:", time.Now().Sub(t0))
 	fmt.Println(arr[len/2-100 : len/2+100])
 }
 
-func qsort(arr []int, done chan<- bool) {
-	defer func() {
-		done <- true
-	}()
+const goDepth = 3
 
-	if len(arr) <= 1 {
+func qsort(arr []int, done chan<- bool, depth int) {
+	if done != nil {
+		defer func() {
+			done <- true
+		}()
+	}
+
+	length := len(arr)
+	if length <= 1 {
 		return
 	}
-	if len(arr) == 2 {
+	if length == 2 {
 		if arr[0] > arr[1] {
 			arr[0], arr[1] = arr[1], arr[0]
 		}
 		return
 	}
 
-	leftPtr := 0
-	rightPtr := len(arr) - 1
-	midVal := arr[leftPtr]
-	findLeft := true
-loop:
+	midVal := arr[0]
+	leftPtr := 1
+	rightPtr := length - 1
 	for {
-		switch {
-		case leftPtr == rightPtr:
-			arr[leftPtr] = midVal
-			break loop
-		case findLeft:
-			if arr[rightPtr] < midVal {
-				arr[leftPtr] = arr[rightPtr]
-				leftPtr++
-				findLeft = false
-			} else {
-				rightPtr--
-			}
-		case !findLeft:
-			if arr[leftPtr] > midVal {
-				arr[rightPtr] = arr[leftPtr]
-				rightPtr--
-				findLeft = true
-			} else {
-				leftPtr++
-			}
+		for rightPtr > leftPtr && arr[rightPtr] > midVal {
+			rightPtr--
 		}
+		for leftPtr < rightPtr && arr[leftPtr] <= midVal {
+			leftPtr++
+		}
+		if leftPtr == rightPtr {
+			var leftDone, rightDone chan bool
+			if leftPtr > 0 {
+				arr[0], arr[leftPtr] = arr[leftPtr], arr[0]
+				if depth <= goDepth {
+					leftDone = make(chan bool)
+					go qsort(arr[:leftPtr], leftDone, depth+1)
+				} else {
+					qsort(arr[:leftPtr], nil, depth+1)
+				}
+			}
+			if leftPtr < length-1 {
+				if depth <= goDepth {
+					rightDone = make(chan bool)
+					go qsort(arr[leftPtr+1:], rightDone, depth+1)
+				} else {
+					qsort(arr[leftPtr+1:], nil, depth+1)
+				}
+			}
+			if leftDone != nil {
+				<-leftDone
+			}
+			if rightDone != nil {
+				<-rightDone
+			}
+			return
+		}
+		arr[leftPtr], arr[rightPtr] = arr[rightPtr], arr[leftPtr]
 	}
-
-	subdone := make(chan bool)
-	go qsort(arr[:leftPtr], subdone)
-	go qsort(arr[leftPtr+1:], subdone)
-	<-subdone
-	<-subdone
 }
