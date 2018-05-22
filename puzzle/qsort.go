@@ -46,7 +46,7 @@ func qsort(arr []int, done chan<- bool, depth int) {
 	}
 
 	midVal := arr[0]
-	leftPtr := 1
+	leftPtr := 0
 	rightPtr := length - 1
 	for {
 		for rightPtr > leftPtr && arr[rightPtr] > midVal {
