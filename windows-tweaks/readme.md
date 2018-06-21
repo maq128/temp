@@ -49,3 +49,10 @@
 	8. select Properties
 	9. select Font tab
 	10. choose Raster Font 8x12
+
+# 从 WebDAV 映射的网盘中复制文件，最大限制为 50M
+
+	Folder copy error message when downloading a file that is larger than 50000000 bytes from a Web folder
+	https://support.microsoft.com/en-us/help/900900/folder-copy-error-message-when-downloading-a-file-that-is-larger-than
+
+	在注册表 HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\WebClient\Parameters 中修改 FileSizeLimitInBytes 的值，以调整限制的尺寸。
