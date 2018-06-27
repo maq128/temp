@@ -11,6 +11,16 @@
 	Disable Explorer Folder View of Cab and Zip Files
 	https://www.sevenforums.com/tutorials/13619-zip-folders-enable-disable-windows-explorer-view.html
 
+# 资源管理器中右键菜单添加“在此处打开命令窗口”
+
+	How to restore the “Open command window here” option in Build 14986 and newer
+	https://insidewindows.net/2016/12/15/how-to-restore-the-open-command-window-here-option-in-build-14986-and-newer/
+
+	在以下两处注册表位置把 HideBasedOnVelocityId 改名为 ShowBasedOnVelocityId：
+		HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Directory\background\shell\cmd
+		HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Directory\shell\cmd
+	可能需要先修改该处注册表位置的权限。
+
 # 设置 Windows 10 免密码自动登录
 
 	如何设置Win10自动登录？
