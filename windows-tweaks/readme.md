@@ -28,6 +28,19 @@
 
 	运行 control userpasswords2 或者 netplwiz.exe
 
+# Windows 10 关闭客户体验改善计划
+
+启动本地组策略编辑器 %windir%\system32\gpedit.msc
+
+把以下项目设置为启用：
+
+	计算机配置
+		管理模板
+			系统
+				Internet通信管理
+					Internet通信设置
+						关闭Windows客户体验改善计划
+
 # Windows 10 开机启动项的位置
 
 可以在如下两个文件夹中添加快捷方式：
