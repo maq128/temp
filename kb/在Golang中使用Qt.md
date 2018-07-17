@@ -1,6 +1,6 @@
 # 构建 therecipe/qt
 
-## 使用 Qt 官方发布的版本，内置 mingw320_53
+## 使用 Qt 官方发布的版本，内置 mingw320_53（无法与 Windows 版的 Golang 兼容）
 
 	qt-opensource-windows-x86-5.11.1.exe
 
@@ -40,6 +40,23 @@
 
 	D:\QtBuild\GoQt\bin\qtsetup
 
+## 使用 MSYS2 构建 Qt（未完成）
+
+	安装好 MSYS2，并启动 mingw64-shell
+
+	export QT_MSYS2=true
+	export QT_MSYS2_ARCH=amd64
+	export QT_MSYS2_STATIC=true
+	pacman -Syyu
+	pacman -S mingw-w64-x86_64-toolchain
+	pacman -S mingw-w64-x86_64-qt-creator mingw-w64-x86_64-qt5-static
+	pacman -Scc
+	export GOROOT=C:/Go
+	export GOPATH=D:/GoQt
+	export PATH=/c/Go/bin:$PATH
+	go get -u -v github.com/therecipe/qt/cmd/...
+	$GOPATH/bin/qtsetup
+
 ## 改造 therecipe/qt 的 qtsetup
 
 	修改文件
@@ -76,6 +93,9 @@
 	Qt binding for Go
 	https://github.com/therecipe/qt
 	https://github.com/therecipe/qt/wiki/Installation-on-Windows
+
+	Pacman 命令详解
+	https://gist.github.com/fbigun/b859fc426c11f972ec97
 
 	Qt树形控件QTreeView使用2——复选框的设置
 	https://blog.csdn.net/czyt1988/article/details/19171727
