@@ -41,6 +41,20 @@
 					Internet通信设置
 						关闭Windows客户体验改善计划
 
+# Windows Defender 防病毒程序的几个配置项
+
+启动本地组策略编辑器 %windir%\system32\gpedit.msc
+
+	计算机配置
+		管理模板
+			Windows 组件
+				Windows Defender 防病毒程序
+					扫描
+						允许用户暂停扫描
+						仅当计算机处于打开但未使用状态才启动计划扫描
+					实时保护
+						关闭实时保护
+
 # Windows 10 开机启动项的位置
 
 可以在如下两个文件夹中添加快捷方式：
