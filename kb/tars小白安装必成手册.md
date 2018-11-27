@@ -20,16 +20,16 @@
 
 # 系统环境准备
 
-小白上手，最重要的是“成功一次”，建立信心。为了避免环境差异导致的各种坑，如果你想按照本文描述的
-内容体验一次成功的话，最好先设法建立一套相同的系统环境。实验成功之后，你对 tars 的安装和运行都有
-了一个初步的感性认识，然后就可以着手在你实际使用的目标环境中开始构建安装了，如果遇到什么问题的话，
-至少你有一个成功环境可以用来参考对比。
+小白上手，最重要的是“成功一次”，建立信心。为了避免环境差异导致的各种坑，如果你想按照本文描述的内容
+体验一次成功的话，最好先设法建立一套相同的系统环境。实验成功之后，你对 tars 的安装和运行都有了一个
+初步的感性认识，然后就可以着手在你实际使用的目标环境中开始构建安装了，如果再遇到什么问题的话，至少
+你有一个成功环境可以用来参考对比。
 
 我这里使用的是 VirtualBox + CentOS 7，网络连接方式设置为“桥接网卡”，虚拟机系统就像局域网上一台单独
 的电脑一样，可以通过 IP 地址跟宿主系统互相访问。
 
-关于如何安全地使用 Linux 系统不是本文的议题。为了减少不必要的干扰，操作系统安装好之后，如果需要的
-话，关闭 SELinux [5] 和 firewalld [6]。以下所有操作都以 root 帐号来完成。
+关于如何安全地使用 Linux 系统不是本文的议题。为了减少不必要的干扰，操作系统安装好之后，如果需要的话，
+关闭 SELinux [5] 和 firewalld [6]。以下所有操作都以 root 帐号来完成。
 
 
 # 软件环境准备
@@ -42,7 +42,7 @@
 	systemctl enable mariadb
 	systemctl start mariadb
 
-	# mysql 初始化安全设置（root 密码设置为 password）
+	# mysql server 初始化安全设置（root 密码设置为 password）
 	mysql_secure_installation
 
 	# 设置环境变量（这里的 IP 地址是 CentOS 7 系统分配到的 IP，请按照实际情况修改）
@@ -133,13 +133,13 @@
 	# 基础服务的安装位置
 	/usr/local/app/tars
 
-	# 基础服务的日志文件
+	# 基础服务的日志文件位置
 	/usr/local/app/tars/app_log/tars
 
 	# web 管理系统的安装位置
 	/usr/local/app/web
 
-	# web 管理系统的日志文件
+	# web 管理系统的日志文件位置
 	/usr/local/app/web/log
 
 web 管理系统访问网址：
@@ -165,7 +165,8 @@ web 管理系统访问网址：
 
 	make framework-tar
 
-	# 安装核心基础服务模块
+## 安装核心基础服务模块
+
 	mkdir -p /usr/local/app/tars
 	mv framework.tgz /usr/local/app/tars
 
@@ -221,9 +222,6 @@ tarsnotify 并没有安装部署。但坑的是，tarsnotify 的部署信息已�
 
 # 手工启动 tars
 
-貌似官方并没有提供自启动解决方案，所以在实验环境中，当服务器重启之后，tars 需要手工启动。
-如果是在生产环境中使用，恐怕就要自己想办法设计自启动方案了。
-
 	# 基础服务
 	cd /usr/local/app/tars
 	tarsregistry/util/start.sh
@@ -235,6 +233,9 @@ tarsnotify 并没有安装部署。但坑的是，tarsnotify 的部署信息已�
 	# web 管理系统
 	cd /usr/local/app/web
 	npm run prd
+
+貌似官方并没有提供自启动解决方案，所以在实验环境中，当服务器重启之后，tars 需要手工启动。
+如果是在生产环境中使用，恐怕就要自己想办法设计自启动方案了。
 
 
 # 参考资料
