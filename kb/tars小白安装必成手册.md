@@ -60,11 +60,16 @@
 	cd /data
 	git clone https://github.com/TarsCloud/Tars.git --recursive
 
-	# 调整数据和脚本文件，并进行数据库初始化
+	# 调整数据和脚本文件
 	cd /data/Tars/framework/sql
 	sed -i "s/192.168.2.131/${MY_TARS_IP}/g" `grep 192.168.2.131 -rl ./*`
 	sed -i "s/db.tars.com/${MY_TARS_IP}/g" `grep db.tars.com -rl ./*`
 	sed -i "s/root@appinside/${MY_MYSQL_ROOT_PASSWORD}/g" exec-sql.sh
+
+	# 【坑】这里明显是一处笔误，后果就是使用 tars.springboot 服务模板将导致部署失败。
+	sed -i "s/<<server>/<server>/g" db_tars.sql
+
+	# 执行数据库初始化
 	chmod u+x exec-sql.sh
 	./exec-sql.sh
 	mysql -P3306 -uroot -p${MY_MYSQL_ROOT_PASSWORD} -e "grant all on *.* to 'tars'@'%' identified by 'tars2015' with grant option;"
