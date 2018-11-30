@@ -91,13 +91,6 @@
 	sed -i "s@libmysqlclient.a@libmysqlclient.so@g" framework/CMakeLists.txt
 	sed -i "s@libmysqlclient.a@libmysqlclient.so@g" framework/tarscpp/test/testUtil/CMakeLists.txt
 
-	# 调整网卡名相关的文件内容
-	# 【坑】tars 源代码预期网卡名为 eth0，本系统环境中实际网卡名为 enp0s3。【请根据实际情况修改】
-	sed -i "s@eth0@enp0s3@g" deploy/comm/tarsUtil.py
-
-	# 【坑】调整数据库密码相关的文件内容
-	sed -i "s@tars12345@${MY_MYSQL_ROOT_PASSWORD}@g" deploy/comm.properties
-
 源代码都准备好之后，接下来你可以选择【快速部署】或者是【手工编译部署】。
 
 如果你想两种方式都实验一下，那现在就可以在 VirtualBox 里做个系统快照了。
@@ -105,7 +98,15 @@
 
 # 快速部署 [2]
 
+	# 调整网卡名相关的文件内容
+	# 【坑】tars 源代码预期网卡名为 eth0，本系统环境中实际网卡名为 enp0s3。【请根据实际情况修改】
 	cd /data/Tars/deploy
+	sed -i "s@eth0@enp0s3@g" comm/tarsUtil.py
+
+	# 【坑】调整数据库密码相关的文件内容
+	sed -i "s@tars12345@${MY_MYSQL_ROOT_PASSWORD}@g" comm.properties
+
+	# 全自动部署
 	python ./deploy.py all
 
 执行上面命令的过程时间比较长，期间陆续会看到下面这些输出：
