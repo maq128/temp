@@ -28,14 +28,14 @@
 我这里使用的是 VirtualBox + CentOS 7，网络连接方式设置为“桥接网卡”，虚拟机系统就像局域网上一台单独
 的电脑一样，可以通过 IP 地址跟宿主系统互相访问。
 
-关于如何安全地使用 Linux 系统不是本文的议题。为了减少不必要的干扰，操作系统安装好之后，如果需要的话，
-关闭 SELinux [5] 和 firewalld [6]。以下所有操作都以 root 帐号来完成。
+**关于如何安全地使用 Linux 系统不是本文的议题。为了减少不必要的干扰，操作系统安装好之后，如果需要的话，
+关闭 SELinux [5] 和 firewalld [6]。以下所有操作都以 root 帐号来完成。**
 
 
 # 软件环境准备
 
 	# 安装编译环境
-	yum install gcc gcc-c++ cmake yasm glibc-devel flex bison ncurses-devel zlib-devel autoconf
+	yum install gcc gcc-c++ cmake yasm glibc-devel flex bison ncurses-devel zlib-devel autoconf python-requests
 
 	# 安装并启动 mariadb （使用上等同于 mysql）
 	yum install mariadb-devel mariadb-libs mariadb-server
@@ -45,7 +45,7 @@
 	# mysql server 初始化安全设置（root 密码设置为 password）
 	mysql_secure_installation
 
-	# 设置环境变量（这里的 IP 地址是 CentOS 7 系统分配到的 IP，请按照实际情况修改）
+	# 设置环境变量（这里的 IP 地址是 CentOS 7 系统分配到的 IP，**请按照实际情况修改**）
 	export MY_TARS_IP=192.168.1.140
 	export MY_MYSQL_IP=192.168.1.140
 	export MY_MYSQL_ROOT_PASSWORD=password
@@ -92,7 +92,7 @@
 	sed -i "s@libmysqlclient.a@libmysqlclient.so@g" framework/tarscpp/test/testUtil/CMakeLists.txt
 
 	# 调整网卡名相关的文件内容
-	# 【坑】tars 源代码预期网卡名为 eth0，本系统环境中实际网卡名为 enp0s3。请根据实际情况修改。
+	# 【坑】tars 源代码预期网卡名为 eth0，本系统环境中实际网卡名为 enp0s3。**请根据实际情况修改**。
 	sed -i "s@eth0@enp0s3@g" deploy/comm/tarsUtil.py
 
 	# 【坑】调整数据库密码相关的文件内容
