@@ -45,7 +45,7 @@
 	# mysql server 初始化安全设置（root 密码设置为 password）
 	mysql_secure_installation
 
-	# 设置环境变量（这里的 IP 地址是 CentOS 7 系统分配到的 IP，【请按照实际情况修改】）
+	# 设置环境变量（这里的 IP 地址是 CentOS 7 系统分配到的 IP，【请根据实际情况修改】）
 	export MY_TARS_IP=192.168.1.140
 	export MY_MYSQL_IP=192.168.1.140
 	export MY_MYSQL_ROOT_PASSWORD=password
@@ -128,7 +128,7 @@
 	tarweb cannot visit
 
 【坑】如果哪一步卡了很长时间没有动静，那很可能是因为网络原因卡死了。比如 install nvm 过程中会调用 wget
-访问 https://raw.githubusercontent.com/ ，不行的话只能自己想办法了。有时候重试一次也许管用（这时候你需要
+访问 https://raw.githubusercontent.com/ ，不行的话只能[自己想办法](各种常用软件设置代理的方法.md)了。有时候重试一次也许管用（这时候你需要
 回滚到之前在 VirtualBox 做的系统快照重新开始，不要简单地重新运行 deploy.py，那样会有副作用）。
 
 最末两行输出的内容貌似报错，但可以不用管它，已经安装好了。
