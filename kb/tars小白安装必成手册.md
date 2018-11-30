@@ -220,9 +220,10 @@ tarsnotify 并没有安装部署。但坑的是，tarsnotify 的部署信息已�
 	make tarsqueryproperty-tar
 
 
-# 手工启动 tars
+# 手工启动/停止 tars
 
-	# 基础服务
+### 启动基础服务
+
 	cd /usr/local/app/tars
 	tarsregistry/util/start.sh
 	tarsAdminRegistry/util/start.sh
@@ -230,9 +231,29 @@ tarsnotify 并没有安装部署。但坑的是，tarsnotify 的部署信息已�
 	tarsconfig/util/start.sh
 	tarspatch/util/start.sh
 
-	# web 管理系统
+### 停止基础服务
+
+	cd /usr/local/app/tars
+	tarsregistry/util/stop.sh
+	tarsAdminRegistry/util/stop.sh
+	tarsnode/util/stop.sh
+	tarsconfig/util/stop.sh
+	tarspatch/util/stop.sh
+
+### 启动 web 管理系统
+
 	cd /usr/local/app/web
 	npm run prd
+
+### 停止 web 管理系统
+
+	# 停止整个 pm2
+	pm2 kill
+
+	# 只停止 tars-node-web 程序
+	pm2 stop tars-node-web
+
+### 关于开机自启动
 
 貌似官方并没有提供自启动解决方案，所以在实验环境中，当服务器重启之后，tars 需要手工启动。
 如果是在生产环境中使用，恐怕就要自己想办法设计自启动方案了。
