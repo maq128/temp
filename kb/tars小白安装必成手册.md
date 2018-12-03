@@ -37,6 +37,10 @@
 	# 安装编译环境
 	yum install gcc gcc-c++ cmake yasm glibc-devel flex bison ncurses-devel zlib-devel autoconf python-requests
 
+	# 安装 nodejs 和 npm
+	curl --silent --location https://rpm.nodesource.com/setup_8.x | sudo bash -
+	yum install nodejs
+
 	# 安装并启动 mariadb （使用上等同于 mysql）
 	yum install mariadb-devel mariadb-libs mariadb-server
 	systemctl enable mariadb
