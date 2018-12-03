@@ -25,7 +25,7 @@
 初步的感性认识，然后就可以着手在你实际使用的目标环境中开始构建安装了，如果再遇到什么问题的话，至少
 你有一个成功环境可以用来参考对比。
 
-我这里使用的是 VirtualBox + CentOS 7，网络连接方式设置为“桥接网卡”，虚拟机系统就像局域网上一台单独
+我这里使用的是 **VirtualBox + CentOS 7**，网络连接方式设置为“桥接网卡”，虚拟机系统就像局域网上一台单独
 的电脑一样，可以通过 IP 地址跟宿主系统互相访问。
 
 **关于如何安全地使用 Linux 系统不是本文的议题。为了减少不必要的干扰，操作系统安装好之后，如果需要的话，
@@ -65,7 +65,7 @@
 	git clone https://github.com/TarsCloud/Tars.git --recursive
 
 	# 调整与 mysql server 安装位置相关的文件内容
-	# 【坑】本系统环境中 mariadb(mysql) 的安装位置跟 tars 源代码中预期的不一样，需调整。
+	# 本系统环境中 mariadb(mysql) 的安装位置跟 tars 源代码中预期的不一样，需调整。
 	cd /data/Tars
 	sed -i "s@/usr/local/mysql/include@/usr/include/mysql@g" framework/CMakeLists.txt
 	sed -i "s@/usr/local/mysql/lib@/usr/lib64/mysql@g"       framework/CMakeLists.txt
