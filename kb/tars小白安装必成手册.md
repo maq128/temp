@@ -60,22 +60,6 @@
 	cd /data
 	git clone https://github.com/TarsCloud/Tars.git --recursive
 
-	# 调整数据和脚本文件
-	cd /data/Tars/framework/sql
-	sed -i "s/192.168.2.131/${MY_TARS_IP}/g" `grep 192.168.2.131 -rl ./*`
-	sed -i "s/db.tars.com/${MY_TARS_IP}/g" `grep db.tars.com -rl ./*`
-	sed -i "s/root@appinside/${MY_MYSQL_ROOT_PASSWORD}/g" exec-sql.sh
-
-	# 【坑】这里明显是一处笔误，后果就是使用 tars.springboot 服务模板将导致部署失败。
-	sed -i "s/<<server>/<server>/g" db_tars.sql
-
-	# 执行数据库初始化
-	chmod u+x exec-sql.sh
-	./exec-sql.sh
-	mysql -P3306 -uroot -p${MY_MYSQL_ROOT_PASSWORD} -e "grant all on *.* to 'tars'@'%' identified by 'tars2015' with grant option;"
-	mysql -P3306 -uroot -p${MY_MYSQL_ROOT_PASSWORD} -e "grant all on *.* to 'tars'@'localhost' identified by 'tars2015' with grant option;"
-	mysql -P3306 -uroot -p${MY_MYSQL_ROOT_PASSWORD} -e "flush privileges;"
-
 	# 调整与 mysql server 安装位置相关的文件内容
 	# 【坑】本系统环境中 mariadb(mysql) 的安装位置跟 tars 源代码中预期的不一样，需调整。
 	cd /data/Tars
@@ -90,6 +74,9 @@
 	sed -i "s@libmysqlclient.a@libmysqlclient.so@g" cpp/test/testUtil/CMakeLists.txt
 	sed -i "s@libmysqlclient.a@libmysqlclient.so@g" framework/CMakeLists.txt
 	sed -i "s@libmysqlclient.a@libmysqlclient.so@g" framework/tarscpp/test/testUtil/CMakeLists.txt
+
+	# 【坑】这里明显是一处笔误，后果就是使用 tars.springboot 服务模板将导致部署失败。
+	sed -i "s/<<server>/<server>/g" framework/sql/db_tars.sql
 
 源代码都准备好之后，接下来你可以选择【快速部署】或者是【手工编译部署】。
 
@@ -162,16 +149,32 @@ web 管理系统访问网址：
 
 # 手工编译部署 [3]
 
-## 准备工作
+### 准备工作
 
+	# 调整数据和脚本文件
+	cd /data/Tars/framework/sql
+	sed -i "s/192.168.2.131/${MY_TARS_IP}/g" `grep 192.168.2.131 -rl ./*`
+	sed -i "s/db.tars.com/${MY_TARS_IP}/g" `grep db.tars.com -rl ./*`
+	sed -i "s/root@appinside/${MY_MYSQL_ROOT_PASSWORD}/g" exec-sql.sh
+
+	# 数据库初始化
+	chmod u+x exec-sql.sh
+	./exec-sql.sh
+
+	# 在数据库中创建 tars 帐号
+	mysql -P3306 -uroot -p${MY_MYSQL_ROOT_PASSWORD} -e "grant all on *.* to 'tars'@'%' identified by 'tars2015' with grant option;"
+	mysql -P3306 -uroot -p${MY_MYSQL_ROOT_PASSWORD} -e "grant all on *.* to 'tars'@'localhost' identified by 'tars2015' with grant option;"
+	mysql -P3306 -uroot -p${MY_MYSQL_ROOT_PASSWORD} -e "flush privileges;"
+
+	# 构建环境初始化
 	cd /data/Tars/framework/build
 	./build.sh all
 
-## 构建核心基础服务模块
+### 构建核心基础服务模块
 
 	make framework-tar
 
-## 安装核心基础服务模块
+### 安装核心基础服务模块
 
 	mkdir -p /usr/local/app/tars
 	mv framework.tgz /usr/local/app/tars
@@ -185,7 +188,7 @@ web 管理系统访问网址：
 	chmod u+x tars_install.sh
 	./tars_install.sh
 
-## 安装 web 管理系统
+### 安装 web 管理系统
 
 	cp -R /data/Tars/web /usr/local/app
 	cd /usr/local/app/web
@@ -215,7 +218,7 @@ tarsnotify 并没有安装部署。但坑的是，tarsnotify 的部署信息已�
 
 5. 回到“服务管理”列表，在 tarsnotify 后面点击“重启”。完成之后问题即解决。
 
-## 构建普通基础服务模块（可通过 web 管理系统部署 [4]）
+### 构建普通基础服务模块（可通过 web 管理系统部署 [4]）
 
 	cd /data/Tars/framework/build
 	make tarsnotify-tar
