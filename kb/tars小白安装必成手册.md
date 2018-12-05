@@ -83,7 +83,7 @@
 	sed -i "s/<<server>/<server>/g" framework/sql/db_tars.sql
 
 	# 【坑】web 管理系统中有一处 BUG，将导致“接口测试”功能总是报错。
-	sed -i "s/setName ? setName : ''/setName ? setName : '', {}/g" web/app/service/infTest/TarsClient.js
+	sed -i "s/setName ? setName : '')/setName ? setName : '', {})/g" web/app/service/infTest/TarsClient.js
 
 源代码都准备好之后，接下来你可以选择【快速部署】或者是【手工编译部署】。
 
