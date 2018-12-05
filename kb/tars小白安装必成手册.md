@@ -82,6 +82,9 @@
 	# 【坑】这里明显是一处笔误，后果就是使用 tars.springboot 服务模板将导致部署失败。
 	sed -i "s/<<server>/<server>/g" framework/sql/db_tars.sql
 
+	# 【坑】web 管理系统中有一处 BUG，将导致“接口测试”功能总是报错。
+	sed -i "s/setName ? setName : ''/setName ? setName : '', {}/g" web/app/service/infTest/TarsClient.js
+
 源代码都准备好之后，接下来你可以选择【快速部署】或者是【手工编译部署】。
 
 如果你想两种方式都实验一下，那现在就可以在 VirtualBox 里做个系统快照了。
