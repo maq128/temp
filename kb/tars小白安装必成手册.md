@@ -1,7 +1,8 @@
 # tars 小白安装必成手册
 
-最近开始了解和学习 tars [1]，如果可能的话，准备在实践中使用。官方文档虽然内容不少，但是对于初学者来说
-似乎缺乏系统的指导，导致不少像我这样的菜鸟小白四处碰壁，起步过程充满了挫折。
+最近开始了解和学习 [Tars](https://github.com/TarsCloud/Tars)，如果可能的话，准备在实践中使用。
+官方文档虽然内容不少，但是对于初学者来说似乎缺乏系统的指导，导致不少像我这样的菜鸟小白四处碰壁，
+起步过程充满了挫折。
 
 这里把本人在开始安装试用过程中遇到的问题以及解决的办法做个记录，主要是自己备忘，同时也希望能帮到
 有需要的人。
@@ -28,8 +29,9 @@
 我这里使用的是 **VirtualBox + CentOS 7**，网络连接方式设置为“桥接网卡”，虚拟机系统就像局域网上一台单独
 的电脑一样，可以通过 IP 地址跟宿主系统互相访问。
 
-**关于如何安全地使用 Linux 系统不是本文的议题。为了减少不必要的干扰，操作系统安装好之后，如果需要的话，
-关闭 SELinux [5] 和 firewalld [6]。以下所有操作都以 root 帐号来完成。**
+**关于如何安全地使用 Linux 系统不是本文的议题。为了减少不必要的干扰，操作系统安装好之后，请检查并
+[关闭 SELinux](https://www.jianshu.com/p/a7900dbf893c)，[关闭 firewalld](https://www.jianshu.com/p/d6414b5295b8)。
+以下所有操作都以 root 帐号来完成。**
 
 
 # 软件环境准备
@@ -57,7 +59,7 @@
 
 # 下载 Tars 源代码
 
-	# （可选）如果你的电脑无法直接访问 github 的话，请设置适当的代理服务器 [7]。
+	# （可选）如果你的电脑无法直接访问 github 的话，请[设置适当的代理服务器](https://www.jianshu.com/p/27365d2542d7)。
 
 	# 下载全部源代码
 	mkdir /data
@@ -90,7 +92,9 @@
 如果你想两种方式都实验一下，那现在就可以在 VirtualBox 里做个系统快照了。
 
 
-# 快速部署 [2]
+# 快速部署
+
+[《官方文档：快速部署》](https://github.com/TarsCloud/Tars/tree/master/deploy)
 
 	# 调整网卡名相关的文件内容
 	# 【坑】tars 源代码预期网卡名为 eth0，本系统环境中实际网卡名为 enp0s3。【请根据实际情况修改】
@@ -154,7 +158,9 @@ web 管理系统访问网址：
 	ps -ef | grep tars/
 
 
-# 手工编译部署 [3]
+# 手工编译部署
+
+[《官方文档：Tars框架运行环境搭建》](https://github.com/TarsCloud/Tars/blob/master/Install.zh.md#chapter-4)
 
 ### 准备工作
 
@@ -225,7 +231,9 @@ tarsnotify 并没有安装部署。但坑的是，tarsnotify 的部署信息已�
 
 5. 回到“服务管理”列表，在 tarsnotify 后面点击“重启”。完成之后问题即解决。
 
-### 构建普通基础服务模块（可通过 web 管理系统部署 [4]）
+### 构建普通基础服务模块
+
+[《官方文档：安装框架普通基础服务》](https://github.com/TarsCloud/Tars/blob/master/Install.zh.md#44-%E5%AE%89%E8%A3%85%E6%A1%86%E6%9E%B6%E6%99%AE%E9%80%9A%E5%9F%BA%E7%A1%80%E6%9C%8D%E5%8A%A1)
 
 	cd /data/Tars/framework/build
 	make tarsnotify-tar
@@ -274,26 +282,3 @@ tarsnotify 并没有安装部署。但坑的是，tarsnotify 的部署信息已�
 貌似官方并没有提供自启动解决方案，所以在实验环境中，当服务器重启之后，tars 需要手工启动。
 如果是在生产环境中使用，恐怕就要自己想办法设计自启动方案了。
 
-
-# 参考资料
-
-	[1] TarsCloud/Tars
-	https://github.com/TarsCloud/Tars
-
-	[2] tars 快速部署
-	https://github.com/TarsCloud/Tars/tree/master/deploy
-
-	[3] tars 手工编译部署
-	https://github.com/TarsCloud/Tars/blob/master/Install.zh.md
-
-	[4] 通过 web 管理系统安装普通基础服务
-	https://github.com/TarsCloud/Tars/blob/master/Install.zh.md#44-%E5%AE%89%E8%A3%85%E6%A1%86%E6%9E%B6%E6%99%AE%E9%80%9A%E5%9F%BA%E7%A1%80%E6%9C%8D%E5%8A%A1
-
-	[5] 查看SELinux状态及关闭SELinux
-	https://www.jianshu.com/p/a7900dbf893c
-
-	[6] centos7 关闭防火墙
-	https://www.jianshu.com/p/d6414b5295b8
-
-	[7] git代理配置
-	https://www.jianshu.com/p/27365d2542d7
