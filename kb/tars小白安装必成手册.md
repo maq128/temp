@@ -1,6 +1,6 @@
 # tars 小白安装必成手册
 
-最近开始了解和学习 [Tars](https://github.com/TarsCloud/Tars)，如果可能的话，准备在实践中使用。
+最近开始了解和学习 [TarsCloud/Tars](https://github.com/TarsCloud/Tars)，如果可能的话，准备在实践中使用。
 官方文档虽然内容不少，但是对于初学者来说似乎缺乏系统的指导，导致不少像我这样的菜鸟小白四处碰壁，
 起步过程充满了挫折。
 
@@ -35,25 +35,54 @@
 
 # 软件环境准备
 
-	# 安装编译环境
+	# 安装编译环境（用于编译 tars 基础服务）
 	yum install gcc gcc-c++ cmake yasm glibc-devel flex bison ncurses-devel zlib-devel autoconf python-requests
 
-	# 安装 nodejs 和 npm
+	# 安装 mysql client 依赖项（用于编译 tars 基础服务和执行 mysql 命令）
+	yum install mariadb mariadb-devel mariadb-libs
+
+	# 安装 nodejs 和 npm（用于安装运行 web 管理系统）
 	curl --silent --location https://rpm.nodesource.com/setup_8.x | sudo bash -
 	yum install nodejs
 
+	# 安装 docker（选项：用于 docker 方式启动 mysql server）
+	wget https://download.docker.com/linux/centos/7/x86_64/stable/Packages/docker-ce-18.03.1.ce-1.el7.centos.x86_64.rpm
+	yum install docker-ce-18.03.1.ce-1.el7.centos.x86_64.rpm
+	systemctl enable docker
+	systemctl start docker
+
+	# 设置环境变量（这里的 IP 地址是 CentOS 7 系统分配到的 IP，【请根据实际情况修改】）
+	export MY_TARS_IP=192.168.1.140
+	export MY_MYSQL_IP=192.168.1.140
+	export MY_MYSQL_ROOT_PASSWORD=password
+
+
+# 安装 mysql 数据库服务
+
+### 使用 CentOS 7 自带的 mariadb
+
 	# 安装并启动 mariadb （使用上等同于 mysql）
-	yum install mariadb-devel mariadb-libs mariadb-server
+	yum install mariadb-server
 	systemctl enable mariadb
 	systemctl start mariadb
 
 	# mysql server 初始化安全设置（root 密码设置为 password）
 	mysql_secure_installation
 
-	# 设置环境变量（这里的 IP 地址是 CentOS 7 系统分配到的 IP，【请根据实际情况修改】）
-	export MY_TARS_IP=192.168.1.140
-	export MY_MYSQL_IP=192.168.1.140
-	export MY_MYSQL_ROOT_PASSWORD=password
+注：CentOS 7 自带的 mariadb 只能更新到 5.5.59-MariaDB-38.11，而 [TarsCloud/TarsWeb](https://github.com/TarsCloud/Tars)
+提供的用户体系模块（demo）需要数据库版本不低于 5.6.5，建议使用 docker 方式启动 mysql server。
+
+### 使用 docker 启动 mysql server
+
+	mkdir -p /var/run/mysqld
+	chmod 777 /var/run/mysqld
+	docker run --name tars-mysqld --publish=3306:3306 -v /var/run/mysqld:/var/run/mysqld -e MYSQL_ROOT_PASSWORD=${MY_MYSQL_ROOT_PASSWORD} --detach mysql:5.7
+	echo "socket=/var/run/mysqld/mysqld.sock" >> /etc/my.cnf.d/client.cnf
+
+【坑】tars 的安装脚本（包括快速部署用的 py 程序）在调用 mysql 命令访问数据库的时候，都没有指定 --host 参数，
+如果这种方式不能正确连接到 mysql server 的话，安装过程将会失败。所以一般来说本机直接安装的 mysql server 还好办，
+如果是运行在另外一台服务器上，或者用 docker 启动 mysql server 的话，就会有一点麻烦。上面用 docker 启动 mysql server
+容器的时候做的一些额外设置就是为了避免这个问题。
 
 
 # 下载 Tars 源代码
@@ -65,7 +94,7 @@
 	cd /data
 	git clone https://github.com/TarsCloud/Tars.git --recursive
 
-	# 调整与 mysql server 安装位置相关的文件内容
+	# 调整与 mysql clent 依赖项安装位置相关的文件内容
 	# 本系统环境中 mariadb(mysql) 的安装位置跟 tars 源代码中预期的不一样，需调整。
 	cd /data/Tars
 	sed -i "s@/usr/local/mysql/include@/usr/include/mysql@g" framework/CMakeLists.txt
@@ -126,8 +155,9 @@
 	tarweb cannot visit
 
 【坑】如果哪一步卡了很长时间没有动静，那很可能是因为网络原因卡死了。比如 install nvm 过程中会调用 wget
-访问 https://raw.githubusercontent.com/ ，不行的话只能[自己想办法](各种常用软件设置代理的方法.md)了。有时候重试一次也许管用（这时候你需要
-回滚到之前在 VirtualBox 做的系统快照重新开始，不要简单地重新运行 deploy.py，那样会有副作用）。
+访问 https://raw.githubusercontent.com/ ，不行的话只能[自己想办法](各种常用软件设置代理的方法.md)了。
+有时候重试一次也许管用（这时候你需要回滚到之前在 VirtualBox 做的系统快照重新开始，不要简单地重新运行
+deploy.py，那样会有副作用）。
 
 最末两行输出的内容貌似报错，但可以不用管它，已经安装好了。
 
@@ -241,6 +271,30 @@ tarsnotify 并没有安装部署。但坑的是，tarsnotify 的部署信息已�
 	make tarslog-tar
 	make tarsquerystat-tar
 	make tarsqueryproperty-tar
+
+### 安装 web 管理系统用户体系模块（demo）
+
+[《官方文档：TARS 用户体系模块使用指引》](https://github.com/TarsCloud/TarsWeb/blob/master/docs/TARS%20%E7%94%A8%E6%88%B7%E4%BD%93%E7%B3%BB%E6%A8%A1%E5%9D%97%2B%E8%B5%84%E6%BA%90%E6%A8%A1%E5%9D%97%E4%BD%BF%E7%94%A8%E6%8C%87%E5%BC%95.md)
+
+	cd /data
+	git clone https://github.com/TarsCloud/TarsWeb.git
+	cp -rf /data/TarsWeb/demo /usr/local/app/web-auth
+
+	cd /usr/local/app/web-auth
+	mysql -uroot -p${MY_MYSQL_ROOT_PASSWORD} -e "create database db_user_system"
+	mysql -uroot -p${MY_MYSQL_ROOT_PASSWORD} db_user_system < sql/db_user_system.sql
+
+	sed -i "s/127.0.0.1/${MY_MYSQL_IP}/g" config/webConf.js
+	sed -i "s/admin12345/${MY_MYSQL_ROOT_PASSWORD}/g" config/webConf.js
+
+	npm install
+	npm run prd
+
+	# 在 web 管理系统中开启登录认证，并重启
+	cd /usr/local/app/web
+	sed -i "s/enableLogin: false,/enableLogin: true,/g" config/loginConf.js
+	sed -i "s/localhost/${MY_TARS_IP}/g" config/loginConf.js
+	pm2 restart tars-node-web
 
 
 # 手工启动/停止 tars
