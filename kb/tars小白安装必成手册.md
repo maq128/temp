@@ -56,6 +56,8 @@
 	export MY_MYSQL_IP=192.168.1.140
 	export MY_MYSQL_ROOT_PASSWORD=password
 
+注：如果喜欢用 docker 方式运行 tars 框架，可以从这里直接跳到 [基于 docker 运行 tars 框架](#基于 docker 运行 tars 框架)
+
 
 # 安装 mysql 数据库服务
 
@@ -74,6 +76,8 @@
 建议使用 docker 方式启动 mysql server。
 
 ### 使用 docker 启动 mysql server
+
+参考资料：[docker](https://docs.docker.com/engine/reference/commandline/run/) [mysql](https://store.docker.com/_/mysql)
 
 	mkdir -p /var/run/mysqld
 	chmod 777 /var/run/mysqld
@@ -336,3 +340,25 @@ tarsnotify 并没有安装部署。但坑的是，tarsnotify 的部署信息已�
 貌似官方并没有提供自启动解决方案，所以在实验环境中，当服务器重启之后，tars 需要手工启动。
 如果是在生产环境中使用，恐怕就要自己想办法设计自启动方案了。
 
+
+# 基于 docker 运行 tars 框架
+
+参考资料：[Tencent Tars 的Docker镜像脚本与使用](https://store.docker.com/r/tarscloud/tars)
+
+```
+docker run --name tars-mysqld --detach \
+--publish=3306:3306 \
+-e MYSQL_ROOT_PASSWORD=${MY_MYSQL_ROOT_PASSWORD} \
+mysql:5.7
+
+docker run --name tars --detach \
+--net=host \
+-e INET_NAME=enp0s3 \
+-e DBIP=${MY_MYSQL_IP} \
+-e DBPort=3306 \
+-e DBUser=root \
+-e DBPassword=${MY_MYSQL_ROOT_PASSWORD} \
+tarscloud/tars:dev
+```
+注：docker 方式确实简单。不过这个镜像并没有修复 [下载 Tars 源代码](#下载 Tars 源代码) 一节里提到的两个坑，
+有兴趣可以自己构建一个镜像，或者等待官方代码仓库的 BUGFIX 吧。
