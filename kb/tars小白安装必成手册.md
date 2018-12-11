@@ -69,8 +69,9 @@
 	# mysql server 初始化安全设置（root 密码设置为 password）
 	mysql_secure_installation
 
-注：CentOS 7 自带的 mariadb 只能更新到 5.5.59-MariaDB-38.11，而 [TarsCloud/TarsWeb](https://github.com/TarsCloud/Tars)
-提供的用户体系模块（demo）需要数据库版本不低于 5.6.5，建议使用 docker 方式启动 mysql server。
+注：CentOS 7 自带的 mariadb 只能更新到 5.5.59-MariaDB-38.11，而 [TarsCloud/TarsWeb](https://github.com/TarsCloud/TarsWeb)
+提供的用户体系模块（[demo](https://github.com/TarsCloud/TarsWeb/tree/master/demo)）需要数据库版本不低于 5.6.5，
+建议使用 docker 方式启动 mysql server。
 
 ### 使用 docker 启动 mysql server
 
