@@ -90,7 +90,8 @@
 容器的时候做的一些额外设置就是为了避免这个问题。
 
 
-# 下载 Tars 源代码<a id="download-tars"></a>
+<a id="download-tars"></a>
+# 下载 Tars 源代码
 
 注：如果你的电脑无法直接访问 github，请[设置适当的代理服务器](各种常用软件设置代理的方法.md)。
 
@@ -341,7 +342,8 @@ tarsnotify 并没有安装部署。但坑的是，tarsnotify 的部署信息已�
 如果是在生产环境中使用，恐怕就要自己想办法设计自启动方案了。
 
 
-# 基于 docker 运行 tars 框架<a id="docker-tars"></a>
+<a id="docker-tars"></a>
+# 基于 docker 运行 tars 框架
 
 参考资料：[Tencent Tars 的Docker镜像脚本与使用](https://store.docker.com/r/tarscloud/tars)
 
