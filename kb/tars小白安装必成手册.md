@@ -115,9 +115,9 @@
 	# 调整 mysql client 为动态连接
 	# 【坑】本系统环境中 mariadb(mysql) 没有提供静态连接库，需改为动态连接。
 	# 官方文档推荐使用静态连接，以避免可执行程序对运行环境的依赖，本实验仅限于单机，不受影响。
-	sed -i "s@libmysqlclient.a@libmysqlclient.so@g" cpp/test/testUtil/CMakeLists.txt
-	sed -i "s@libmysqlclient.a@libmysqlclient.so@g" framework/CMakeLists.txt
-	sed -i "s@libmysqlclient.a@libmysqlclient.so@g" framework/tarscpp/test/testUtil/CMakeLists.txt
+	sed -i "s/libmysqlclient.a/libmysqlclient.so/g" cpp/test/testUtil/CMakeLists.txt
+	sed -i "s/libmysqlclient.a/libmysqlclient.so/g" framework/CMakeLists.txt
+	sed -i "s/libmysqlclient.a/libmysqlclient.so/g" framework/tarscpp/test/testUtil/CMakeLists.txt
 
 	# 【坑】这里明显是一处笔误，后果就是使用 tars.springboot 服务模板将导致部署失败。
 	sed -i "s/<<server>/<server>/g" framework/sql/db_tars.sql
@@ -137,10 +137,10 @@
 	# 调整网卡名相关的文件内容
 	# 【坑】tars 源代码预期网卡名为 eth0，本系统环境中实际网卡名为 enp0s3。【请根据实际情况修改】
 	cd /data/Tars/deploy
-	sed -i "s@eth0@enp0s3@g" comm/tarsUtil.py
+	sed -i "s/eth0/enp0s3/g" comm/tarsUtil.py
 
 	# 【坑】调整数据库密码相关的文件内容
-	sed -i "s@tars12345@${MY_MYSQL_ROOT_PASSWORD}@g" comm.properties
+	sed -i "s/tars12345/${MY_MYSQL_ROOT_PASSWORD}/g" comm.properties
 
 	# 全自动部署
 	python ./deploy.py all
@@ -352,7 +352,8 @@ tarsnotify 并没有安装部署。但坑的是，tarsnotify 的部署信息已�
 参考资料：[Tencent Tars 的Docker镜像脚本与使用](https://store.docker.com/r/tarscloud/tars)
 
 	docker run --name tars-mysqld --detach \
-	  --publish=3306:3306 \
+	  --net=host \
+	  -e TZ=Asia/Shanghai \
 	  -e MYSQL_ROOT_PASSWORD=${MY_MYSQL_ROOT_PASSWORD} \
 	  mysql:5.7
 
