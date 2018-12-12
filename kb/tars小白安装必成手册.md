@@ -389,7 +389,7 @@ tarsnotify 并没有安装部署。但坑的是，tarsnotify 的部署信息已�
 	tcp -h 192.168.1.140 -t 60000 -p 10011	tarsqueryproperty
 	tcp -h 192.168.1.140 -t 60000 -p 10012	tarsquerystat
 
-而实际运行时端口的使用情况是这样的：
+而实际运行时端口的使用情况是这样的：([sed regular expression syntax](https://www.gnu.org/software/sed/manual/html_node/Regular-Expressions.html))
 
 	netstat -plnt | \
 	  grep tars | \
