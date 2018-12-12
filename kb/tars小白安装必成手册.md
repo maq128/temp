@@ -81,7 +81,11 @@
 
 	mkdir -p /var/run/mysqld
 	chmod 777 /var/run/mysqld
-	docker run --name tars-mysqld --publish=3306:3306 -v /var/run/mysqld:/var/run/mysqld -e MYSQL_ROOT_PASSWORD=${MY_MYSQL_ROOT_PASSWORD} --detach mysql:5.7
+	docker run --name tars-mysqld --detach \
+	  --publish=3306:3306 \
+	  -v /var/run/mysqld:/var/run/mysqld \
+	  -e MYSQL_ROOT_PASSWORD=${MY_MYSQL_ROOT_PASSWORD} \
+	  mysql:5.7
 	echo "socket=/var/run/mysqld/mysqld.sock" >> /etc/my.cnf.d/client.cnf
 
 【坑】tars 的安装脚本（包括快速部署用的 py 程序）在调用 mysql 命令访问数据库的时候，都没有指定 --host 参数，
@@ -128,7 +132,7 @@
 
 # 快速部署
 
-[《官方文档：快速部署》](https://github.com/TarsCloud/Tars/tree/master/deploy)
+官方文档：[快速部署](https://github.com/TarsCloud/Tars/tree/master/deploy)
 
 	# 调整网卡名相关的文件内容
 	# 【坑】tars 源代码预期网卡名为 eth0，本系统环境中实际网卡名为 enp0s3。【请根据实际情况修改】
@@ -150,10 +154,10 @@
 	build start ...
 	build sucess
 	initDB start ...
-	initDB success 
+	initDB success
 	deploy frameServer start ...
 	deploy frameServer success
-	deploy web start ... 
+	deploy web start ...
 	install nvm start...
 	install nvm success
 	deploy web success
@@ -195,7 +199,7 @@ web 管理系统访问网址：
 
 # 手工编译部署
 
-[《官方文档：Tars框架运行环境搭建》](https://github.com/TarsCloud/Tars/blob/master/Install.zh.md#chapter-4)
+官方文档：[Tars框架运行环境搭建](https://github.com/TarsCloud/Tars/blob/master/Install.zh.md#chapter-4)
 
 ### 准备工作
 
@@ -268,7 +272,7 @@ tarsnotify 并没有安装部署。但坑的是，tarsnotify 的部署信息已�
 
 ### 构建普通基础服务模块
 
-[《官方文档：安装框架普通基础服务》](https://github.com/TarsCloud/Tars/blob/master/Install.zh.md#44-%E5%AE%89%E8%A3%85%E6%A1%86%E6%9E%B6%E6%99%AE%E9%80%9A%E5%9F%BA%E7%A1%80%E6%9C%8D%E5%8A%A1)
+官方文档：[安装框架普通基础服务](https://github.com/TarsCloud/Tars/blob/master/Install.zh.md#44-%E5%AE%89%E8%A3%85%E6%A1%86%E6%9E%B6%E6%99%AE%E9%80%9A%E5%9F%BA%E7%A1%80%E6%9C%8D%E5%8A%A1)
 
 	cd /data/Tars/framework/build
 	make tarsnotify-tar
@@ -280,7 +284,7 @@ tarsnotify 并没有安装部署。但坑的是，tarsnotify 的部署信息已�
 
 ### 安装 web 管理系统用户体系模块（demo）
 
-[《官方文档：TARS 用户体系模块使用指引》](https://github.com/TarsCloud/TarsWeb/blob/master/docs/TARS%20%E7%94%A8%E6%88%B7%E4%BD%93%E7%B3%BB%E6%A8%A1%E5%9D%97%2B%E8%B5%84%E6%BA%90%E6%A8%A1%E5%9D%97%E4%BD%BF%E7%94%A8%E6%8C%87%E5%BC%95.md)
+官方文档：[TARS 用户体系模块使用指引](https://github.com/TarsCloud/TarsWeb/blob/master/docs/TARS%20%E7%94%A8%E6%88%B7%E4%BD%93%E7%B3%BB%E6%A8%A1%E5%9D%97%2B%E8%B5%84%E6%BA%90%E6%A8%A1%E5%9D%97%E4%BD%BF%E7%94%A8%E6%8C%87%E5%BC%95.md)
 
 	cd /data
 	git clone https://github.com/TarsCloud/TarsWeb.git
@@ -347,20 +351,67 @@ tarsnotify 并没有安装部署。但坑的是，tarsnotify 的部署信息已�
 
 参考资料：[Tencent Tars 的Docker镜像脚本与使用](https://store.docker.com/r/tarscloud/tars)
 
-```
-docker run --name tars-mysqld --detach \
---publish=3306:3306 \
--e MYSQL_ROOT_PASSWORD=${MY_MYSQL_ROOT_PASSWORD} \
-mysql:5.7
+	docker run --name tars-mysqld --detach \
+	  --publish=3306:3306 \
+	  -e MYSQL_ROOT_PASSWORD=${MY_MYSQL_ROOT_PASSWORD} \
+	  mysql:5.7
 
-docker run --name tars --detach \
---net=host \
--e INET_NAME=enp0s3 \
--e DBIP=${MY_MYSQL_IP} \
--e DBPort=3306 \
--e DBUser=root \
--e DBPassword=${MY_MYSQL_ROOT_PASSWORD} \
-tarscloud/tars:dev
-```
+	docker run --name tars --detach \
+	  --net=host \
+	  -e INET_NAME=enp0s3 \
+	  -e DBIP=${MY_MYSQL_IP} \
+	  -e DBPort=3306 \
+	  -e DBUser=root \
+	  -e DBPassword=${MY_MYSQL_ROOT_PASSWORD} \
+	  tarscloud/tars:dev
+
 注：docker 方式确实简单。不过这个镜像并没有修复 [下载 Tars 源代码](#download-tars) 一节里提到的两个坑，
 有兴趣可以自己构建一个镜像，或者等待官方代码仓库的 BUGFIX 吧。
+
+另外发现一个奇怪的现象：启动之后，tars 框架基础服务中有些进程所绑定的监听端口跟部署参数中指定的并不一样。
+
+从数据库中查询出来每个进程的端口配置是这样的：
+
+	docker exec tars mysql \
+	  -h${MY_MYSQL_IP} \
+	  -P3306 \
+	  -uroot \
+	  -p${MY_MYSQL_ROOT_PASSWORD} \
+	  -e "select endpoint, server_name from t_adapter_conf order by endpoint" \
+	  db_tars
+
+	tcp -h 192.168.1.140 -t 60000 -p 10000	tarspatch
+	tcp -h 192.168.1.140 -t 60000 -p 10001	tarsconfig
+	tcp -h 192.168.1.140 -t 60000 -p 10002	tarsnotify
+	tcp -h 192.168.1.140 -t 60000 -p 10003	tarslog
+	tcp -h 192.168.1.140 -t 60000 -p 10004	tarsstat
+	tcp -h 192.168.1.140 -t 60000 -p 10005	tarsproperty
+	tcp -h 192.168.1.140 -t 60000 -p 10011	tarsqueryproperty
+	tcp -h 192.168.1.140 -t 60000 -p 10012	tarsquerystat
+
+而实际运行时端口的使用情况是这样的：
+
+	netstat -plnt | \
+	  grep tars | \
+	  grep ${MY_TARS_IP} | \
+	  sed "s/^.*${MY_TARS_IP}:\([0-9]\+\).*\(tars.*\)$/\1 \2/g" | \
+	  sort
+
+	10000 tarspatch
+	10001 tarsconfig
+	10002 tarsnotify
+	10003 tarsstat
+	10004 tarsproperty
+	10005 tarslog
+	10006 tarsquerystat
+	10007 tarsqueryprope
+	12000 tarsAdminRegis
+	17890 tarsregistry
+	17891 tarsregistry
+	19385 tarsnode
+	19386 tarsnode
+
+此时虽然貌似工作正常，但隐藏着一些问题。比如，重启 tarslog 的话，实际上会把 tarsstat 先停掉了（因为 tarsstat 工作在 10003 端口）；
+tarslog 重启后会正确地工作在 10003 端口，但 tarsstat 却无法正常工作了，因为它试图工作的 10004 端口正在被 tarsproperty 占用。
+
+只好把 tarslog/tarsstat/tarsproperty/tarsqueryproperty/tarsquerystat 全都停掉，再逐个重启，这样就能各归其位了。
