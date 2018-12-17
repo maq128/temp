@@ -51,10 +51,11 @@
 	systemctl enable docker
 	systemctl start docker
 
-	# 设置环境变量（这里的 IP 地址是 CentOS 7 系统分配到的 IP，【请根据实际情况修改】）
+	# 设置环境变量（这里的 IP 地址和网卡名称是 CentOS 7 系统中的实际值，【请根据实际情况修改】）
 	export MY_TARS_IP=192.168.1.140
 	export MY_MYSQL_IP=192.168.1.140
 	export MY_MYSQL_ROOT_PASSWORD=password
+	export MY_NIC_NAME=enp0s3
 
 注：如果喜欢用 docker 方式运行 tars 框架，可以从这里直接跳到 [基于 docker 运行 tars 框架](#docker-tars)。
 
@@ -135,9 +136,9 @@
 官方文档：[快速部署](https://github.com/TarsCloud/Tars/tree/master/deploy)
 
 	# 调整网卡名相关的文件内容
-	# 【坑】tars 源代码预期网卡名为 eth0，本系统环境中实际网卡名为 enp0s3。【请根据实际情况修改】
+	# 【坑】tars 源代码预期网卡名为 eth0，与本系统环境的实际情况不符，需调整。
 	cd /data/Tars/deploy
-	sed -i "s/eth0/enp0s3/g" comm/tarsUtil.py
+	sed -i "s/eth0/${MY_NIC_NAME}/g" comm/tarsUtil.py
 
 	# 【坑】调整数据库密码相关的文件内容
 	sed -i "s/tars12345/${MY_MYSQL_ROOT_PASSWORD}/g" comm.properties
@@ -359,7 +360,7 @@ tarsnotify 并没有安装部署。但坑的是，tarsnotify 的部署信息已�
 
 	docker run --name tars --detach \
 	  --net=host \
-	  -e INET_NAME=enp0s3 \
+	  -e INET_NAME=${MY_NIC_NAME} \
 	  -e DBIP=${MY_MYSQL_IP} \
 	  -e DBPort=3306 \
 	  -e DBUser=root \
