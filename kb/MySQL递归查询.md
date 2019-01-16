@@ -31,37 +31,37 @@ INSERT INTO user(uid, parent) VALUES
 (8, 3), (9, 3),
 (10, 4), (11, 4);
 
-CREATE TABLE flow (
+CREATE TABLE trade (
   id INT NOT NULL AUTO_INCREMENT,
   uid INT NOT NULL,
-  money INT NOT NULL,
+  amount INT NOT NULL,
   PRIMARY KEY (id),
   KEY (uid)
 );
-INSERT INTO flow(uid, money) VALUES
+INSERT INTO trade(uid, amount) VALUES
 (1, 1), (2, 1), (3, 1), (4, 1), (5, 1),
 (6, 1), (7, 1), (8, 1), (9, 1), (10, 1),
 (11, 1), (11, 1);
 ```
 
 这里有两个表，`user` 表保存了用户记录，里面通过 `parent` 字段表达了树型结构的父子关系（比如邀请关系），
-`flow` 表保存了一些业务流水记录。
+`trade` 表保存了一些业务流水记录。
 
 ```
-            +---+             +---+             +---+
-            | 1 |             | 2 |             | 3 |
-            +---+             +---+             +---+
-            /   \            /    \             /    \
-        +---+    +---+    +---+    +---+    +---+    +---+
-        | 4 |    | 5 |    | 6 |    | 7 |    | 8 |    | 9 |
-        +---+    +---+    +---+    +---+    +---+    +---+
+            +---+           +---+           +---+
+            | 1 |           | 2 |           | 3 |
+            +---+           +---+           +---+
+            /   \           /   \           /   \
+        +---+   +---+   +---+   +---+   +---+   +---+
+        | 4 |   | 5 |   | 6 |   | 7 |   | 8 |   | 9 |
+        +---+   +---+   +---+   +---+   +---+   +---+
         /   \
-   +----+    +----+
-   | 10 |    | 11 |
-   +----+    +----+
+   +----+   +----+
+   | 10 |   | 11 |
+   +----+   +----+
 ```
 
-现在给定一个用户，希望查出他以及下游所有子孙节点的 `uid`，并在 `flow` 表中统计所有这些用户的 `money` 总和。
+现在给定一个用户，希望查出他以及下游所有子孙节点的 `uid`，并在 `trade` 表中统计所有这些用户 `amount` 的总和。
 比如给定 `uid=1`，那么所有参与统计的节点的 `uid` 集合应该是 (1,4,5,10,11)。
 
 ## MySQL 5.7 及更早版本下的方法
@@ -69,7 +69,7 @@ INSERT INTO flow(uid, money) VALUES
 ```sql
 SET @given = 1;
 
-SELECT SUM(flow.money)
+SELECT SUM(trade.amount)
 FROM (
   SELECT uid
   FROM
@@ -77,8 +77,8 @@ FROM (
     (SELECT @pv := @given) init
   WHERE FIND_IN_SET(parent, @pv) > 0 AND @pv := CONCAT(@pv, ',', uid)
   ) children,
-  flow
-WHERE children.uid = flow.uid;
+  trade
+WHERE children.uid = trade.uid;
 ```
 上面这个语句实际上并没有包含 uid=1 这个节点本身。把这条记录加进去并不难，为了突出要点，我这里就不做了。
 
@@ -90,7 +90,7 @@ WITH RECURSIVE family AS (
   UNION ALL
   SELECT user.uid FROM family, user WHERE family.uid = user.parent
 )
-SELECT SUM(flow.money)
-FROM family, flow
-WHERE family.uid = flow.uid;
+SELECT SUM(trade.amount)
+FROM family, trade
+WHERE family.uid = trade.uid;
 ```
