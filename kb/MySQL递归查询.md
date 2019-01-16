@@ -13,7 +13,7 @@
 网上看到有人给出了一个[巧妙的办法](https://stackoverflow.com/a/33737203)，可以在一个 SQL 语句里解决问题。
 但毕竟太过 tricky，效率也不会很高，当数据量比较大的时候可能会出现问题。
 
-直到 MySQL 8 出现，开始支持 [Common Table Expression](https://dev.mysql.com/doc/refman/8.0/en/with.html) 了，
+直到 MySQL 8 出现，开始支持 [Common Table Expressions](https://dev.mysql.com/doc/refman/8.0/en/with.html) 了，
 在 WITH 语法的强大支持下，递归查询被很轻易地解决了。
 
 ## 演示环境准备
@@ -62,7 +62,7 @@ INSERT INTO flow(uid, money) VALUES
 ```
 
 现在给定一个用户，希望查出他以及下游所有子孙节点的 uid，并在 flow 表中统计所有这些用户的 money 总和。
-如果给定 uid=1，那么所有参与统计的节点的 uid 集合应该是 (1,4,5,10,11)。
+比如给定 uid=1，那么所有参与统计的节点的 uid 集合应该是 (1,4,5,10,11)。
 
 ## MySQL 5.7 及更早版本下的方法
 
@@ -80,16 +80,17 @@ FROM (
   flow
 WHERE children.uid = flow.uid;
 ```
+上面这个语句实际上并没有包含 uid=1 这个节点本身。把这条记录加进去并不难，为了突出要点，我这里就不做了。
 
 ## MySQL 8 开始支持的方法
 
 ```sql
-WITH RECURSIVE children AS (
+WITH RECURSIVE family AS (
   SELECT uid FROM user WHERE uid = 1
   UNION ALL
-  SELECT user.uid FROM children, user WHERE children.uid = user.parent
+  SELECT user.uid FROM family, user WHERE family.uid = user.parent
 )
 SELECT SUM(flow.money)
-FROM children, flow
-WHERE children.uid = flow.uid;
+FROM family, flow
+WHERE family.uid = flow.uid;
 ```
