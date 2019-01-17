@@ -83,7 +83,7 @@ _上面这个查询实际上并没有包含 `uid=1` 这个节点本身。把这�
 `decendent` 这个子查询就是要查找出给定 `uid` 下游所有的子孙节点。它设置了一个变量 `@pv` 来保存所有已经找到的
 `uid`（初始只有 `1`，再利用 WHERE 子句的条件计算来逐个追加），并通过 `FIND_IN_SET()` 函数来识别符合条件的记录。
 
-## MySQL 8 开始支持的方法
+## MySQL 8 开始支持的 CTE 方法
 
 ```sql
 WITH RECURSIVE family AS (
@@ -98,6 +98,4 @@ WHERE family.uid = trade.uid;
 `WITH` 语法本质上是定义了一个临时表，由于使用了 `RECURSIVE` 关键字，这个临时表会按照递归的逻辑来生成，
 直到把所有符合条件的记录都添加进来。
 
-可以看到，`WITH` 语法的作用远不限于递归查询，像**批量更新**、**批量删除**等逻辑都很容易用这种方式来表达，
-而**递归查询**只是被顺便同时解决了。
 [CONNECT BY is dead, long live CTE!](https://mariadb.com/resources/blog/connect-by-is-dead-long-live-cte-in-mariadb-server-10-2/)
