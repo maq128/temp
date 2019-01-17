@@ -67,23 +67,21 @@ INSERT INTO trade(uid, amount) VALUES
 ## MySQL 5.7 及更早版本下的方法
 
 ```sql
-SET @given = '1';
-
 SELECT SUM(trade.amount)
 FROM (
   SELECT uid
   FROM
     (SELECT * FROM user ORDER BY parent, uid) temp,
-    (SELECT @pv := @given) init
+    (SELECT @pv := 1) init
   WHERE FIND_IN_SET(parent, @pv) > 0 AND @pv := CONCAT(@pv, ',', uid)
-  ) children,
+  ) decendent,
   trade
-WHERE children.uid = trade.uid;
+WHERE decendent.uid = trade.uid;
 ```
-_上面这个语句实际上并没有包含 `uid=1` 这个节点本身。把这条记录加进去并不难，为了突出要点，我这里就不做了。_
+_上面这个查询实际上并没有包含 `uid=1` 这个节点本身。把这条记录加进去并不难，为了突出要点，我这里就不做了。_
 
-`children` 这个子查询就是要查找出给定 `uid` 下游所有的子孙节点。它设置了一个变量 `@pv` 来保存所有已经找到的
-`uid`（利用 WHERE 子句的条件计算来实现这一点），并通过 `FIND_IN_SET()` 函数来识别符合条件的记录。
+`decendent` 这个子查询就是要查找出给定 `uid` 下游所有的子孙节点。它设置了一个变量 `@pv` 来保存所有已经找到的
+`uid`（初始只有 `1`，再利用 WHERE 子句的条件计算来逐个追加），并通过 `FIND_IN_SET()` 函数来识别符合条件的记录。
 
 ## MySQL 8 开始支持的方法
 
