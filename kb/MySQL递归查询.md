@@ -95,7 +95,7 @@ SELECT SUM(trade.amount)
 FROM family, trade
 WHERE family.uid = trade.uid;
 ```
-`WITH` 语法本质上是定义了一个临时表，由于使用了 `RECURSIVE` 关键字，这个临时表会按照递归的逻辑来生成，
+`WITH` 语法可以理解为定义了一个一次性的视图，由于使用了 `RECURSIVE` 关键字，这个视图会按照递归的逻辑来生成，
 直到把所有符合条件的记录都添加进来。
 
 [CONNECT BY is dead, long live CTE!](https://mariadb.com/resources/blog/connect-by-is-dead-long-live-cte-in-mariadb-server-10-2/)
