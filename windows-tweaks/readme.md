@@ -1,95 +1,96 @@
-# ÔÚ×ÊÔ´¹ÜÀíÆ÷ÖĞÈ¥³ı¶àÓàµÄÏÔÊ¾Ïî
+# åœ¨èµ„æºç®¡ç†å™¨ä¸­å»é™¤å¤šä½™çš„æ˜¾ç¤ºé¡¹
 
-	How Add or Remove Folders from This PC in Windows 10
-	https://www.tenforums.com/tutorials/6015-add-remove-folders-pc-windows-10-a.html
+[How Add or Remove Folders from This PC in Windows 10](https://www.tenforums.com/tutorials/6015-add-remove-folders-pc-windows-10-a.html)
 
-	How to remove OneDrive from File Explorer on Windows 10
-	https://www.windowscentral.com/how-remove-onedrive-file-explorer-windows-10
+[How to remove OneDrive from File Explorer on Windows 10](https://www.windowscentral.com/how-remove-onedrive-file-explorer-windows-10)
 
-# ÔÚ×ÊÔ´¹ÜÀíÆ÷ÖĞ½ûÖ¹°Ñ zip ÎÄ¼şÏÔÊ¾ÎªÎÄ¼ş¼Ğ
+# åœ¨èµ„æºç®¡ç†å™¨ä¸­ç¦æ­¢æŠŠ zip æ–‡ä»¶æ˜¾ç¤ºä¸ºæ–‡ä»¶å¤¹
 
-	Disable Explorer Folder View of Cab and Zip Files
-	https://www.sevenforums.com/tutorials/13619-zip-folders-enable-disable-windows-explorer-view.html
+[Disable Explorer Folder View of Cab and Zip Files](https://www.sevenforums.com/tutorials/13619-zip-folders-enable-disable-windows-explorer-view.html)
 
-# ×ÊÔ´¹ÜÀíÆ÷ÖĞÓÒ¼ü²Ëµ¥Ìí¼Ó¡°ÔÚ´Ë´¦´ò¿ªÃüÁî´°¿Ú¡±
+# èµ„æºç®¡ç†å™¨ä¸­å³é”®èœå•æ·»åŠ â€œåœ¨æ­¤å¤„æ‰“å¼€å‘½ä»¤çª—å£â€
 
-	How to restore the ¡°Open command window here¡± option in Build 14986 and newer
-	https://insidewindows.net/2016/12/15/how-to-restore-the-open-command-window-here-option-in-build-14986-and-newer/
+[How to restore the â€œOpen command window hereâ€ option in Build 14986 and newer](https://insidewindows.net/2016/12/15/how-to-restore-the-open-command-window-here-option-in-build-14986-and-newer/)
 
-	ÔÚÒÔÏÂÁ½´¦×¢²á±íÎ»ÖÃ°Ñ HideBasedOnVelocityId ¸ÄÃûÎª ShowBasedOnVelocityId£º
-		HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Directory\background\shell\cmd
-		HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Directory\shell\cmd
-	¿ÉÄÜĞèÒªÏÈĞŞ¸Ä¸Ã´¦×¢²á±íÎ»ÖÃµÄÈ¨ÏŞ¡£
+åœ¨ä»¥ä¸‹ä¸¤å¤„æ³¨å†Œè¡¨ä½ç½®æŠŠ `HideBasedOnVelocityId` æ”¹åä¸º `ShowBasedOnVelocityId`ï¼š
 
-# ÉèÖÃ Windows 10 ÃâÃÜÂë×Ô¶¯µÇÂ¼
+- HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Directory\background\shell\cmd
+- HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Directory\shell\cmd
 
-	ÈçºÎÉèÖÃWin10×Ô¶¯µÇÂ¼£¿
-	https://www.zhihu.com/question/36628542
+å¯èƒ½éœ€è¦å…ˆä¿®æ”¹è¯¥å¤„æ³¨å†Œè¡¨ä½ç½®çš„æƒé™ã€‚
 
-	ÔËĞĞ control userpasswords2 »òÕß netplwiz.exe
+# è®¾ç½® Windows 10 å…å¯†ç è‡ªåŠ¨ç™»å½•
 
-# Windows 10 ¹Ø±Õ¿Í»§ÌåÑé¸ÄÉÆ¼Æ»®
+[å¦‚ä½•è®¾ç½®Win10è‡ªåŠ¨ç™»å½•ï¼Ÿ](https://www.zhihu.com/question/36628542)
 
-Æô¶¯±¾µØ×é²ßÂÔ±à¼­Æ÷ %windir%\system32\gpedit.msc
+è¿è¡Œ `control userpasswords2` æˆ–è€… `netplwiz.exe`
 
-°ÑÒÔÏÂÏîÄ¿ÉèÖÃÎªÆôÓÃ£º
+# Windows 10 å…³é—­å®¢æˆ·ä½“éªŒæ”¹å–„è®¡åˆ’
 
-	¼ÆËã»úÅäÖÃ
-		¹ÜÀíÄ£°å
-			ÏµÍ³
-				InternetÍ¨ĞÅ¹ÜÀí
-					InternetÍ¨ĞÅÉèÖÃ
-						¹Ø±ÕWindows¿Í»§ÌåÑé¸ÄÉÆ¼Æ»®
+å¯åŠ¨æœ¬åœ°ç»„ç­–ç•¥ç¼–è¾‘å™¨ `%windir%\system32\gpedit.msc`
 
-# Windows Defender ·À²¡¶¾³ÌĞòµÄ¼¸¸öÅäÖÃÏî
+æŠŠä»¥ä¸‹é¡¹ç›®è®¾ç½®ä¸ºå¯ç”¨ï¼š
 
-Æô¶¯±¾µØ×é²ßÂÔ±à¼­Æ÷ %windir%\system32\gpedit.msc
+	è®¡ç®—æœºé…ç½®
+	  ç®¡ç†æ¨¡æ¿
+	    ç³»ç»Ÿ
+	      Interneté€šä¿¡ç®¡ç†
+	        Interneté€šä¿¡è®¾ç½®
+	          å…³é—­Windowså®¢æˆ·ä½“éªŒæ”¹å–„è®¡åˆ’
 
-	¼ÆËã»úÅäÖÃ
-		¹ÜÀíÄ£°å
-			Windows ×é¼ş
-				Windows Defender ·À²¡¶¾³ÌĞò
-					É¨Ãè
-						ÔÊĞíÓÃ»§ÔİÍ£É¨Ãè
-						½öµ±¼ÆËã»ú´¦ÓÚ´ò¿ªµ«Î´Ê¹ÓÃ×´Ì¬²ÅÆô¶¯¼Æ»®É¨Ãè
-					ÊµÊ±±£»¤
-						¹Ø±ÕÊµÊ±±£»¤
+# Windows Defender é˜²ç—…æ¯’ç¨‹åºçš„å‡ ä¸ªé…ç½®é¡¹
 
-# Windows 10 ¿ª»úÆô¶¯ÏîµÄÎ»ÖÃ
+å¯åŠ¨æœ¬åœ°ç»„ç­–ç•¥ç¼–è¾‘å™¨ %windir%\system32\gpedit.msc
 
-¿ÉÒÔÔÚÈçÏÂÁ½¸öÎÄ¼ş¼ĞÖĞÌí¼Ó¿ì½İ·½Ê½£º
+	è®¡ç®—æœºé…ç½®
+	  ç®¡ç†æ¨¡æ¿
+	    Windows ç»„ä»¶
+	      Windows Defender é˜²ç—…æ¯’ç¨‹åº
+	        æ‰«æ
+	          å…è®¸ç”¨æˆ·æš‚åœæ‰«æ
+	          ä»…å½“è®¡ç®—æœºå¤„äºæ‰“å¼€ä½†æœªä½¿ç”¨çŠ¶æ€æ‰å¯åŠ¨è®¡åˆ’æ‰«æ
+	        å®æ—¶ä¿æŠ¤
+	          å…³é—­å®æ—¶ä¿æŠ¤
 
-	C:\Users\µ±Ç°ÓÃ»§Ãû\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup
-	¿ÉÒÔÔÚ×ÊÔ´¹ÜÀíÆ÷µØÖ·À¸ÀïÃæÊäÈë shell:Startup À´¿ìËÙ´ò¿ª¡£
+# Windows 10 å¼€æœºå¯åŠ¨é¡¹çš„ä½ç½®
 
-	C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup
-	¿ÉÒÔÔÚ×ÊÔ´¹ÜÀíÆ÷µØÖ·À¸ÀïÃæÊäÈë shell:Common Startup À´¿ìËÙ´ò¿ª¡£
+å¯ä»¥åœ¨å¦‚ä¸‹ä¸¤ä¸ªæ–‡ä»¶å¤¹ä¸­æ·»åŠ å¿«æ·æ–¹å¼ï¼š
 
-Ò²¿ÉÒÔÔÚÈçÏÂÁ½¸ö×¢²á±íÎ»ÖÃÌí¼Ó REG_SZ Ïî£º
+- C:\Users\å½“å‰ç”¨æˆ·å\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup
 
-	HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run
-	HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Run
+å¯ä»¥åœ¨èµ„æºç®¡ç†å™¨åœ°å€æ é‡Œé¢è¾“å…¥ `shell:Startup` æ¥å¿«é€Ÿæ‰“å¼€ã€‚
 
-# Windows 10 ÀïÃæ Ubuntu bash µÄÑÕÉ«ÎÊÌâ
+- C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup
 
-	Fixing dark blue colors on Windows 10 Ubuntu bash
-	https://medium.com/@iraklis/fixing-dark-blue-colors-on-windows-10-ubuntu-bash-c6b009f8b97c
+å¯ä»¥åœ¨èµ„æºç®¡ç†å™¨åœ°å€æ é‡Œé¢è¾“å…¥ `shell:Common Startup` æ¥å¿«é€Ÿæ‰“å¼€ã€‚
 
-	ÓÃÏÂÃæÕâ¸öÃüÁî¿ÉÒÔ´òÓ¡³öËùÓĞÑÕÉ«¶¨Òå£º
+ä¹Ÿå¯ä»¥åœ¨å¦‚ä¸‹ä¸¤ä¸ªæ³¨å†Œè¡¨ä½ç½®æ·»åŠ  REG_SZ é¡¹ï¼š
+
+- HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run
+- HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Run
+
+# Windows 10 é‡Œé¢ Ubuntu bash çš„é¢œè‰²é—®é¢˜
+
+[Fixing dark blue colors on Windows 10 Ubuntu bash](https://medium.com/@iraklis/fixing-dark-blue-colors-on-windows-10-ubuntu-bash-c6b009f8b97c)
+
+ç”¨ä¸‹é¢è¿™ä¸ªå‘½ä»¤å¯ä»¥æ‰“å°å‡ºæ‰€æœ‰é¢œè‰²å®šä¹‰ï¼š
+
 	dircolors -p
 
-	ÓÃÏÂÃæÕâ¸öÃüÁî¿ÉÒÔ´òÓ¡³ö LS_COLORS µÄ¸³ÖµÓï¾ä£º
+ç”¨ä¸‹é¢è¿™ä¸ªå‘½ä»¤å¯ä»¥æ‰“å°å‡º `LS_COLORS` çš„èµ‹å€¼è¯­å¥ï¼š
+
 	dircolors -b
 
-	ÔÚ .bashrc ÎÄ¼şµÄÄ©Î²Ôö¼ÓÈçÏÂÁ½ĞĞ¼´¿ÉÉèÖÃËùĞèµÄÑÕÉ«£¨ÆäÖĞ di=1;37 ÕâÏîÓÃÓÚ¿ØÖÆÄ¿Â¼µÄÏÔÊ¾ÑÕÉ«£©£º
+åœ¨ `.bashrc` æ–‡ä»¶çš„æœ«å°¾å¢åŠ å¦‚ä¸‹ä¸¤è¡Œå³å¯è®¾ç½®æ‰€éœ€çš„é¢œè‰²ï¼ˆå…¶ä¸­ `di=1;37` è¿™é¡¹ç”¨äºæ§åˆ¶ç›®å½•çš„æ˜¾ç¤ºé¢œè‰²ï¼‰ï¼š
+
 	LS_COLORS='rs=0:di=1;37:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arj=01;31:*.taz=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lz=01;31:*.xz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.axv=01;35:*.anx=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.axa=00;36:*.oga=00;36:*.spx=00;36:*.xspf=00;36:';
 	export LS_COLORS
 
-# cmd ÉèÖÃµãÕó×ÖÌåÎÊÌâ
+# cmd è®¾ç½®ç‚¹é˜µå­—ä½“é—®é¢˜
 
-ÔÚ Window 8/10 Àï£¬¾­³£»áÓöµ½ cmd ´°¿ÚÉèÖÃ×ÖÌåÊ±·¢ÏÖ¡°µãÕó×ÖÌå¡±ÎŞ·¨Ñ¡Ôñ×ÖºÅµÄÎÊÌâ£¬µ¼ÖÂÎŞ·¨Õı³£ÉèÖÃÎªµãÕó×ÖÌå¡£
+åœ¨ Window 8/10 é‡Œï¼Œç»å¸¸ä¼šé‡åˆ° cmd çª—å£è®¾ç½®å­—ä½“æ—¶å‘ç°â€œç‚¹é˜µå­—ä½“â€æ— æ³•é€‰æ‹©å­—å·çš„é—®é¢˜ï¼Œå¯¼è‡´æ— æ³•æ­£å¸¸è®¾ç½®ä¸ºç‚¹é˜µå­—ä½“ã€‚
 
-	https://answers.microsoft.com/en-us/windows/forum/windows_7-desktop/cmdexe-raster-font-8x12-is-missing/3a205183-8c99-49e4-aac3-ef020177277e
+[cmd.exe Raster Font 8x12 is missing](https://answers.microsoft.com/en-us/windows/forum/windows_7-desktop/cmdexe-raster-font-8x12-is-missing/3a205183-8c99-49e4-aac3-ef020177277e)
 
 	1. press WinKey+R
 	2. type cmd and press enter
@@ -102,9 +103,10 @@
 	9. select Font tab
 	10. choose Raster Font 8x12
 
-# ´Ó WebDAV Ó³ÉäµÄÍøÅÌÖĞ¸´ÖÆÎÄ¼ş£¬×î´óÏŞÖÆÎª 50M
+# ä» WebDAV æ˜ å°„çš„ç½‘ç›˜ä¸­å¤åˆ¶æ–‡ä»¶ï¼Œæœ€å¤§é™åˆ¶ä¸º 50M
 
-	Folder copy error message when downloading a file that is larger than 50000000 bytes from a Web folder
-	https://support.microsoft.com/en-us/help/900900/folder-copy-error-message-when-downloading-a-file-that-is-larger-than
+[Folder copy error message when downloading a file that is larger than 50000000 bytes from a Web folder](https://support.microsoft.com/en-us/help/900900/folder-copy-error-message-when-downloading-a-file-that-is-larger-than)
 
-	ÔÚ×¢²á±í HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\WebClient\Parameters ÖĞĞŞ¸Ä FileSizeLimitInBytes µÄÖµ£¬ÒÔµ÷ÕûÏŞÖÆµÄ³ß´ç¡£
+åœ¨å¦‚ä¸‹æ³¨å†Œè¡¨é¡¹ä¸­ä¿®æ”¹ `FileSizeLimitInBytes` çš„å€¼ï¼Œä»¥è°ƒæ•´é™åˆ¶çš„å°ºå¯¸ï¼š
+
+- HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\WebClient\Parameters
