@@ -1,52 +1,88 @@
+#### 自动刷新网页（抢课）
+
+	javascript:(function retry(){window.x=(window.x||0)+1;document.querySelector('.btn_search').click();document.querySelector('.kc_title').textContent='已自动刷新 '+window.x+' 次';setTimeout(function(){var c=document.querySelectorAll('.dwc .ng-binding');for (var i=0;i<c.length;i++){if(c[i].textContent!='0'){document.title='【开新课啦！】';var a=document.createElement('audio');document.body.appendChild(a);a.src='http://xmdx.sc.chinaz.com/Files/DownLoad/sound1/201709/9239.mp3';a.loop='loop';a.play();setTimeout(function(){a.pause();},10000);return;}}setTimeout(retry,45000);},15000);})()
+
+```javascript
+(function retry(){
+	window.x=(window.x||0)+1;
+	document.querySelector('.btn_search').click();
+	document.querySelector('.kc_title').textContent='已自动刷新 '+window.x+' 次';
+	setTimeout(function(){
+		var c=document.querySelectorAll('.dwc .ng-binding');
+		for (var i=0;i<c.length;i++){
+			if(c[i].textContent!='0'){
+				document.title='【开新课啦！】';
+				var a=document.createElement('audio');
+				document.body.appendChild(a);
+				a.src='http://xmdx.sc.chinaz.com/Files/DownLoad/sound1/201709/9239.mp3';
+				a.loop='loop';
+				a.play();
+				setTimeout(function(){a.pause();},10000);
+				return;
+			}
+		}
+		setTimeout(retry,45000);
+	},15000);
+})()
+```
+
 #### 微博定制
 
 	javascript:(function(){var z=16,d=document,s=d.head.appendChild(d.createElement("style"));s.appendChild(d.createTextNode(""));s.sheet.insertRule(".W_f14{font-size:"+z+"px}",0);s.sheet.insertRule(".WB_expand,.WB_sonFeed .WB_text,.WB_main_c{font-size:"+(z-1)+"px}",0);d.querySelector('.WB_feed_v3').classList.remove('WB_feed_v3');})()
 
-	(function() {
-		var z = 16,
-			d = document,
-			s = d.head.appendChild(d.createElement("style"));
-        // 增大字号
-		s.appendChild(d.createTextNode(""));
-		s.sheet.insertRule(".W_f14{font-size:" + z + "px}", 0);
-		s.sheet.insertRule(".WB_expand,.WB_sonFeed .WB_text,.WB_main_c{font-size:" + (z - 1) + "px}", 0);
-		// 去掉 v3 新版效果，恢复旧的布局（小图）
-		d.querySelector('.WB_feed_v3').classList.remove('WB_feed_v3');
-	})()
+```javascript
+(function() {
+	var z = 16,
+		d = document,
+		s = d.head.appendChild(d.createElement("style"));
+	// 增大字号
+	s.appendChild(d.createTextNode(""));
+	s.sheet.insertRule(".W_f14{font-size:" + z + "px}", 0);
+	s.sheet.insertRule(".WB_expand,.WB_sonFeed .WB_text,.WB_main_c{font-size:" + (z - 1) + "px}", 0);
+	// 去掉 v3 新版效果，恢复旧的布局（小图）
+	d.querySelector('.WB_feed_v3').classList.remove('WB_feed_v3');
+})()
+```
 
 #### XDEBUG
 
 	javascript:(function(){document.location+=(document.location.href.indexOf('?')>0?'&':'?')+'XDEBUG_SESSION_START=ECLIPSE_DBGP'+'&KEY='+(new Date().getTime())})()
 
-	(function() {
-		document.location +=
-			(document.location.href.indexOf('?') > 0 ? '&' : '?') +
-			'XDEBUG_SESSION_START=ECLIPSE_DBGP' +
-			'&KEY=' + (new Date().getTime())
-	})()
+```javascript
+(function() {
+	document.location +=
+		(document.location.href.indexOf('?') > 0 ? '&' : '?') +
+		'XDEBUG_SESSION_START=ECLIPSE_DBGP' +
+		'&KEY=' + (new Date().getTime())
+})()
+```
 
 #### 网页插入脚本
 
 	javascript:(function(){var e=document.createElement('script');e.setAttribute('type','text/javascript');e.setAttribute('charset','UTF-8');e.setAttribute('src','http://a.tbcdn.cn/s/aplus_v2.js');document.body.appendChild(e)})()
 
-	(function() {
-		var e = document.createElement('script');
-		e.setAttribute('type', 'text/javascript');
-		e.setAttribute('charset', 'UTF-8');
-		e.setAttribute('src', 'http://a.tbcdn.cn/s/aplus_v2.js');
-		document.body.appendChild(e)
-	})()
+```javascript
+(function() {
+	var e = document.createElement('script');
+	e.setAttribute('type', 'text/javascript');
+	e.setAttribute('charset', 'UTF-8');
+	e.setAttribute('src', 'http://a.tbcdn.cn/s/aplus_v2.js');
+	document.body.appendChild(e)
+})()
+```
 
 #### DCloud免折行
 
 	http://ask.dcloud.net.cn/question/14304
 	javascript:(function(){var i=$('iframe').get(0),d=(i&&i.contentDocument)||document,s=d.head.appendChild(d.createElement("style"));s.appendChild(d.createTextNode(""));s.sheet.insertRule("pre.prettyprint{overflow-x:scroll;}",0);s.sheet.insertRule("pre.prettyprint code{word-wrap:initial;white-space:pre;}",0);})()
 
-	(function() {
-		var i = $('iframe').get(0),
-			d = (i && i.contentDocument) || document,
-			s = d.head.appendChild(d.createElement("style"));
-		s.appendChild(d.createTextNode(""));
-		s.sheet.insertRule("pre.prettyprint{overflow-x:scroll;}", 0);
-		s.sheet.insertRule("pre.prettyprint code{word-wrap:initial;white-space:pre;}", 0);
-	})()
+```javascript
+(function() {
+	var i = $('iframe').get(0),
+		d = (i && i.contentDocument) || document,
+		s = d.head.appendChild(d.createElement("style"));
+	s.appendChild(d.createTextNode(""));
+	s.sheet.insertRule("pre.prettyprint{overflow-x:scroll;}", 0);
+	s.sheet.insertRule("pre.prettyprint code{word-wrap:initial;white-space:pre;}", 0);
+})()
+```
