@@ -1,6 +1,6 @@
 #### 自动刷新网页（抢课）
 
-	javascript:(function retry(){window.x=(window.x||0)+1;document.querySelector('.btn_search').click();document.querySelector('.kc_title').textContent='已自动刷新 '+window.x+' 次';setTimeout(function(){var c=document.querySelectorAll('.dwc .ng-binding');for (var i=0;i<c.length;i++){if(c[i].textContent!='0'){setInterval(function(){document.title=(document.title=='【开新课啦！】'?'【————】':'【开新课啦！】');},500);var a=document.createElement('audio');document.body.appendChild(a);a.src='http://xmdx.sc.chinaz.com/Files/DownLoad/sound1/201709/9239.mp3';a.loop='loop';a.play();setTimeout(function(){a.pause();},10000);return;}}setTimeout(retry,45000);},15000);})()
+	javascript:(function retry(){window.x=(window.x||0)+1;document.querySelector('.btn_search').click();document.querySelector('.kc_title').textContent='已自动刷新 '+window.x+' 次';setTimeout(function(){var c=document.querySelectorAll('.dwc .ng-binding');for (var i=0;i<c.length;i++){if(c[i].textContent>1){setInterval(function(){document.title=(document.title=='【开新课啦！】'?'【————】':'【开新课啦！】');},500);var a=document.createElement('audio');document.body.appendChild(a);a.src='http://xmdx.sc.chinaz.com/Files/DownLoad/sound1/201709/9239.mp3';a.loop='loop';a.play();setTimeout(function(){a.pause();},10000);return;}}setTimeout(retry,45000);},15000);})()
 
 ```javascript
 (function retry(){
@@ -10,7 +10,7 @@
 	setTimeout(function(){
 		var c=document.querySelectorAll('.dwc .ng-binding');
 		for (var i=0;i<c.length;i++){
-			if(c[i].textContent!='0'){
+			if(c[i].textContent>1){
 				setInterval(function(){document.title=(document.title=='【开新课啦！】'?'【————】':'【开新课啦！】');},500);
 				var a=document.createElement('audio');
 				document.body.appendChild(a);
