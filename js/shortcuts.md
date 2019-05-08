@@ -15,7 +15,7 @@
 		document.querySelector('.kc_title').textContent='已自动刷新 '+x+' 次 '+'▙▛▜▟'[y%4];
 		var c=document.querySelectorAll('.dwc .ng-binding');
 		for (var i=0;i<c.length;i++){
-			if(c[i].textContent>1){
+			if(c[i].textContent>4){
 				var a=document.createElement('audio');
 				document.body.appendChild(a);
 				a.src='http://xmdx.sc.chinaz.com/Files/DownLoad/sound1/201709/9239.mp3';
