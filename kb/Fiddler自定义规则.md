@@ -30,3 +30,33 @@ Fiddler Web Debugger 里选择菜单 Rules > Customize Rules ... 打开 CustomRu
 	}
 ```
 在 Fiddler Web Debugger 里选择菜单并勾选 Performance > Limt Request Frequency 即可以限制请求的密度（最多每秒 5 个请求）。
+
+# 开启 SOCKS 代理
+
+当 Fiddler 作为正向代理使用时，它转发 request 也可以配置为通过代理来转发，这个配置在 Tools > Options > Gateway。
+但是这种方式是无法启用 SOCKS 代理的，所以还是需要用定制脚本来解决：
+```
+	public static RulesOption("Use SOCKS proxy 127.0.0.1:7070")
+	var m_UseSocksProxy: boolean = false;
+
+    static function OnBeforeRequest(oSession: Session) {
+		// 通过 SOCKS 代理转发这个 request
+		if (m_UseSocksProxy) {
+			oSession["x-OverrideGateway"] = "socks=127.0.0.1:7070";
+		}
+		...
+```
+
+# 用 Fiddler 作反向代理
+
+```
+	public static RulesOption("Reverse proxy to :8082")
+	var m_ReverseProxy: boolean = false;
+
+    static function OnBeforeRequest(oSession: Session) {
+		// 反向代理
+		if (m_ReverseProxy && (oSession.port == 8888)) {
+			oSession.port = 8082;
+		}
+		...
+```
