@@ -19,7 +19,7 @@ Fiddler Web Debugger 里选择菜单 Rules > Customize Rules ... 打开 CustomRu
 	...
 
 	// Cause Fiddler to delay HTTP traffic to simulate typical 56k modem conditions
-	public static RulesOption("Limt &Request Frequency", "Per&formance")
+	public static RulesOption("Limit &Request Frequency", "Per&formance")
 	var m_LimitRequestFrequency: boolean = false;
 
 	...
@@ -29,7 +29,7 @@ Fiddler Web Debugger 里选择菜单 Rules > Customize Rules ... 打开 CustomRu
 		Thread.Sleep(200);
 	}
 ```
-在 Fiddler Web Debugger 里选择菜单并勾选 Performance > Limt Request Frequency 即可以限制请求的密度（最多每秒 5 个请求）。
+在 Fiddler Web Debugger 里选择菜单并勾选 Performance > Limit Request Frequency 即可以限制请求的密度（最多每秒 5 个请求）。
 
 # 开启 SOCKS 代理
 
@@ -39,7 +39,7 @@ Fiddler Web Debugger 里选择菜单 Rules > Customize Rules ... 打开 CustomRu
 	public static RulesOption("Use SOCKS proxy 127.0.0.1:7070")
 	var m_UseSocksProxy: boolean = false;
 
-    static function OnBeforeRequest(oSession: Session) {
+	static function OnBeforeRequest(oSession: Session) {
 		// 通过 SOCKS 代理转发这个 request
 		if (m_UseSocksProxy) {
 			oSession["x-OverrideGateway"] = "socks=127.0.0.1:7070";
@@ -53,7 +53,7 @@ Fiddler Web Debugger 里选择菜单 Rules > Customize Rules ... 打开 CustomRu
 	public static RulesOption("Reverse proxy to :8082")
 	var m_ReverseProxy: boolean = false;
 
-    static function OnBeforeRequest(oSession: Session) {
+	static function OnBeforeRequest(oSession: Session) {
 		// 反向代理
 		if (m_ReverseProxy && (oSession.port == 8888)) {
 			oSession.port = 8082;
