@@ -60,8 +60,7 @@ func isRemove(v int) bool {
 
 func test(arr []int) {
 	fmt.Println("------->", arr)
-	arr2 := make([]int, len(arr))
-	copy(arr2, arr)
+	arr2 := append([]int{}, arr...)
 
 	fmt.Println("filter1:", filter1(arr))
 	fmt.Println("filter2:", filter2(arr2))
