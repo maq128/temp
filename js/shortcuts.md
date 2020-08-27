@@ -1,6 +1,16 @@
-#### YouTube 自动跳广告
+#### YouTube 自动跳过广告
 
-	javascript:window.setInterval(function(){var b=document.querySelector('.ytp-ad-skip-button');b&&b.click()},1000)
+	javascript:(function(){window.setInterval(function(){var b=document.querySelector('.ytp-ad-skip-button');b&&b.click()},1000);document.querySelector('input#search').value='自动跳过广告'})()
+
+```javascript
+(function() {
+	window.setInterval(function() {
+		var b = document.querySelector('.ytp-ad-skip-button');
+		b && b.click();
+	}, 1000);
+	document.querySelector('input#search').value = '自动跳过广告';
+})()
+```
 
 #### 自动刷新网页（抢课）
 
