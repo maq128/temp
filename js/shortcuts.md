@@ -1,6 +1,6 @@
 #### YouTube 自动关闭广告
 
-	javascript:(function(){window.setInterval(function(){var b=document.querySelector('button.ytp-ad-skip-button');b&&b.click();b=document.querySelector('button.ytp-ad-overlay-close-button');b&&b.click()},1000);document.querySelector('input#search').value='自动关闭广告'})()
+	javascript:(function(){window.setInterval(function(){var b=document.querySelector('button.ytp-ad-skip-button');b&&b.click();b=document.querySelector('button.ytp-ad-overlay-close-button');b&&b.click()},1000);document.querySelector('input#search').placeholder='自动关闭广告'})()
 
 ```javascript
 (function() {
@@ -10,7 +10,7 @@
 		b = document.querySelector('button.ytp-ad-overlay-close-button');
 		b && b.click();
 	}, 1000);
-	document.querySelector('input#search').value = '自动关闭广告';
+	document.querySelector('input#search').placeholder = '自动关闭广告';
 })()
 ```
 
