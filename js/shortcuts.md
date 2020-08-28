@@ -1,14 +1,16 @@
-#### YouTube 自动跳过广告
+#### YouTube 自动关闭广告
 
-	javascript:(function(){window.setInterval(function(){var b=document.querySelector('.ytp-ad-skip-button');b&&b.click()},1000);document.querySelector('input#search').value='自动跳过广告'})()
+	javascript:(function(){window.setInterval(function(){var b=document.querySelector('button.ytp-ad-skip-button');b&&b.click();b=document.querySelector('button.ytp-ad-overlay-close-button');b&&b.click()},1000);document.querySelector('input#search').value='自动关闭广告'})()
 
 ```javascript
 (function() {
 	window.setInterval(function() {
-		var b = document.querySelector('.ytp-ad-skip-button');
+		var b = document.querySelector('button.ytp-ad-skip-button');
+		b && b.click();
+		b = document.querySelector('button.ytp-ad-overlay-close-button');
 		b && b.click();
 	}, 1000);
-	document.querySelector('input#search').value = '自动跳过广告';
+	document.querySelector('input#search').value = '自动关闭广告';
 })()
 ```
 
