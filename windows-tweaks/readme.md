@@ -25,6 +25,19 @@
 
 运行 `control userpasswords2` 或者 `netplwiz.exe`
 
+# Windows 10 关闭 Microsoft 兼容性遥测
+
+控制面板 > 管理工具 > 任务计划程序：
+
+把以下项目设置为禁用：
+
+	任务计划程序（本地）
+	    任务计划程序库
+	    Microsoft
+	        Windows
+	        Application Experience
+	            Microsoft Compatibility Appraiser
+
 # Windows 10 关闭客户体验改善计划
 
 启动本地组策略编辑器 `%windir%\system32\gpedit.msc`
