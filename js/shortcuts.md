@@ -1,45 +1,104 @@
+#### 网页插入脚本
+
+	javascript:(function(){var e=document.createElement('script');e.setAttribute('type','text/javascript');e.setAttribute('charset','UTF-8');e.setAttribute('src','http://a.tbcdn.cn/s/aplus_v2.js');document.body.appendChild(e)})()
+
+```javascript
+(function() {
+	var e = document.createElement('script');
+	e.setAttribute('type', 'text/javascript');
+	e.setAttribute('charset', 'UTF-8');
+	e.setAttribute('src', 'http://a.tbcdn.cn/s/aplus_v2.js');
+	document.body.appendChild(e)
+})()
+```
+
 #### 某艺术品拍卖网站上下载完整大图
 
 ```javascript
 // https://auction.artron.net/paimai-art5182320179/
-// https://auction.artron.net/showbigpic-art5182320179/
 (function() {
-	var m = window.location.pathname.match(/showbigpic-(.*)\//);
-	if (m.length != 2) return;
-	var id = m[1];
-
-	$.ajax({
-		url: 'https://hd-images.artron.net/auction/getImageOption',
-		dataType: "jsonp",
-		jsonp: "callback",
-		data: {artCode: id},
-		success: function(resp) {
-			if (!resp.data) return;
-			var data = resp.data;
-
-			document.oncontextmenu = null;
-			$(document.body).empty();
-			var container = $('<div></div>').appendTo($(document.body));
-			container.css({
-				minWidth: data.w,
-				minHeight: data.h,
+	var loadBigpic = function(data) {
+		$(document.body).empty();
+		var bigpic = $('<div></div>').appendTo($(document.body))
+			.addClass('ad-bigpic')
+			.css({
+				width: data.w,
+				height: data.h,
 				position: 'relative',
 			});
 
-			for (var j=0; j * 256 < data.h; j++) {
-				for (var i=0; i * 256 < data.w; i++) {
-					var src = 'https://hd-images.artron.net/auction/images/' + id + '/12/' + i + '_' + j + '.jpg';
-					var img = $('<img/>').appendTo(container);
-					img.attr('src', src);
-					img.css({
-						position: 'absolute',
-						left: i * 256,
-						top: j * 256,
-					});
-				}
+		var tasks = [];
+		for (var j=0; j * 256 < data.h; j++) {
+			for (var i=0; i * 256 < data.w; i++) {
+				tasks.push(new Promise(function(resolve, reject) {
+					$('<img/>').appendTo(bigpic)
+						.attr('src', 'https://hd-images.artron.net/auction/images/' + ArtWorkId + '/12/' + i + '_' + j + '.jpg')
+						.css({
+							position: 'absolute',
+							left: i * 256,
+							top: j * 256,
+						})
+						.load(resolve)
+						.error(reject);
+				}));
 			}
 		}
-	});
+		Promise.all(tasks).then(function() {
+			alert('下载完成');
+		}).catch(function() {
+			alert('出错了！无法下载大图的某些局部内容。')
+		});
+	};
+
+	var onButtonBigpic = function() {
+		// 获取大图信息
+		$.ajax({
+			url: 'https://hd-images.artron.net/auction/getImageOption',
+			dataType: "jsonp",
+			jsonp: "callback",
+			data: {artCode: ArtWorkId},
+			success: function(resp) {
+				if (resp.code != 0) {
+					alert(resp.msg);
+					return;
+				}
+				// 加载所有碎片
+				loadBigpic(resp.data);
+			}
+		});
+	};
+
+	// 注入【下载完整高清大图】功能按钮
+	var btn = $('<button></button>').appendTo($('.imgShow'))
+		.css({
+			position: 'absolute',
+			left: 400,
+			top: '-2em',
+			cursor: 'pointer',
+		})
+		.text('下载完整高清大图');
+
+	var href = $('.enterHD').attr('href');
+	if (href && href.indexOf('showbigpic') >= 0) {
+		// 该拍品有高清大图
+		btn.click(onButtonBigpic);
+	} else {
+		// 该拍品没有高清大图，或者当前没有登录
+		btn.attr('disabled', 'true');
+	}
+
+	// 注入【打开半高清大图】功能按钮
+	$('<button></button>').appendTo($('.imgShow'))
+		.css({
+			position: 'absolute',
+			left: 530,
+			top: '-2em',
+			cursor: 'pointer',
+		})
+		.text('打开半高清大图')
+		.click(() => {
+			window.open($('#smallPic').attr('src'));
+		});
 })()
 ```
 
@@ -120,20 +179,6 @@
 		(document.location.href.indexOf('?') > 0 ? '&' : '?') +
 		'XDEBUG_SESSION_START=ECLIPSE_DBGP' +
 		'&KEY=' + (new Date().getTime())
-})()
-```
-
-#### 网页插入脚本
-
-	javascript:(function(){var e=document.createElement('script');e.setAttribute('type','text/javascript');e.setAttribute('charset','UTF-8');e.setAttribute('src','http://a.tbcdn.cn/s/aplus_v2.js');document.body.appendChild(e)})()
-
-```javascript
-(function() {
-	var e = document.createElement('script');
-	e.setAttribute('type', 'text/javascript');
-	e.setAttribute('charset', 'UTF-8');
-	e.setAttribute('src', 'http://a.tbcdn.cn/s/aplus_v2.js');
-	document.body.appendChild(e)
 })()
 ```
 
