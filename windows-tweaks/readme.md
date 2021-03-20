@@ -23,7 +23,15 @@
 
 [如何设置Win10自动登录？](https://www.zhihu.com/question/36628542)
 
-运行 `control userpasswords2` 或者 `netplwiz.exe`
+~~运行 `control userpasswords2` 或者 `netplwiz.exe`~~
+
+修改注册表：
+```
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon]
+"DefaultUserName"="Administrator"
+"AutoAdminLogon"="1"
+"DefaultPassword"="password"
+```
 
 # Windows 10 关闭 Microsoft 兼容性遥测
 
