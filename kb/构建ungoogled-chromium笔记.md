@@ -11,10 +11,12 @@
 在 [Python 官网](https://www.python.org/downloads/) 下载了 `python-3.9.2-amd64.exe`，安装到 `C:\Python39`，
 并把这个路径添加到 `PATH` 环境变量。此时在命令行用 `py` 可以使用这个版本。
 
+在安装过程即将结束的时候，有一个附加选项：Disable path length limit，选择执行它。
+
 ### 安装 python2
 
 在 [Python 官网](https://www.python.org/downloads/) 下载了 `python-2.7.18.amd64.msi`，安装到 `C:\Python27`，
-并把这个路径添加到 `PATH` 环境变量。此时在命令行用 `python` 可以使用这个版本。
+并把这个路径添加到 `PATH` 环境变量（位置比 `C:\Python39` 更靠前）。此时在命令行用 `python` 可以使用这个版本。
 
 ### 安装 7-zip
 
@@ -22,7 +24,7 @@
 ```
 HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\7zFM.exe
 ```
-后面的 build 脚本就是从这里找到 `7z.exe`。
+后面执行的 `build.py` 脚本就是从这里找到 `7z.exe`。
 
 ### 安装 Visual Studio Community 2019
 
@@ -58,7 +60,7 @@ py build.py
 
 下载清单是 `downloads.ini` 和 `ungoogled-chromium\downloads.ini`，也可以以其它方式下载这些文件放到 cache 目录里。
 
-下载时使用的是 curl，所以如果需要为其配置代理的话可以这样：
+下载时使用的是 `curl`，所以如果需要为其配置代理的话可以这样：
 ```
 set ALL_PROXY=socks5://127.0.0.1:7070
 ```
@@ -74,7 +76,7 @@ set ALL_PROXY=socks5://127.0.0.1:7070
 代码注释掉，以避免重复解压。
 
 - [parser.exit(1)](https://github.com/ungoogled-software/ungoogled-chromium-windows/blob/89.0.4389.90-1.1/build.py#L172)
-代码注释掉，以避免程序退出。
+代码注释掉，以避免因删除某些文件时报错（未找到文件，因为已经删除过了）导致程序退出。
 
 ## 打包
 ```cmd
