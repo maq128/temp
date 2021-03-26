@@ -24,7 +24,7 @@
 ```
 HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\7zFM.exe
 ```
-后面执行的 `build.py` 脚本就是从这里找到 `7z.exe`。
+构建时执行的 `build.py` 脚本就是从这里找到 `7z.exe`。
 
 ### 安装 Visual Studio Community 2019
 
@@ -32,9 +32,7 @@ HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\7zFM.exe
 Visual Studio Community 2019，安装时增选了如下模块：
 
 - 工作负载 > 使用 C++ 的桌面开发
-
 - 单个组件 > 适用于最新 v142 生成工具的 C++ ATL（x86 和 x64）
-
 - 单个组件 > 适用于最新 v142 生成工具的 C++ MFC（x86 和 x64）
 
 然后在 Windows SDK 里面增选 Debugging Tools For Windows：
@@ -52,7 +50,7 @@ rmdir /S /Q .git
 del /AH ungoogled-chromium\.git
 ```
 
-## build
+## 构建
 ```cmd
 py build.py
 ```
@@ -65,10 +63,10 @@ py build.py
 set ALL_PROXY=socks5://127.0.0.1:7070
 ```
 
-执行 `build.py` 脚本的过程中，有两个文件无法自动删除导致过程中断（因为文件是只读的）：
+执行 `build.py` 脚本的 Prune binaries 过程中，有两个文件无法删除导致过程中断（因为文件是只读的）：
 
-- build\src\buildtools\linux64\gn
-- build\src\tools\skia_goldctl\linux\goldctl
+- `build\src\buildtools\linux64\gn`
+- `build\src\tools\skia_goldctl\linux\goldctl`
 
 需手工删除这两个文件，然后重新执行 `build.py` 脚本，为了保证再次执行的时候能够顺利完成，作了以下这些修改：
 
@@ -82,7 +80,10 @@ set ALL_PROXY=socks5://127.0.0.1:7070
 ```cmd
 py package.py
 ```
-打包的结果包括一个压缩包（.zip）和一个安装程序包（.exe）。
+打包的结果：
+
+- `build/ungoogled-chromium_89.0.4389.90-1.1_windows.zip` 解压缩后可以直接使用。
+- `build/ungoogled-chromium_89.0.4389.90-1.1_installer.exe` 安装包。
 
 ## 运行
 
