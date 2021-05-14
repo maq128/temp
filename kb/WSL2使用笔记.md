@@ -1,3 +1,24 @@
+# 常用命令
+
+在宿主环境：
+```
+# 查看所有的 distro 列表
+wsl -l -v
+
+# 用指定的帐号进入一个 distro
+wsl -d Ubuntu -u root
+```
+
+在 distro 里面：
+```
+# 查看 ip 地址
+ip addr
+```
+
+# 在宿主系统（Windows10）直接访问 distro 的文件系统
+
+在资源管理器里面访问 `\\wsl$` 可以直接访问所有 distro 的文件系统。
+
 # 创建多个 distro
 
 ```
@@ -13,6 +34,7 @@ wsl -d Ubuntu2
 # 删除一个 distro
 wsl --unregister Ubuntu2
 ```
+
 # 安装 docker
 
 ```
