@@ -19,6 +19,16 @@ ip addr
 
 在资源管理器里面访问 `\\wsl$` 可以直接访问所有 distro 的文件系统。
 
+在 distro 里面调起宿主环境的资源管理器打开特定的目录：
+```
+cd /
+explorer.exe .
+```
+
+# 配置 WSL
+
+[Configure Linux distributions](https://docs.microsoft.com/en-us/windows/wsl/wsl-config#options-for-wslconfig)
+
 # 创建多个 distro
 
 ```
