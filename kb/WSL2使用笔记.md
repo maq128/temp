@@ -45,6 +45,34 @@ wsl -d Ubuntu2
 wsl --unregister Ubuntu2
 ```
 
+# 在 Ubuntu 里面安装 Golang
+
+下载适当的 Golang 程序包并解压到 `/usr/local/go`：
+```
+wget https://golang.org/dl/go1.17.1.linux-amd64.tar.gz
+tar -xzf go1.17.1.linux-amd64.tar.gz -C /usr/local
+```
+
+创建 GOPATH 目录，并在 `~/.bashrc` 里面设置必要的环境变量：
+```
+export GOROOT=/usr/local/go
+export GOPATH=/root/gowork
+export GOPROXY=https://goproxy.cn,direct
+export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
+```
+或者，如果希望共用宿主环境的 GOPATH 目录的话：
+```
+export GOROOT=/usr/local/go
+export GOPATH=/mnt/c/Users/maq/go
+export GOPROXY=https://goproxy.cn,direct
+export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
+```
+
+# 在 Ubuntu 里面安装 nodejs/npm
+
+apt update
+apt install nodejs npm
+
 # 安装 docker
 
 ```
