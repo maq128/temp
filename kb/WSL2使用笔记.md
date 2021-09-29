@@ -25,6 +25,14 @@ cd /
 explorer.exe .
 ```
 
+# 关于宿主机与 distro 之间的网络互访
+
+distro 里面启动的网络服务，在宿主机这边可以通过 localhost 访问到。
+
+在 distro 里面要访问宿主机的网络服务时，需要通过宿主机的 IP 地址来访问。
+
+在 distro 里面执行命令 `cat /etc/resolv.conf`，在 `nameserver` 后面的就是宿主机的 IP 地址。
+
 # 配置 WSL
 
 [Configure Linux distributions](https://docs.microsoft.com/en-us/windows/wsl/wsl-config#options-for-wslconfig)
