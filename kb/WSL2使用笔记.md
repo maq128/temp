@@ -37,6 +37,17 @@ distro 里面启动的网络服务，在宿主机这边可以通过 localhost �
 
 [Configure Linux distributions](https://docs.microsoft.com/en-us/windows/wsl/wsl-config#options-for-wslconfig)
 
+# 缺省使用 root 登录
+
+先在 distro 里面为 root 设置登录密码：
+```
+sudo passwd
+```
+再回到宿主环境修改配置：
+```
+ubuntu config --default-user root
+```
+
 # 创建多个 distro
 
 ```
