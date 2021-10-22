@@ -19,6 +19,37 @@
 
 可能需要先修改该处注册表位置的权限。
 
+# 资源管理器中右键菜单添加“在此处打开 Windows Terminal”
+
+修改 Windows Terminal 的配置文件 `settings.json`（一般位置应该在 `C:\Users\username\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json`）,
+增加如下内容：
+```
+{
+	"profiles": {
+		"defaults": {
+			"startingDirectory": "."
+		},
+		...
+	},
+	...
+}
+```
+
+在系统注册表添加如下内容（根据实际情况调整 `username`）：
+```
+[HKEY_CURRENT_USER\SOFTWARE\Classes\Directory\Background\shell\wt]
+@="在此处打开 Windows Terminal"
+
+[HKEY_CURRENT_USER\SOFTWARE\Classes\Directory\Background\shell\wt\command]
+@="C:\\Users\\username\\AppData\\Local\\Microsoft\\WindowsApps\\wt.exe"
+
+[HKEY_CURRENT_USER\SOFTWARE\Classes\Directory\shell\wt]
+@="在此处打开 Windows Terminal"
+
+[HKEY_CURRENT_USER\SOFTWARE\Classes\Directory\shell\wt\command]
+@="C:\\Users\\username\\AppData\\Local\\Microsoft\\WindowsApps\\wt.exe"
+```
+
 # 设置 Windows 10 免密码自动登录
 
 [如何设置Win10自动登录？](https://www.zhihu.com/question/36628542)
