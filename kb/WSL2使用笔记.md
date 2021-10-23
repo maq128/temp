@@ -89,8 +89,10 @@ export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 
 # 在 Ubuntu 里面安装 nodejs/npm
 
+```
 apt update
 apt install nodejs npm
+```
 
 # 安装 docker
 
