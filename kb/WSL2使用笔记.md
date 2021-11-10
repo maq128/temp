@@ -64,6 +64,49 @@ wsl -d Ubuntu2
 wsl --unregister Ubuntu2
 ```
 
+# WSL2 与代理软件（可能是 Easy Connect 或者 Outline Client）冲突
+
+错误现象：启动 wsl 的时候报错提示“参考的对象类型不支持尝试的操作”。
+
+参考资料：[关于使用WSL2出现“参考的对象类型不支持尝试的操作”的解决方法](https://zhuanlan.zhihu.com/p/151392411)
+| https://github.com/microsoft/WSL/issues/4177
+
+解决方法：手工添加下面的注册表项，以阻止 Windows 把 LSP DLL 加载到 wsl.exe 进程中。
+```
+Windows Registry Editor Version 5.00
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\WinSock2\Parameters\AppId_Catalog\0408F7A3]
+"AppFullPath"="C:\\Windows\\System32\\wsl.exe"
+"PermittedLspCategories"=dword:80000000
+```
+
+# 把 Docker Desktop 安装到 D: 盘
+
+参考资料：
+[Docker Desktop 安装至D盘](https://www.codeleading.com/article/54305227895/)
+| [Docker Desktop 的 WSL distro 移至D盘](https://www.cnblogs.com/xhznl/p/13184398.html)
+
+Docker Desktop for Windows 缺省的程序安装目录是：`C:\Program Files\Docker`
+
+若要安装至D盘，可先创建目录 `D:\Docker`，再在管理员模式下执行下面的命令创建连接：
+```
+mklink /J "C:\Program Files\Docker" "D:\Docker"
+```
+然后再运行 Docker Desktop 的安装程序即可。
+
+Docker Desktop 首次启动时，会创建两个 WSL distro，缺省位置是：`%LOCALAPPDATA%\Docker\wsl`
+
+若要移动至D盘，可以用下面的方法：
+```
+wsl --shutdown
+wsl --export docker-desktop D:\WSL\docker-desktop.tar
+wsl --export docker-desktop-data D:\WSL\docker-desktop-data.tar
+wsl --unregister docker-desktop
+wsl --unregister docker-desktop-data
+wsl --import docker-desktop D:\WSL\docker-desktop\ D:\WSL\docker-desktop.tar --version 2
+wsl --import docker-desktop-data D:\WSL\docker-desktop-data\ D:\WSL\docker-desktop-data.tar --version 2
+```
+
 # 在 Ubuntu 里面安装 Golang
 
 下载适当的 Golang 程序包并解压到 `/usr/local/go`：
