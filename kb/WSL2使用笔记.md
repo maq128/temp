@@ -33,21 +33,6 @@ distro 里面启动的网络服务，在宿主机这边可以通过 localhost �
 
 在 distro 里面执行命令 `cat /etc/resolv.conf`，在 `nameserver` 后面的就是宿主机的 IP 地址。
 
-# 配置 WSL
-
-[Configure Linux distributions](https://docs.microsoft.com/en-us/windows/wsl/wsl-config#options-for-wslconfig)
-
-# 缺省使用 root 登录
-
-先在 distro 里面为 root 设置登录密码：
-```
-sudo passwd
-```
-再回到宿主环境修改配置：
-```
-ubuntu config --default-user root
-```
-
 # 创建多个 distro
 
 ```
@@ -62,6 +47,29 @@ wsl -d Ubuntu2
 
 # 删除一个 distro
 wsl --unregister Ubuntu2
+```
+
+# 缺省使用 root 登录
+
+先在 distro 里面为 root 设置登录密码：
+```
+sudo passwd
+```
+再回到宿主环境修改配置：
+```
+ubuntu config --default-user root
+```
+
+# 配置 WSL
+
+[Configure Linux distributions](https://docs.microsoft.com/en-us/windows/wsl/wsl-config#options-for-wslconfig)
+
+## 禁止把 Windows 的 PATH 带入 WSL
+
+进入 distro 修改 `/etc/wsl.conf` 文件（可能需要创建），添加下面的内容，然后重启 distro：
+```
+[interop]
+appendWindowsPath=false
 ```
 
 # WSL2 与代理软件（可能是 Easy Connect 或者 Outline Client）冲突
@@ -132,9 +140,20 @@ export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 
 # 在 Ubuntu 里面安装 nodejs/npm
 
+## 安装缺省版本
+
 ```
 apt update
 apt install nodejs npm
+```
+
+## 安装指定版本
+
+先安装缺省版本，然后：
+```
+npm install -g n
+n 14.18.2
+hash -r
 ```
 
 # 安装 docker
