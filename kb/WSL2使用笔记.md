@@ -138,22 +138,15 @@ export GOPROXY=https://goproxy.cn,direct
 export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 ```
 
-# 在 Ubuntu 里面安装 nodejs/npm
-
-## 安装缺省版本
+# 在 Ubuntu 里面用 nvm 安装、切换不同版本的 nodejs/npm
 
 ```
-apt update
-apt install nodejs npm
-```
-
-## 安装指定版本
-
-先安装缺省版本，然后：
-```
-npm install -g n
-n 14.18.2
-hash -r
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+# 重新开启一个 WSL terminal
+nvm install 16.13.2
+nvm install 14.18.3
+nvm use 14
+nvm alias default 14
 ```
 
 # 安装 docker
