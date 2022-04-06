@@ -151,6 +151,20 @@
 })()
 ```
 
+#### 微博定制（2022-04-06）
+
+	javascript:(function(){var z=16,d=document,s=d.head.appendChild(d.createElement("style"));s.sheet.insertRule(":root{--feed-detail-og-font-size:"+z+"px;--feed-detail-re-font-size:"+z+"px;}",0);s.sheet.insertRule(".wbpro-list{font-size:"+(z-2)+"px;}",0);})()
+
+```javascript
+(function() {
+	var z = 16,
+		d = document,
+		s = d.head.appendChild(d.createElement("style"));
+	s.sheet.insertRule(":root{--feed-detail-og-font-size:"+z+"px;--feed-detail-re-font-size:"+z+"px;}", 0);
+	s.sheet.insertRule(".wbpro-list{font-size:"+(z-2)+"px;}", 0);
+})()
+```
+
 #### 微博定制
 
 	javascript:(function(){var z=16,d=document,s=d.head.appendChild(d.createElement("style"));s.appendChild(d.createTextNode(""));s.sheet.insertRule(".W_f14{font-size:"+z+"px}",0);s.sheet.insertRule(".WB_expand,.WB_sonFeed .WB_text,.WB_main_c{font-size:"+(z-1)+"px}",0);d.querySelector('.WB_feed_v3').classList.remove('WB_feed_v3');})()
