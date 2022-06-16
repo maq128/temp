@@ -12,6 +12,34 @@
 })()
 ```
 
+#### Etherscan.io 下载完整版 contract source code
+
+https://rinkeby.etherscan.io/address/0x00000000006c3852cbef3e08e8df289169ede581#code
+
+```javascript
+document.querySelectorAll('a.togglefullscreen').forEach(a => a.click())
+var copySourceCode = () => {
+  var lines = []
+  document.querySelectorAll('pre.ace-dawn').forEach(pre => {
+    lines.push('//---- ' + pre.previousSibling.querySelector('span.text-secondary').innerText + ' ----')
+    lines.push(pre.querySelector('div.ace_content').innerText + '\n\n')
+  })
+  document.body.style['white-space'] = 'pre'
+  document.body.innerText = lines.join('\n')
+}
+var waitFullscreen = () => {
+  var bars = document.querySelectorAll('pre.ace-dawn div.ace_scrollbar-v').values()
+  for (var bar = bars.next(); !bar.done; bar = bars.next()) {
+    if (bar.value.style.display !== 'none') {
+      setTimeout(waitFullscreen, 500)
+      return
+    }
+  }
+  copySourceCode()
+}
+setTimeout(waitFullscreen, 500)
+```
+
 #### 某艺术品拍卖网站上下载完整大图
 
 ```javascript
