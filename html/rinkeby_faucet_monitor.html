@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Rinkeby Faucet 动账通知</title>
+</head>
+<body>
+<style>
+title {
+  display: inline-block;
+  padding: 0 0.3em;
+  border-radius: 0.3em;
+  background-color: #2D7D9A;
+  color: white;
+}
+a, copy {
+  display: inline-block;
+  margin-left: 0.2em;
+  text-decoration: none;
+  cursor: pointer;
+}
+output {
+  font-family: Consolas, monospace;
+}
+</style>
+监听 Rinkeby Faucet 的链上地址，如果余额发生变动则触发桌面推送通知。
+<p><title>Rinkeby Authenticated Faucet</title> <url>https://faucet.rinkeby.io/</url></p>
+<p><title>Request url</title> <url>https://twitter.com/Maqular/status/1526540558809739264</url></p>
+<p><title>Etherscan</title> <url>https://rinkeby.etherscan.io/address/0x31b98d14007bdee637298086988a0bbd31184523</url></p>
+<hr>
+<output></output>
+
+<script src="https://cdn.bootcdn.net/ajax/libs/web3/1.7.4/web3.min.js"></script>
+<script>
+const RINKEBY_FAUCET_ADDRESS = '0x31B98D14007bDEe637298086988A0bBd31184523'
+const web3 = new Web3('wss://rinkeby.infura.io/ws/v3/7a447fa7c78645f499b5fb83ccf38625');
+
+(() => {
+  document.querySelectorAll('url').forEach(url => {
+    var c = document.createElement('copy')
+    url.after(c)
+    c.innerText = '📋'
+    c.title = '把链接复制到剪贴板'
+    c.addEventListener('click', () => {
+      navigator.clipboard.writeText(url.innerText)
+      c.style.opacity = 0.2
+      setTimeout(() => {
+        c.style.opacity = 'unset'
+      }, 300)
+    })
+
+    var a = document.createElement('a')
+    url.after(a)
+    a.title = '在新页签打开链接'
+    a.href = url.innerText
+    a.target = '_blank'
+    a.innerText = '🚀'
+  })
+})()
+
+Notification.requestPermission(async (status) => {
+  output('status', 'web notification status', status)
+  output('address', 'monitor at address', RINKEBY_FAUCET_ADDRESS)
+
+  var prevBalance = await web3.eth.getBalance(RINKEBY_FAUCET_ADDRESS)
+  output('balance', 'balance', prevBalance)
+
+  var sub = web3.eth.subscribe('newBlockHeaders')
+  sub.on('data', async (block) => {
+    var balance = await web3.eth.getBalance(RINKEBY_FAUCET_ADDRESS)
+    output('balance', 'balance', balance)
+    if (balance === prevBalance) return
+
+    prevBalance = balance
+    if (status !== 'granted') return
+
+    output('notify', 'web notification', 'sent')
+    new Notification('Rinkeby Faucet 动账', {
+      body: 'Rinkeby Faucet 地址余额有变化。',
+      requireInteraction: true,
+      renotify: true,
+      tag: 'RinkebyFaucetMonitor',
+    })
+  })
+})
+
+function output(id, title, msg) {
+  var line = document.querySelector('#' + id)
+  if (!line) {
+    line = document.createElement('p')
+    line.id = id
+    document.querySelector('output').appendChild(line)
+  }
+  line.innerHTML = `[${new Date().toLocaleTimeString()}] <title>${title}</title> ${msg}`
+}
+</script>
+</body>
+</html>
