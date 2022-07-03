@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>数独</title>
+<style>
+div {
+    box-sizing: border-box;
+}
+.board {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-gap: 3px;
+    background-color: black;
+    border: 3px solid black;
+    width: fit-content;
+    height: fit-content;
+    user-select: none;
+}
+.area {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-gap: 2px;
+    background-color: gray;
+    width: fit-content;
+    height: fit-content;
+}
+.block {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-gap: 1px;
+    background-color: silver;
+    width: 80px;
+    height: 80px;
+    cursor: pointer;
+}
+.poss {
+    background-color: white;
+    line-height: 26px;
+    text-align: center;
+}
+.poss.disabled {
+    color: silver;
+}
+.poss.unique {
+    background-color: lightgreen;
+}
+.block.empty .poss {
+    background-color: lightpink;
+}
+.cert {
+    grid-column: 1/4;
+    grid-row: 1/4;
+    background-color: white;
+    line-height: 80px;
+    font-size: 50px;
+    text-align: center;
+}
+</style>
+</head>
+<body>
+<div>整个 board 由 9×9 个 block 组成，划分为 3×3 个 area，每个 area 由 3×3 个 block 组成。</div>
+<div>初始情况下每个 block 都包含 9 种 possibility，鼠标点击可以将其选出来成为 certainty。</div>
+<div>当一个 block 包含了 certainty 之后，与它同行、同列、同 area 的 block 就会被划掉相应的 possibility。</div>
+<div class="board"></div>
+<button id="btn-undo">回退</button>
+<script>
+function Matrix(dim, def) {
+    var matrix = []
+    for (var i=0; i<dim; i++) {
+        matrix[i] = []
+        if (typeof def !== 'undefined') {
+            for (var j=0; j<dim; j++) {
+                matrix[i][j] = def
+            }
+        }
+    }
+    return matrix
+}
+
+function Board(sel, snapshot) {
+    this.el = document.querySelector(sel)
+    this.rows = new Matrix(9)
+    this.cols = new Matrix(9)
+    this.areas = new Matrix(3)
+    for (var y=0; y<=2; y++) {
+        for (var x=0; x<=2; x++) {
+            var area = new Area(x, y)
+            this.areas[x][y] = area
+            this.el.appendChild(area.el)
+        }
+    }
+    for (var y=0; y<=8; y++) {
+        for (var x=0; x<=8; x++) {
+            var block = new Block(x, y)
+            this.rows[y][x] = block
+            this.cols[x][y] = block
+            var area = this.areas[Math.floor(x/3)][Math.floor(y/3)]
+            area.add(block)
+            block.on('pick', (block, v) => {
+                this.disablePosses(block.x, block.y, v)
+                this.showHints()
+                this.takeSnapshot()
+            })
+        }
+    }
+    this.snapshots = [snapshot]
+    this.loadSnapshot(snapshot)
+}
+Board.prototype.loadSnapshot = function(snapshot) {
+    // 设置每个 block 的 value
+    snapshot.forEach((line, y) => {
+        this.rows[y].forEach((block, x) => {
+            block.setValue(line[x])
+        })
+    })
+    // 根据设置的 value 去压制相关的 poss
+    snapshot.forEach((line, y) => {
+        line.split('').forEach((v, x) => {
+            if (v != '.') {
+                this.disablePosses(x, y, v)
+            }
+        })
+    })
+    // 标出 empty block 和 unique poss
+    this.showHints()
+}
+Board.prototype.takeSnapshot = function() {
+    var snapshot = []
+    for (var y=0; y<=8; y++) {
+        var line = ''
+        for (var x=0; x<=8; x++) {
+            line += this.rows[y][x].v
+        }
+        snapshot.push(line)
+    }
+    this.snapshots.push(snapshot)
+    return snapshot
+}
+Board.prototype.disablePosses = function(x, y, v) {
+    this.rows[y].forEach(block => {
+        block.disablePoss(v)
+    })
+    this.cols[x].forEach(block => {
+        block.disablePoss(v)
+    })
+    this.areas[Math.floor(x/3)][Math.floor(y/3)].blocks.forEach(block => {
+        block.disablePoss(v)
+    })
+}
+Board.prototype.showHints = function() {
+    for (var y=0; y<=8; y++) {
+        for (var x=0; x<=8; x++) {
+            var block = this.rows[y][x]
+            block.showHints(this.rows[y], this.cols[x], this.areas[Math.floor(x/3)][Math.floor(y/3)].blocks)
+        }
+    }
+}
+Board.prototype.undo = function() {
+    if (this.snapshots.length <= 1) return
+    this.snapshots.pop()
+    var snapshot = this.snapshots[this.snapshots.length - 1]
+    this.loadSnapshot(snapshot)
+}
+
+function Area(x, y) {
+    var el = document.createElement('div')
+    el.classList.add('area')
+    this.el = el
+    this.blocks = []
+}
+Area.prototype.add = function(block) {
+    this.el.appendChild(block.el)
+    this.blocks.push(block)
+    block.parentArea = this
+}
+
+function Block(x, y) {
+    var el = document.createElement('div')
+    el.classList.add('block')
+    el.addEventListener('click', evt => this.handleClick(evt))
+
+    this.x = x
+    this.y = y
+    this.v = '?'
+    this.listeners = {}
+    this.el = el
+    this.posses = []
+    this.possbits = 0
+}
+Block.prototype.setValue = function(v) {
+    this.el.innerHTML = ''
+    this.el.classList = 'block'
+    this.v = v
+    this.posses = []
+    this.possbits = 0
+    if (v == '.') {
+        this.possbits = 0b111111111
+        for (var y=0; y<=2; y++) {
+            for (var x=0; x<=2; x++) {
+                var poss = new Poss(x, y)
+                this.posses.push(poss)
+                this.el.appendChild(poss.el)
+            }
+        }
+    } else {
+        this.el.innerHTML = `<div class="cert">${v}</div>`
+    }
+}
+Block.prototype.handleClick = function(evt) {
+    var poss = this.posses.find(poss => poss.el == evt.target)
+    if (poss) {
+        this.pickPoss(poss)
+    }
+}
+Block.prototype.pickPoss = function(poss) {
+    if (poss.disabled()) return
+    this.v = poss.v
+    this.posses = []
+    this.possbits = 0
+    this.el.innerHTML = `<div class="cert">${this.v}</div>`
+    this.emit('pick', this, this.v)
+}
+Block.prototype.disablePoss = function(v) {
+    this.posses.forEach(poss => {
+        if (poss.v == v) {
+            poss.disable()
+            this.possbits &= (1 << (parseInt(v) - 1)) ^ 0b111111111
+        }
+    })
+}
+Block.prototype.showHints = function(rows, cols, areas) {
+    if (this.v != '.') return
+    // 本 block 已经没有 poss
+    if (this.possbits == 0) {
+        this.el.classList.add('empty')
+        return
+    }
+    // 本 block 只剩唯一的 poss
+    for (var i=0; i<=8; i++) {
+        if (this.possbits == 1 << i) {
+            this.posses[i].el.classList.add('unique')
+        }
+    }
+    // 按 row/col/area 检查本 block 的必选 poss
+    var rowbits = 0
+    var colbits = 0
+    var areabits = 0
+    for (var i=0; i<=8; i++) {
+        if (i != this.x && rows[i].v == '.') {
+            rowbits |= rows[i].possbits
+        }
+        if (i != this.y && cols[i].v == '.') {
+            colbits |= cols[i].possbits
+        }
+        var j = (this.y % 3) * 3 + (this.x % 3)
+        if (i != j && areas[i].v == '.') {
+            areabits |= areas[i].possbits
+        }
+    }
+    rowbits = this.possbits & (0b111111111 ^ rowbits)
+    colbits = this.possbits & (0b111111111 ^ colbits)
+    areabits = this.possbits & (0b111111111 ^ areabits)
+    for (var i=0; i<=8; i++) {
+        if (rowbits & (1 << i)) {
+            this.posses[i].el.classList.add('unique')
+        }
+        if (colbits & (1 << i)) {
+            this.posses[i].el.classList.add('unique')
+        }
+        if (areabits & (1 << i)) {
+            this.posses[i].el.classList.add('unique')
+        }
+    }
+}
+Block.prototype.on = function(name, cb) {
+    if (this.listeners[name] instanceof Array) {
+        if (this.listeners[name].indexOf(cb) === -1) {
+            this.listeners[name].push(cb)
+        }
+    } else {
+        this.listeners[name] = [].concat(cb)
+    }
+}
+Block.prototype.emit = function(name) {
+    var args = Array.prototype.slice.call(arguments)
+    args.shift()
+    this.listeners[name].forEach(cb => {
+        cb.apply(null, args)
+    })
+}
+
+function Poss(x, y) {
+    var v = y*3 + x + 1
+    var el = document.createElement('div')
+    el.classList.add('poss')
+    el.innerText = v
+    this.el = el
+    this.x = x
+    this.y = y
+    this.v = v
+}
+Poss.prototype.disable = function() {
+    this.el.classList.add('disabled')
+}
+Poss.prototype.disabled = function() {
+    return this.el.classList.contains('disabled')
+}
+
+;(function() {
+    var initSnapshot = [
+        // '.........',
+        // '.........',
+        // '.........',
+        // '.........',
+        // '.........',
+        // '.........',
+        // '.........',
+        // '.........',
+        // '.........',
+        '3...16..5',
+        '4........',
+        '51.......',
+        '1...5...7',
+        '.8....39.',
+        '...1...6.',
+        '.......5.',
+        '27.8..9..',
+        '...67.1.3',
+    ]
+    var board = new Board('.board', initSnapshot)
+    document.querySelector('#btn-undo').addEventListener('click', () => {
+        board.undo()
+    })
+})()
+</script>
+</body>
+</html>
