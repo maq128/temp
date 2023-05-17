@@ -1,4 +1,4 @@
-# Windows 激活
+# 自建 KMS 实现 Windows 激活
 
 ## 搭建 KMS
 
@@ -26,6 +26,28 @@ slmgr /ipk W269N-WFGWX-YVC9B-4J6C9-T83GX
 slmgr /skms 1.2.3.4
 slmgr /ato
 ```
+
+# 数字激活通用门票用法
+
+资料: [数字激活通用门票.zip](./数字激活通用门票.zip)
+
+来源: <https://mp.weixin.qq.com/s/hVOrZrTUjLYFHmX9uLnD4Q>
+
+1. 输入通用密钥
+```cmd
+slmgr -ipk VK7JG-NPHTM-C97JM-9MPGT-3V66T
+```
+
+2. 将数字门票 `GenuineTicket.xml` 复制到目录 `C:\ProgramData\Microsoft\Windows\ClipSVC\GenuineTicket` 下。
+
+3. 重启电脑后，啥也不用干，联网的情况下，等一会就自动激活了。
+
+如果嫌等的时间久，直接以管理员身份运行命令：
+```cmd
+Powershell Restart-Service ClipSVC
+```
+
+然后再执行一下激活命令 `slmgr -ato` 即可（重启电脑都省了~）。
 
 # Windows 产品序列号
 
