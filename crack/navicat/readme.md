@@ -4,6 +4,8 @@
 
 # nodejs 版
 
+程序逻辑仅针对 Navicat 12 for MySQL。
+
 ## 准备工作
 
 	// https://www.npmjs.org/package/winreg
@@ -19,7 +21,9 @@
 
 # go 版
 
-此程序逻辑仅针对 Navicat 12 for MySQL。
+Navicat12-reset-reg.go 程序逻辑仅针对 Navicat 12 for MySQL。
+
+Navicat16-reset-reg.go 程序逻辑仅针对 Navicat/NavicatPremium 16 for MySQL。
 
 ## 准备工作
 
@@ -27,12 +31,14 @@
 
 ## 运行
 
-	go run run.go
+	go run Navicat12-reset-reg.go
+	go build Navicat12-reset-reg.go
 
-	go build run.go
+	go run Navicat16-reset-reg.go
+	go build Navicat16-reset-reg.go
 
 # 注册表文件
 
 此方法目前已知仅针对 Navicat Premium 15。
 
-双击 `clear_NavicatPremium15.reg` 即可在系统注册表中删除指定的内容。
+双击 `NavicatPremium15-reset` 即可在系统注册表中删除指定的内容。
