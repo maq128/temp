@@ -18,5 +18,10 @@ pacman -Syu
 pacman -Su
 
 # 重新进入 msys2 shell
-pacman -S --needed base-devel mingw-w64-x86_64-toolchain
+# 安装传统/老旧系统兼容的开发环境，使用 msvcrt.dll
+pacman -S mingw-w64-x86_64-toolchain
+pacman -Rs mingw-w64-x86_64-toolchain
+# 安装现代化的开发环境（微软目前推荐的现代化标准），使用 ucrtbase.dll
+pacman -S mingw-w64-ucrt-x86_64-toolchain
+pacman -Rs mingw-w64-ucrt-x86_64-toolchain
 ```
