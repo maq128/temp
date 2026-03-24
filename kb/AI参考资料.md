@@ -55,3 +55,5 @@
 [模型不是关键，Harness 才是](https://mp.weixin.qq.com/s/sVGeofV9uTgvhgR44q8pNA)
 
 [一个被严重低估的 Skills](https://mp.weixin.qq.com/s/14b0xKA_ZRFkPmzTaZgfGg)
+
+[别再硬扛原生记忆了！OpenClaw内置Mem0，让Agent更省token、更智能](https://mp.weixin.qq.com/s/9gcyRO_k4dkWRqsszOCiWQ?scene=1&click_id=1)
