@@ -57,3 +57,5 @@
 [一个被严重低估的 Skills](https://mp.weixin.qq.com/s/14b0xKA_ZRFkPmzTaZgfGg)
 
 [别再硬扛原生记忆了！OpenClaw内置Mem0，让Agent更省token、更智能](https://mp.weixin.qq.com/s/9gcyRO_k4dkWRqsszOCiWQ?scene=1&click_id=1)
+
+[笔记本可跑的 5 款轻量开源大模型实测：除了 Qwen3.5，还有这些宝藏](https://mp.weixin.qq.com/s/FjEi_4Gu6jNWCHqIT9v1ww)
