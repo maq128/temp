@@ -61,3 +61,6 @@
 [笔记本可跑的 5 款轻量开源大模型实测：除了 Qwen3.5，还有这些宝藏](https://mp.weixin.qq.com/s/FjEi_4Gu6jNWCHqIT9v1ww)
 
 [OpenAI API 兼容服务器 - 4.8M 体积跑大模型！Shimmy 比 Ollama 更轻更快](https://mp.weixin.qq.com/s/dlPy_GCv3tM0k1zJkA05tg)
+
+[反爬封我号？我直接换了 BB-Browser，从此再也没被封过！](https://mp.weixin.qq.com/s/Icl6mO34L3DCjq7DkmJ-wQ)
+| [github](https://github.com/epiral/bb-browser)
