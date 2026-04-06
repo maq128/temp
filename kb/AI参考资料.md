@@ -70,3 +70,7 @@
 [我只改了一个配置，龙虾的记忆突然好用了](https://mp.weixin.qq.com/s/zYrc8HDl89Drajf7PuEupw)
 
 [让你的OpenClaw拥有永久记忆？这个本地插件太猛了](https://mp.weixin.qq.com/s/mCm-04z-TWT9WWDB9ksGnQ)
+
+[OpenClaw总失控？你缺的不是Skill，是一份AGENTS.md配置SOP](https://mp.weixin.qq.com/s/RZ1zHudskYZYVaw3ARDyNQ)
+
+[用龙虾的程序员注意了：OpenClaw 4.1 省掉 Tavily 那笔钱，但埋了一个崩溃大坑](https://mp.weixin.qq.com/s/jOkfLgiB31YR3HdUVfijlg)
