@@ -64,3 +64,9 @@
 
 [反爬封我号？我直接换了 BB-Browser，从此再也没被封过！](https://mp.weixin.qq.com/s/Icl6mO34L3DCjq7DkmJ-wQ)
 | [github](https://github.com/epiral/bb-browser)
+
+[卡内基梅隆博士ClaudeCode 7层记忆机制神解读！仅200行代码文件竟然是记忆关键！网友评价：这不是黑科技！](https://mp.weixin.qq.com/s/Y5tytANpuvJkA1UsSwcCGg)
+
+[我只改了一个配置，龙虾的记忆突然好用了](https://mp.weixin.qq.com/s/zYrc8HDl89Drajf7PuEupw)
+
+[让你的OpenClaw拥有永久记忆？这个本地插件太猛了](https://mp.weixin.qq.com/s/mCm-04z-TWT9WWDB9ksGnQ)
