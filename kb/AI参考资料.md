@@ -74,3 +74,7 @@
 [OpenClaw总失控？你缺的不是Skill，是一份AGENTS.md配置SOP](https://mp.weixin.qq.com/s/RZ1zHudskYZYVaw3ARDyNQ)
 
 [用龙虾的程序员注意了：OpenClaw 4.1 省掉 Tavily 那笔钱，但埋了一个崩溃大坑](https://mp.weixin.qq.com/s/jOkfLgiB31YR3HdUVfijlg)
+
+[无限Token香麻了！12G显存本地部署开源Qwen3.6-35B，仅需5步带你结合hermes搭建本地全能助手！](https://mp.weixin.qq.com/s/CUUolfaJT0ppwalZpSSTYg)
+
+[裸装 Hermes 的朋友，你用的根本不是 Hermes！7 步满配教程，能力直接翻几倍！](https://mp.weixin.qq.com/s/BBRpm9GiAqGgLJSe4ozynQ?scene=1&click_id=2)
